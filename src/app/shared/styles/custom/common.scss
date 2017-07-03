@@ -1,0 +1,15 @@
+//Bootstrap Button OutSide boder Remove
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn.active.focus {
+  outline: none;
+}
+
+//padding
+.nopadding {
+  padding: 0 !important;
+  margin: 0 !important;
+}

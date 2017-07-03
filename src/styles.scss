@@ -1,0 +1,11 @@
+/* You can add global styles to this file, and also import other style files */
+/**
+  bootstrap 3 :MainCss
+  Font-awesome & simple-line-icons :Main FontCss
+ */
+@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+@import '../node_modules/font-awesome/css/font-awesome.min.css';
+@import '../node_modules/simple-line-icons/css/simple-line-icons.css';
+
+//  Cuntom
+@import "./app/shared/styles/custom/common";
