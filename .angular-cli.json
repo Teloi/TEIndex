@@ -25,7 +25,11 @@
         "../node_modules/jquery/dist/jquery.js",
         "../node_modules/bootstrap/dist/js/bootstrap.js",
         "../node_modules/three/build/three.min.js",
-        "../node_modules/three/examples/js/loaders/ColladaLoader.js"
+        "../node_modules/three/examples/js/loaders/ColladaLoader.js",
+        "../node_modules/three/examples/js/libs/ammo.js",
+        "../node_modules/three/examples/js/libs/stats.min.js",
+        "../node_modules/three/examples/js/Detector.js",
+        "../node_modules/three/examples/js/controls/OrbitControls.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
