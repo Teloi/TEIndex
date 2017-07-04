@@ -25,17 +25,18 @@ export class GcarComponent implements OnInit {
   speed: number;
 
   constructor() {
+    this.gameInit();
   }
 
   ngOnInit() {
-    this.gameInit();
+
   }
 
   gameInit() {
     this.loader = new THREE.ColladaLoader();
     this.scene = new THREE.Scene();
     this.loader.options.convertUpAxis = true;
-    this.loader.load('../../../../assets/objs/collada/car/car.dae', function (collada) {
+    this.loader.load('../../../../assets/objs/collada/car.dae', function (collada) {
 
       this.car = collada.scene;
       this.skin = collada.skins[0];
@@ -84,8 +85,7 @@ export class GcarComponent implements OnInit {
   }
 
   addCamera() {
-    this.camera = new THREE.PerspectiveCamera(45, window.innerWidth
-      / window.innerHeight, 1, 100000);
+    this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 100000);
     this.camera.position.y = 5000;
     this.camera.position.z = -5000;
     this.camera.lookAt(new THREE.Vector3(0, 0, 0));
@@ -215,5 +215,4 @@ export class GcarComponent implements OnInit {
 
     this.renderer.render(this.scene, this.camera);
   }
-
 }

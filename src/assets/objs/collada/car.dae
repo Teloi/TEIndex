@@ -3816,16 +3816,16 @@
     </library_effects>
     <library_images>
         <image id="ID6">
-            <init_from>stripes.png</init_from>
+            <init_from>car/stripes.png</init_from>
         </image>
         <image id="ID129">
-            <init_from>Translucent_Glass_Sky_Reflection_.jpg</init_from>
+            <init_from>car/Translucent_Glass_Sky_Reflection_.jpg</init_from>
         </image>
         <image id="ID252">
-            <init_from>Exhaust.jpg</init_from>
+            <init_from>car/Exhaust.jpg</init_from>
         </image>
         <image id="ID321">
-            <init_from>BBS_LM__Credit_Mitchieboy.jpg</init_from>
+            <init_from>car/BBS_LM__Credit_Mitchieboy.jpg</init_from>
         </image>
     </library_images>
     <scene>
