@@ -4,6 +4,7 @@ import {GameComponent} from './game/game.component';
 import {GindexComponent} from './game/gindex/gindex.component';
 import {BlogComponent} from './blog/blog.component';
 import {BindexComponent} from './blog/bindex/bindex.component';
+import {GcarComponent} from './game/gcar/gcar.component';
 
 export const routes = [
   {
@@ -25,9 +26,14 @@ export const routes = [
         pathMatch: 'full'
       },
       {
+        path: 'gcar',
+        component: GcarComponent
+      },
+      {
         path: 'gindex',
         component: GindexComponent
-      }]
+      },
+      {path: '**', redirectTo: 'gindex'}]
   },
   {
     path: 'blog',
