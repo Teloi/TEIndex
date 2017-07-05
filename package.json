@@ -8,7 +8,9 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "typedoc": "typedoc",
+    "docs": "npm run typedoc -- --options typedoc.json --exclude '**/*.spec.ts' ./src/"
   },
   "private": true,
   "dependencies": {
@@ -22,14 +24,9 @@
     "@angular/platform-browser-dynamic": "^4.2.5",
     "@angular/router": "^4.2.5",
     "@types/three": "^0.84.0",
-    "bootstrap": "^3.3.7",
-    "core-js": "^2.4.1",
-    "font-awesome": "^4.7.0",
-    "jquery": "^3.2.1",
     "rxjs": "^5.1.0",
-    "simple-line-icons": "^2.4.1",
-    "three": "^0.84.0",
-    "zone.js": "^0.8.4"
+    "zone.js": "^0.8.4",
+    "core-js": "^2.4.1"
   },
   "devDependencies": {
     "@angular/cli": "^1.2.0",
@@ -49,6 +46,12 @@
     "protractor": "~5.1.0",
     "ts-node": "~2.0.0",
     "tslint": "~4.5.0",
-    "typescript": "~2.2.0"
+    "typedoc": "^0.7.1",
+    "typescript": "~2.2.0",
+    "bootstrap": "^3.3.7",
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.2.1",
+    "simple-line-icons": "^2.4.1",
+    "three": "^0.84.0"
   }
 }
