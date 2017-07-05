@@ -1,18 +1,16 @@
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {CommonModule} from '@angular/common';
-import {IndexModule} from './index/index.module';
-import {BlogModule} from './blog/blog.module';
 import {Routing} from './routes';
+
+import {IndexComponent} from './index/index.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    IndexModule,
-    BlogModule,
     Routing
   ],
-  declarations: [],
+  declarations: [IndexComponent],
   exports: [
     RouterModule
   ]

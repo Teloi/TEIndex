@@ -9,6 +9,10 @@ export const routes = [
     path: 'game',
     loadChildren: './game/game.module#GameModule'
   },
+  {
+    path: 'blog',
+    loadChildren: './blog/blog.module#BlogModule'
+  },
   {path: '**', redirectTo: ''}
 ];
 

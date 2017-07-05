@@ -14,7 +14,9 @@ import {GindexComponent} from './gindex/gindex.component';
     RouterModule.forChild(routes),
   ],
   declarations: [GameComponent, GindexComponent, GcarComponent, GammoComponent, GammocarComponent],
-  exports: [RouterModule]
+  exports: [
+    RouterModule
+  ]
 })
 export class GameModule {
 }
