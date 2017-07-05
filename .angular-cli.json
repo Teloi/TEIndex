@@ -63,7 +63,7 @@
     "styleExt": "scss",
     "component": {
       "inlineTemplate": false,
-      "spec": false
+      "spec": true
     }
   }
 }
