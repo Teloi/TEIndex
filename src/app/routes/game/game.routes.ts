@@ -1,8 +1,8 @@
 import {GindexComponent} from './gindex/gindex.component';
 import {GcarComponent} from './gcar/gcar.component';
 import {GammoComponent} from './gammo/gammo.component';
-import {GammocarComponent} from './gammocar/gammocar.component';
 import {GameComponent} from './game.component';
+import {GtestComponent} from './gtest/gtest.component';
 
 export const routes = [
   {
@@ -20,8 +20,8 @@ export const routes = [
       component: GammoComponent
     },
     {
-      path: 'gammocar',
-      component: GammocarComponent
+      path: 'gtest',
+      component: GtestComponent
     },
     {path: '**', redirectTo: ''}
   ]

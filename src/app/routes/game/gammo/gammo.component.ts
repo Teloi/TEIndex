@@ -47,7 +47,6 @@ export class GammoComponent implements OnInit {
 
     this.initPhysics();
     this.createObjects();
-
     this.initInput();
   }
 
