@@ -2,16 +2,17 @@
 
 declare let Ammo;
 declare let Stats;
-
+declare let $: any;
+declare let ElementQueries: any;
+declare let ResizeSensor: any;
 import {Component, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'app-gtest',
-  templateUrl: './gtest.component.html',
-  styleUrls: ['./gtest.component.scss']
+  selector: 'app-gammocar',
+  templateUrl: './gammocar.component.html',
+  styleUrls: ['./gammocar.component.scss']
 })
-export class GtestComponent implements OnInit {
-
+export class GammocarComponent implements OnInit {
   container;
   stats: any;
   camera;
@@ -40,9 +41,9 @@ export class GtestComponent implements OnInit {
   DISABLE_DEACTIVATION = 4;
   ZERO_QUATERNION = new THREE.Quaternion(0, 0, 0, 1);
 
-  speedometer;
+  speedometer; // 速度表
 
-  wheelMeshes = [];
+  wheelMeshes = []; // 轮子
   // 键盘相关
   actions = {
     'acceleration': false,
@@ -74,7 +75,7 @@ export class GtestComponent implements OnInit {
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setClearColor(0xbfd1e5);
     this.renderer.setPixelRatio(window.devicePixelRatio);
-    this.renderer.setSize(window.innerWidth - 6, window.innerHeight - 6);
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
     // this.renderer.setSize(this.container.offsetWidth, this.container.offsetHeight);
     this.renderer.shadowMap.enabled = true;
     this.textureLoader = new THREE.TextureLoader();
@@ -101,7 +102,9 @@ export class GtestComponent implements OnInit {
     // 显示帧数
     this.stats = new Stats();
     this.stats.domElement.style.position = 'absolute';
-    this.stats.domElement.style.top = 'absolute';
+    this.stats.domElement.style.top = '0px';
+    this.stats.domElement.style.right = '0px';
+    this.stats.domElement.style.left = null;
     this.container.appendChild(this.stats.domElement);
 
     window.addEventListener('keydown', function (e) {
@@ -261,6 +264,7 @@ export class GtestComponent implements OnInit {
     return mesh;
   }
 
+  // 造车
   createVehicle(pos, quat) {
     // 车辆常量
     let chassisWidth = 1.8;
@@ -418,7 +422,7 @@ export class GtestComponent implements OnInit {
         this.wheelMeshes[i].quaternion.set(q.x(), q.y(), q.z(), q.w());
       }
 
-      console.log(vehicle);
+      // console.log(vehicle);
 
       tm = vehicle.getChassisWorldTransform();
       // vehicle.getChassisWorldTransform();
@@ -516,7 +520,7 @@ export class GtestComponent implements OnInit {
 
   // 随机颜色
   createRendomColorObjectMeatrial() {
-    let color = 0xffffff;
+    let color = Math.floor(Math.random() * (16777216));
     return new THREE.MeshPhongMaterial({color: color});
   }
 
@@ -563,15 +567,45 @@ export class GtestComponent implements OnInit {
       (this.wheelMeshes[0].position.z + this.wheelMeshes[1].position.z) / 2));
   }
 
+  resizeViewer(elementId: string) {
+    let height = window.innerHeight;
+    // height -= $('#gheader').height();
+    $('#' + elementId).height(height);
+  }
+
+  onWindowResize() {
+    this.resizeViewer('container');
+  }
+
+  onRanderResize() {
+    let width = $(this.container).width();
+    let height = $(this.container).height();
+    this.camera.aspect = width / height;
+    this.camera.updateProjectionMatrix();
+    if (this.renderer) {
+      this.renderer.setSize(width, height);
+    }
+  }
+
+  initResize() {
+    let scope = this;
+    ElementQueries.init();
+    this.onWindowResize();
+    this.onRanderResize();
+    new ResizeSensor($('#container'), function () {
+      scope.onWindowResize();
+      scope.onRanderResize();
+    });
+  }
 
   ngOnInit() {
     this.initGraphics();
+    this.initResize();
     this.addSkyBox();
     this.initPhysics();
     this.createObjects();
     this.animate();
   }
-
 
   checkSup() {
     if (!Detector.webgl) {
@@ -582,5 +616,4 @@ export class GtestComponent implements OnInit {
       console.log('WebGL Actice!');
     }
   }
-
 }

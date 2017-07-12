@@ -2,6 +2,9 @@
 
 declare let Ammo;
 declare let Stats;
+declare let $: any;
+declare let ElementQueries: any;
+declare let ResizeSensor: any;
 import {Component, OnInit} from '@angular/core';
 
 @Component({
@@ -42,9 +45,42 @@ export class GammoComponent implements OnInit {
     this.checkSup();
   }
 
+
+  resizeViewer(elementId: string) {
+    let height = window.innerHeight;
+    // height -= $('#gheader').height();
+    $('#' + elementId).height(height);
+  }
+
+  onWindowResize() {
+    this.resizeViewer('container');
+  }
+
+  onRanderResize() {
+    let width = $(this.container).width();
+    let height = $(this.container).height();
+    this.camera.aspect = width / height;
+    this.camera.updateProjectionMatrix();
+    if (this.renderer) {
+      this.renderer.setSize(width, height);
+    }
+  }
+
+  initResize() {
+    let scope = this;
+    ElementQueries.init();
+    this.onWindowResize();
+    this.onRanderResize();
+    new ResizeSensor($('#container'), function () {
+      scope.onWindowResize();
+      scope.onRanderResize();
+    });
+  }
+
+
   init() {
     this.initGraphics();
-
+    this.initResize();
     this.initPhysics();
     this.createObjects();
     this.initInput();
@@ -89,16 +125,10 @@ export class GammoComponent implements OnInit {
     // 显示帧数
     this.stats = new Stats();
     this.stats.domElement.style.position = 'absolute';
-    this.stats.domElement.style.top = 'absolute';
+    this.stats.domElement.style.top = '0px';
+    this.stats.domElement.style.right = '0px';
+    this.stats.domElement.style.left = null;
     this.container.appendChild(this.stats.domElement);
-    // 添加窗口大小变化监听
-    window.addEventListener('resize', this.onWindowResize, false);
-  }
-
-  onWindowResize() {
-    this.camera.aspect = window.innerWidth / window.innerHeight;
-    this.camera.updateProjectionMatrix();
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
   initPhysics() {
