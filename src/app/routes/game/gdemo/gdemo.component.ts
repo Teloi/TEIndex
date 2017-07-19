@@ -1,4 +1,3 @@
-
 /// <reference types="three" />
 
 declare let Ammo;
@@ -6,15 +5,25 @@ declare let Stats;
 declare let $: any;
 declare let ElementQueries: any;
 declare let ResizeSensor: any;
+declare let dat: any;
+import {Component, OnInit, OnDestroy} from '@angular/core';
 
-import { Component, OnInit } from '@angular/core';
+// export class Options {
+//   public message: string;
+//   public speed: number;
+//
+//   constructor() {
+//     this.message = 'dat.gui';
+//     this.speed = 0.8;
+//   }
+// }
 
 @Component({
   selector: 'app-gdemo',
   templateUrl: './gdemo.component.html',
   styleUrls: ['./gdemo.component.scss']
 })
-export class GdemoComponent implements OnInit {
+export class GdemoComponent implements OnInit, OnDestroy {
   container;
   stats: any;
   camera;
@@ -23,8 +32,27 @@ export class GdemoComponent implements OnInit {
   renderer;
   clock = new THREE.Clock();
 
+  gui: any;
+
   constructor() {
     this.checkSup();
+  }
+
+
+  ngOnInit() {
+    this.initGraphics();
+    this.initResize();
+    this.initDatGui();
+    this.createObjects();
+    this.animate();
+  }
+
+  ngOnDestroy() {
+    this.gui.destroy();
+  }
+
+  initDatGui() {
+    this.gui = new dat.GUI();
   }
 
   createObjects() {
@@ -48,6 +76,12 @@ export class GdemoComponent implements OnInit {
     let material = new THREE.MeshBasicMaterial({color: 0xff0000});
     let mesh = new THREE.Mesh(geometry, material);
     this.scene.add(mesh);
+
+    
+    let controller = this.gui.add(floor.position, 'y', -5, 500);
+    controller.onChange(function (value) {
+      floor.position.y = value;
+    });
   }
 
   initGraphics() {
@@ -126,14 +160,6 @@ export class GdemoComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    this.initGraphics();
-    this.initResize();
-    // this.addSkyBox();
-    // this.initPhysics();
-    this.createObjects();
-    this.animate();
-  }
 
   animate() {
     let scope = this;

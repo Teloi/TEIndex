@@ -142,7 +142,7 @@ export class GammocarComponent implements OnInit {
   }
 
   createVehicleCar() {
-    this.createVehicle(new THREE.Vector3(0, 4, -20), this.ZERO_QUATERNION);
+    this.createVehicle(new THREE.Vector3(0, 5, -20), this.ZERO_QUATERNION);
   }
 
   createFloor1(pos, quat) {

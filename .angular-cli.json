@@ -29,6 +29,7 @@
         "../node_modules/three/examples/js/libs/stats.min.js",
         "../node_modules/three/examples/js/Detector.js",
         "../node_modules/three/examples/js/controls/OrbitControls.js",
+        "../node_modules/three/examples/js/libs/dat.gui.min.js",
         "../node_modules/css-element-queries/src/ResizeSensor.js",
         "../node_modules/css-element-queries/src/ElementQueries.js",
         "../src/assets/libs/ammo.js"
