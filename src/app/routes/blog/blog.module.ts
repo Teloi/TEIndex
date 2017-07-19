@@ -4,13 +4,15 @@ import {BlogComponent} from './blog.component';
 import {BindexComponent} from './bindex/bindex.component';
 import {RouterModule} from '@angular/router';
 import {routes} from './blog.routes';
+import {BaboutComponent} from './babout/babout.component';
+import { BmessageComponent } from './bmessage/bmessage.component';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
   ],
-  declarations: [BlogComponent, BindexComponent],
+  declarations: [BlogComponent, BindexComponent, BaboutComponent, BmessageComponent],
   exports: [
     RouterModule
   ]

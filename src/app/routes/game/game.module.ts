@@ -6,14 +6,15 @@ import {GcarComponent} from './gcar/gcar.component';
 import {GammoComponent} from './gammo/gammo.component';
 import {routes} from './game.routes';
 import {GindexComponent} from './gindex/gindex.component';
-import { GammocarComponent } from './gammocar/gammocar.component';
+import {GammocarComponent} from './gammocar/gammocar.component';
+import {GdemoComponent} from './gdemo/gdemo.component';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
   ],
-  declarations: [GameComponent, GindexComponent, GcarComponent, GammoComponent, GammocarComponent],
+  declarations: [GameComponent, GindexComponent, GcarComponent, GammoComponent, GammocarComponent, GdemoComponent],
   exports: [
     RouterModule
   ]

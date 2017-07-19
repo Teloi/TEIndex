@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Location} from '@angular/common';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-game',
@@ -7,9 +9,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GameComponent implements OnInit {
 
-  constructor() { }
+  router: Router;
+  location: Location;
+  isShowHome: boolean;
+
+  constructor(router: Router, location: Location) {
+    this.router = router;
+    this.location = location;
+  }
 
   ngOnInit() {
+    this.router.events.subscribe((event) => {
+      if (event['url'] !== '/game') {
+        this.isShowHome = true;
+      }
+      else {
+        this.isShowHome = false;
+      }
+    });
   }
+
 
 }

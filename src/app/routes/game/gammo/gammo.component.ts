@@ -90,10 +90,10 @@ export class GammoComponent implements OnInit {
     // three.js基本场景配置
     this.container = document.getElementById('container');
     this.container.innerHTML = '';
-    this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 2000);
-    this.camera.position.x = -7;
-    this.camera.position.y = 5;
-    this.camera.position.z = 8;
+    this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 10000);
+    this.camera.position.x = 10;
+    this.camera.position.y = 10;
+    this.camera.position.z = 10;
     this.controls = new THREE.OrbitControls(this.camera);
     this.controls.target.y = 2;
     this.renderer = new THREE.WebGLRenderer();
@@ -147,7 +147,7 @@ export class GammoComponent implements OnInit {
     // 创建地面
     pos.set(0, -0.5, 0);
     quat.set(0, 0, 0, 1);
-    let ground = this.createParallellepiped(40, 1, 40, 0, pos, quat, new THREE.MeshPhongMaterial({color: 0xffffff}));
+    let ground = this.createParallellepiped(400, 1, 400, 0, pos, quat, new THREE.MeshPhongMaterial({color: 0xffffff}));
     ground.castShadow = true;       // 开启投影
     ground.receiveShadow = true;    // 接受阴影(可以在表面上显示阴影)
     this.textureLoader.load('../../../../assets/img/floor.jpg', function (texture) {
@@ -157,6 +157,17 @@ export class GammoComponent implements OnInit {
       ground.material['map'] = texture;
       ground.material.needsUpdate = texture;
     });
+
+    ///Others
+    // let floorTexture: THREE.Texture = THREE.ImageUtils.loadTexture('../../../../assets/img/car/sand.jpg');
+    // floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
+    // floorTexture.repeat.set(10, 10);
+    // let floorMaterial = new THREE.MeshBasicMaterial({map: floorTexture, side: THREE.DoubleSide});
+    // let floorGeometry = new THREE.PlaneGeometry(1000, 1000, 100, 100);
+    // let floor = new THREE.Mesh(floorGeometry, floorMaterial);
+    // floor.position.y = -0.5;
+    // floor.rotation.x = Math.PI / 2;
+    // this.scene.add(floor);
   }
 
   createParallellepiped(sx, sy, sz, mass, pos, quat, material) {
@@ -189,6 +200,7 @@ export class GammoComponent implements OnInit {
       body.setActivationState(4);
     }
     this.physicsWorld.addRigidBody(body);
+
     return body;
   }
 

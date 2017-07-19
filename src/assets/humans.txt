@@ -2,16 +2,20 @@
 # The humans responsible & technology colophon
 
 # TEAM
-
-  <name> -- <role> -- <twitter>
+  Teloi
 
 # THANKS
 
-  <name>
-  PatrickJS -- @gdi2290
-  AngularClass -- @AngularClass
 
 # TECHNOLOGY COLOPHON
 
-  HTML5, CSS3
-  Angular2, TypeScript, Webpack
+  HTML5, CSS3, TypeScript
+
+  <Angular&Angular/cli>
+  https://github.com/angular/angular-cli
+  <ThreeJS>
+  https://github.com/mrdoob/three.js
+  <Bootstrap>
+  http://v3.bootcss.com/
+  <Ammo.js>
+  https://github.com/kripken/ammo.js

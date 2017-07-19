@@ -3,6 +3,7 @@ import {GcarComponent} from './gcar/gcar.component';
 import {GammoComponent} from './gammo/gammo.component';
 import {GameComponent} from './game.component';
 import {GammocarComponent} from './gammocar/gammocar.component';
+import {GdemoComponent} from './gdemo/gdemo.component';
 
 export const routes = [
   {
@@ -22,6 +23,10 @@ export const routes = [
     {
       path: 'gammocar',
       component: GammocarComponent
+    },
+    {
+      path: 'gdemo',
+      component: GdemoComponent
     },
     {path: '**', redirectTo: ''}
   ]

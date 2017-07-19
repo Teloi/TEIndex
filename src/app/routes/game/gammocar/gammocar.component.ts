@@ -131,9 +131,21 @@ export class GammocarComponent implements OnInit {
   createObjects() {
     let pos = new THREE.Vector3();
     let quat = new THREE.Quaternion();
-    // 创建地面
     pos.set(0, -0.5, 0);
     quat.set(0, 0, 0, 1);
+
+    this.createFloor1(pos, quat);
+    this.createWalls(pos, quat);
+    this.createFixedBox();
+    this.createRandomBox(pos, quat);
+    this.createVehicleCar();
+  }
+
+  createVehicleCar() {
+    this.createVehicle(new THREE.Vector3(0, 4, -20), this.ZERO_QUATERNION);
+  }
+
+  createFloor1(pos, quat) {
     let ground = this.createParallellepiped(100, 1, 100, 0, pos, quat, new THREE.MeshPhongMaterial({color: 0xffffff}));
     ground.castShadow = true;       // 开启投影
     ground.receiveShadow = true;    // 接受阴影(可以在表面上显示阴影)
@@ -144,8 +156,61 @@ export class GammocarComponent implements OnInit {
       ground.material['map'] = texture;
       ground.material.needsUpdate = texture;
     });
+  }
+
+  createFloor2() {
     // ground
-    // this.createBox(new THREE.Vector3(0, -0.5, 0), this.ZERO_QUATERNION, 75, 1, 75, 0, 2);
+    this.createBox(new THREE.Vector3(0, -0.5, 0), this.ZERO_QUATERNION, 75, 1, 75, 0, 2);
+  }
+
+  createWalls(pos, quat) {
+    let array = new Array<number>();
+    array = [-50.0, -50.0, 50.0,
+      50.0, -50.0, 50.0,
+      50.0, 50.0, 50.0,
+
+      50.0, 50.0, 50.0,
+      -50.0, 50.0, 50.0,
+      -50.0, -50.0, 50.0,
+
+      50.0, 50.0, 50.0,
+      50.0, -50.0, 50.0,
+      -50.0, -50.0, 50.0,
+
+
+      -50.0, -50.0, 50.0,
+      -50.0, 50.0, 50.0,
+      50.0, 50.0, 50.0];
+
+    for (let i = 0; i < array.length; i += 9) {
+      let ar: Array<number> = new Array<number>();
+      ar.push(array[i]);
+      ar.push(array[i + 1]);
+      ar.push(array[i + 2]);
+      ar.push(array[i + 3]);
+      ar.push(array[i + 4]);
+      ar.push(array[i + 5]);
+      ar.push(array[i + 6]);
+      ar.push(array[i + 7]);
+      ar.push(array[i + 8]);
+      let geometry = new THREE.BufferGeometry();
+      let vertices = new Float32Array(ar);
+      geometry.addAttribute('position', new THREE.BufferAttribute(vertices, 3));
+      let material = new THREE.MeshBasicMaterial({color: 0xff0000});
+      // material.alphaTest = 0; 透明
+      let mesh = new THREE.Mesh(geometry, material);
+      let btConvexHullShape = new Ammo.btConvexHullShape();
+
+      for (let j = 0; j < ar.length; j += 3) {
+        btConvexHullShape.addPoint(new Ammo.btVector3(ar[j], ar[j + 1], ar[j + 2]), true);
+      }
+      let shape = btConvexHullShape;
+      shape.setMargin(this.margin);
+      this.createRigidBody(mesh, shape, 0, pos, quat);
+    }
+  }
+
+  createFixedBox() {
     let quaternion = new THREE.Quaternion(0, 0, 0, 1);
     quaternion.setFromAxisAngle(new THREE.Vector3(1, 0, 0), -Math.PI / 18);
 
@@ -159,17 +224,18 @@ export class GammocarComponent implements OnInit {
         this.createBox(new THREE.Vector3(size * j - (size * (nw - 1)) / 2, size * i, 10), this.ZERO_QUATERNION, size, size, size, 10);
       }
     }
-    // for (let i = 0; i < 20; i++) {
-    //   pos.set(Math.random(), 2 * i, Math.random());
-    //   quat.set(0, 0, 0, 1);
-    //   this.createRondomObject(pos, quat, Math.ceil(Math.random() * 3));
-    // }
+  }
 
-    this.createVehicle(new THREE.Vector3(0, 4, -20), this.ZERO_QUATERNION);
+  createRandomBox(pos, quat) {
+    for (let i = 0; i < 20; i++) {
+      pos.set(Math.random(), 2 * i, Math.random());
+      quat.set(0, 0, 0, 1);
+      this.createRondomObject(pos, quat, Math.ceil(Math.random() * 3));
+    }
   }
 
   createParallellepiped(sx, sy, sz, mass, pos, quat, material) {
-    let threeObject = new THREE.Mesh(new THREE.BoxGeometry(sx, sy, sz, 1, 1, 1), material);
+    let threeObject = new THREE.Mesh(new THREE.BoxBufferGeometry(sx, sy, sz, 1, 1, 1), material);
     let shape = new Ammo.btBoxShape(new Ammo.btVector3(sx * 0.5, sy * 0.5, sz * 0.5));
     shape.setMargin(this.margin);
     this.createRigidBody(threeObject, shape, mass, pos, quat);
@@ -203,7 +269,7 @@ export class GammocarComponent implements OnInit {
 
   createBox(pos, quat, w, l, h, mass, friction?) {
     let material = this.createRendomColorObjectMeatrial();
-    let shape = new THREE.BoxGeometry(w, l, h, 1, 1, 1);
+    let shape = new THREE.BoxBufferGeometry(w, l, h, 1, 1, 1);
     let geometry = new Ammo.btBoxShape(new Ammo.btVector3(w * 0.5, l * 0.5, h * 0.5));
     if (!mass) {
       mass = 0;
@@ -247,7 +313,7 @@ export class GammocarComponent implements OnInit {
 
   // 绘制车轮
   createWheelMesh(radius, width) {
-    let t = new THREE.CylinderGeometry(radius, radius, width, 24, 1);
+    let t = new THREE.CylinderBufferGeometry(radius, radius, width, 24, 1);
     t.rotateZ(Math.PI / 2);
     let mesh = new THREE.Mesh(t, this.createRendomColorObjectMeatrial());
     mesh.add(new THREE.Mesh(new THREE.BoxGeometry(width * 1.5, radius * 1.75, radius * .25, 1, 1, 1),
@@ -258,7 +324,7 @@ export class GammocarComponent implements OnInit {
 
   // 绘制底盘
   createChassisMesh(w, l, h) {
-    let shape = new THREE.BoxGeometry(w, l, h, 1, 1, 1);
+    let shape = new THREE.BoxBufferGeometry(w, l, h, 1, 1, 1);
     let mesh = new THREE.Mesh(shape, this.createRendomColorObjectMeatrial());
     this.scene.add(mesh);
     return mesh;
@@ -270,7 +336,8 @@ export class GammocarComponent implements OnInit {
     let chassisWidth = 1.8;
     let chassisHeight = .6;
     let chassisLength = 4;
-    let massVehicle = 2000;
+    let massVehicle = 2000; // 重力
+
     let wheelAxisPositionBack = -1;
     let wheelRadiusBack = .4;
     let wheelWidthBack = .3;
@@ -281,11 +348,14 @@ export class GammocarComponent implements OnInit {
     let wheelAxisHeightFront = .3;
     let wheelRadiusFront = .35;
     let wheelWidthFront = .2;
-    let friction = 1000;
+
+    let friction = 2000;  // 摩擦力
+
     let suspensionStiffness = 20.0; // 悬挂刚性
     let suspensionDamping = 2.3;    // 悬挂阻尼
     let suspensionCompression = 4.4; // 悬挂压缩
     let suspensionRestLength = 0.6; // 悬挂能恢复的长度
+
     let rollInfluence = 0.2;
     let steeringIncrement = .04;
     let steeringClamp = .5;
@@ -305,7 +375,6 @@ export class GammocarComponent implements OnInit {
     body.setActivationState(this.DISABLE_DEACTIVATION);
     this.physicsWorld.addRigidBody(body);
     let chassisMesh = this.createChassisMesh(chassisWidth, chassisHeight, chassisLength);
-
     // Raycast Vehicle
     let engineForce = 0;
     let vehicleSteering = 0;
@@ -461,7 +530,7 @@ export class GammocarComponent implements OnInit {
       }));
     }
 
-    let skyMaterial = new THREE.MeshFaceMaterial(materialArray);
+    let skyMaterial = new THREE.MultiMaterial(materialArray);
     let skyBox = new THREE.Mesh(skyGeometry, skyMaterial);
     this.scene.add(skyBox);
   }
@@ -478,7 +547,7 @@ export class GammocarComponent implements OnInit {
       case 1: {
         // Sphere
         let radius = 1 + Math.random() * objectSize;
-        threeObject = new THREE.Mesh(new THREE.SphereGeometry(radius, 20, 20), this.createRendomColorObjectMeatrial());
+        threeObject = new THREE.Mesh(new THREE.SphereBufferGeometry(radius, 20, 20), this.createRendomColorObjectMeatrial());
         shape = new Ammo.btSphereShape(radius);
         shape.setMargin(this.margin);
         break;
@@ -489,7 +558,7 @@ export class GammocarComponent implements OnInit {
         let sx = 1 + Math.random() * objectSize;
         let sy = 1 + Math.random() * objectSize;
         let sz = 1 + Math.random() * objectSize;
-        threeObject = new THREE.Mesh(new THREE.BoxGeometry(sx, sy, sz, 1, 1, 1), this.createRendomColorObjectMeatrial());
+        threeObject = new THREE.Mesh(new THREE.BoxBufferGeometry(sx, sy, sz, 1, 1, 1), this.createRendomColorObjectMeatrial());
         shape = new Ammo.btBoxShape(new Ammo.btVector3(sx * 0.5, sy * 0.5, sz * 0.5));
         shape.setMargin(this.margin);
         break;
@@ -499,7 +568,8 @@ export class GammocarComponent implements OnInit {
         // Cylinder
         let radius = 1 + Math.random() * objectSize;
         let height = 1 + Math.random() * objectSize;
-        threeObject = new THREE.Mesh(new THREE.CylinderGeometry(radius, radius, height, 20, 1), this.createRendomColorObjectMeatrial());
+        threeObject = new THREE.Mesh(new THREE.CylinderBufferGeometry(radius, radius, height, 20, 1),
+          this.createRendomColorObjectMeatrial());
         shape = new Ammo.btCylinderShape(new Ammo.btVector3(radius, height * 0.5, radius));
         shape.setMargin(this.margin);
         break;
@@ -509,7 +579,7 @@ export class GammocarComponent implements OnInit {
         // Cone
         let radius = 1 + Math.random() * objectSize;
         let height = 2 + Math.random() * objectSize;
-        threeObject = new THREE.Mesh(new THREE.CylinderGeometry(0, radius, height, 20, 2), this.createRendomColorObjectMeatrial());
+        threeObject = new THREE.Mesh(new THREE.CylinderBufferGeometry(0, radius, height, 20, 2), this.createRendomColorObjectMeatrial());
         shape = new Ammo.btConeShape(radius, height);
         break;
       }
@@ -557,14 +627,21 @@ export class GammocarComponent implements OnInit {
     let deltaTime = this.clock.getDelta();
     this.updatePhysics(deltaTime);
     // this.controls.update(deltaTime);
+    // 从后轮看向前轮
+    if (this.wheelMeshes.length !== 0) {
+      this.camera.position.set((this.wheelMeshes[3].position.x + this.wheelMeshes[2].position.x)
+        - (this.wheelMeshes[0].position.x + this.wheelMeshes[1].position.x) / 2,
+        (this.wheelMeshes[3].position.y + this.wheelMeshes[2].position.y)
+        - (this.wheelMeshes[0].position.y + this.wheelMeshes[1].position.y) / 2 + 1 + 3,
+        ((this.wheelMeshes[3].position.z + this.wheelMeshes[2].position.z) / 2) * 2
+        - ((this.wheelMeshes[0].position.z + this.wheelMeshes[1].position.z) / 2));
+      this.camera.lookAt(new THREE.Vector3((this.wheelMeshes[0].position.x + this.wheelMeshes[1].position.x) / 2,
+        (this.wheelMeshes[0].position.y + this.wheelMeshes[1].position.y) / 2 + 2,
+        (this.wheelMeshes[0].position.z + this.wheelMeshes[1].position.z) / 2));
+    }
+
     this.renderer.render(this.scene, this.camera);
     this.time += deltaTime;
-    this.camera.position.set((this.wheelMeshes[3].position.x + this.wheelMeshes[2].position.x) / 2,
-      (this.wheelMeshes[3].position.y + this.wheelMeshes[2].position.y) / 2 + 2,
-      (this.wheelMeshes[3].position.z + this.wheelMeshes[2].position.z) / 2);
-    this.camera.lookAt(new THREE.Vector3((this.wheelMeshes[0].position.x + this.wheelMeshes[1].position.x) / 2,
-      (this.wheelMeshes[0].position.y + this.wheelMeshes[1].position.y) / 2 + 1,
-      (this.wheelMeshes[0].position.z + this.wheelMeshes[1].position.z) / 2));
   }
 
   resizeViewer(elementId: string) {
