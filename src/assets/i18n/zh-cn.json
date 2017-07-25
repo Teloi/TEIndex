@@ -1,0 +1,24 @@
+{
+  "header": {
+    "search": {
+      "PLACEHOLDER": "中文"
+    }
+  },
+  "offsidebar": {
+    "setting": {
+      "SETTINGS": "Settings"
+    }
+  },
+  "sidebar": {
+    "WELCOME": "Welcome",
+    "heading": {
+      "HEADER": "Menu Heading"
+    },
+    "nav": {
+      "SINGLEVIEW": "Single View"
+    }
+  },
+  "dashboard": {
+    "WELCOME": "Welcome"
+  }
+}

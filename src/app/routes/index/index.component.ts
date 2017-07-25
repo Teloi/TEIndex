@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {simAnim} from '../../shared/animations/sim-anim';
+import {TranslatorService} from '../../shared/services/translator.service';
 
 @Component({
   selector: 'app-index',
@@ -11,19 +12,18 @@ import {simAnim} from '../../shared/animations/sim-anim';
 export class IndexComponent implements OnInit {
 
   staticIn: string;
+  currentLanguage: string;
 
-  constructor() {
+  constructor(public translator: TranslatorService) {
     this.staticIn = 'zoomOut';
+    this.currentLanguage = this.translator.getCurrentLanguage();
+    this.translator.useLanguage(this.currentLanguage);
   }
 
   ngOnInit() {
   }
 
-  togglePosition() {
-    if (this.staticIn === 'zoomOut') {
-      this.staticIn = 'zoomIn';
-    } else {
-      this.staticIn = 'zoomOut';
-    }
+  setLang(value) {
+    this.currentLanguage = this.translator.useLanguage(value);
   }
 }

@@ -19,3 +19,6 @@
   http://v3.bootcss.com/
   <Ammo.js>
   https://github.com/kripken/ammo.js
+
+  <Ngx-translate>
+  https://github.com/ngx-translate/core

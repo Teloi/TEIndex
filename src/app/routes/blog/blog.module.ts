@@ -1,18 +1,34 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {BlogComponent} from './blog.component';
-import {BindexComponent} from './bindex/bindex.component';
 import {RouterModule} from '@angular/router';
 import {routes} from './blog.routes';
+
+// Components
+import {BlogComponent} from './blog.component';
+import {BindexComponent} from './bindex/bindex.component';
 import {BaboutComponent} from './babout/babout.component';
-import { BmessageComponent } from './bmessage/bmessage.component';
+import {BmessageComponent} from './bmessage/bmessage.component';
+import {BarticleComponent} from './barticle/barticle.component';
+import {BclassifyComponent} from './bclassify/bclassify.component';
+import {BphotoComponent} from './bphoto/bphoto.component';
+
+// Ngx-bootstrap
+import {AlertModule} from 'ngx-bootstrap';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
+    AlertModule.forRoot()
   ],
-  declarations: [BlogComponent, BindexComponent, BaboutComponent, BmessageComponent],
+  declarations: [
+    BlogComponent,
+    BindexComponent,
+    BaboutComponent,
+    BmessageComponent,
+    BarticleComponent,
+    BclassifyComponent,
+    BphotoComponent],
   exports: [
     RouterModule
   ]

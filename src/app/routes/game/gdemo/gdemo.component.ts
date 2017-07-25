@@ -77,7 +77,7 @@ export class GdemoComponent implements OnInit, OnDestroy {
     let mesh = new THREE.Mesh(geometry, material);
     this.scene.add(mesh);
 
-    
+
     let controller = this.gui.add(floor.position, 'y', -5, 500);
     controller.onChange(function (value) {
       floor.position.y = value;
@@ -130,18 +130,18 @@ export class GdemoComponent implements OnInit, OnDestroy {
   }
 
   resizeViewer(elementId: string) {
+
+  }
+
+  onWindowResize(elementId: string) {
     let height = window.innerHeight;
     // height -= $('#gheader').height();
     $('#' + elementId).height(height);
   }
 
-  onWindowResize() {
-    this.resizeViewer('container');
-  }
-
-  onRanderResize() {
-    let width = $(this.container).width();
-    let height = $(this.container).height();
+  onRanderResize(elementId: string) {
+    let width = $('#' + elementId).width();
+    let height = $('#' + elementId).height();
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
     if (this.renderer) {
@@ -152,11 +152,11 @@ export class GdemoComponent implements OnInit, OnDestroy {
   initResize() {
     let scope = this;
     ElementQueries.init();
-    this.onWindowResize();
-    this.onRanderResize();
+    this.onWindowResize('container');
+    this.onRanderResize('container');
     new ResizeSensor($('#container'), function () {
-      scope.onWindowResize();
-      scope.onRanderResize();
+      scope.onWindowResize('container');
+      scope.onRanderResize('container');
     });
   }
 

@@ -26,11 +26,11 @@ export class GammocarComponent implements OnInit {
   rigidBodies = [];
   physicsWorld;
 
-  collisionConfiguration;
-  gravityConstant = -9.8; // 重力
-  dispatcher;
-  broadphase;
-  solver;
+  private collisionConfiguration; // 默认碰撞配置参数
+  private gravityConstant = -9.8; // 重力常数
+  private dispatcher; // 调度员
+  private broadphase; // 粗测阶段
+  private solver; // 创建解算器，用于求解约束方程。得到物体在重力等作用下的最终位置的
 
   transformAux1 = new Ammo.btTransform();
 

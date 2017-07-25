@@ -8,13 +8,14 @@ import {routes} from './game.routes';
 import {GindexComponent} from './gindex/gindex.component';
 import {GammocarComponent} from './gammocar/gammocar.component';
 import {GdemoComponent} from './gdemo/gdemo.component';
+import { GviewerComponent } from './gviewer/gviewer.component';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
   ],
-  declarations: [GameComponent, GindexComponent, GcarComponent, GammoComponent, GammocarComponent, GdemoComponent],
+  declarations: [GameComponent, GindexComponent, GcarComponent, GammoComponent, GammocarComponent, GdemoComponent, GviewerComponent],
   exports: [
     RouterModule
   ]

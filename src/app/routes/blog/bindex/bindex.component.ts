@@ -10,6 +10,7 @@ export class BindexComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+
   }
 
 }
