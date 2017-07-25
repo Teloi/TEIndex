@@ -5,13 +5,17 @@ import {CommonModule} from '@angular/common';
 import {MeshbuilderService} from './services/mesh-builder.service';
 // Translator
 import {TranslatorService} from './services/translator.service';
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule
   ],
   declarations: [],
-  providers: [MeshbuilderService, TranslatorService]
+  providers: [MeshbuilderService, TranslatorService],
+  exports: [
+    TranslateModule
+  ]
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {

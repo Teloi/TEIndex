@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {TranslatorService} from '../../shared/services/translator.service';
 
 @Component({
   selector: 'app-blog',
@@ -7,11 +8,17 @@ import {Component, OnInit} from '@angular/core';
 })
 export class BlogComponent implements OnInit {
 
-  constructor() {
+  currentLanguage: string;
+
+  constructor(public translator: TranslatorService) {
+    this.currentLanguage = this.translator.getCurrentLanguage();
   }
 
   ngOnInit() {
 
   }
 
+  setLang(value) {
+    this.currentLanguage = this.translator.useLanguage(value);
+  }
 }

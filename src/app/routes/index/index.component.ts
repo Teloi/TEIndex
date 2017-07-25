@@ -17,7 +17,6 @@ export class IndexComponent implements OnInit {
   constructor(public translator: TranslatorService) {
     this.staticIn = 'zoomOut';
     this.currentLanguage = this.translator.getCurrentLanguage();
-    this.translator.useLanguage(this.currentLanguage);
   }
 
   ngOnInit() {

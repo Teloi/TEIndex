@@ -14,10 +14,11 @@ export class TranslatorService {
 
   useLanguage(lang: string = null) {
     this.translate.use(lang || this.translate.getDefaultLang());
+    this.translate.setDefaultLang(lang || this.translate.getDefaultLang());
     return lang || this.translate.getDefaultLang();
   }
 
   getCurrentLanguage(): string {
-    return this.defaultLanguage;
+    return this.translate.getDefaultLang() || this.defaultLanguage;
   }
 }

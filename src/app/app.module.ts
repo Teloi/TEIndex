@@ -11,6 +11,17 @@ import {RoutesModule} from './routes/routes.module';
 import {SharedModule} from './shared/shared.module';
 
 
+// Ngx-transloate
+import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {Http} from '@angular/http';
+import {TranslatorService} from './shared/services/translator.service';
+
+// https://github.com/ocombe/ng2-translate/issues/218
+export function createTranslateLoader(http: Http) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
+
 @NgModule({
   declarations: [
     AppComponent
@@ -22,10 +33,20 @@ import {SharedModule} from './shared/shared.module';
     FormsModule,
     HttpModule,
     RoutesModule,
-    SharedModule.forRoot()
+    SharedModule.forRoot(),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [Http]
+      }
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {
+  constructor(public translator: TranslatorService) {
+    this.translator.useLanguage(this.translator.getCurrentLanguage());
+  }
 }

@@ -32,6 +32,16 @@
           <li><a routerLink="./bmessage">留言板</a></li>
         </ul>
       </li>
+      <li *ngIf="currentLanguage === 'zh-cn'">
+        <a (click)="setLang('en')" title="中文">
+          <img src="../../../assets/img/country/China.png" width="16" height="16">
+        </a>
+      </li>
+      <li *ngIf="currentLanguage === 'en'">
+        <a (click)="setLang('zh-cn')" title="English">
+          <img src="../../../assets/img/country/UnitedStates.png" width="16" height="16">
+        </a>
+      </li>
       <p class="navbar-text">&nbsp;</p>
     </ul>
   </div>
