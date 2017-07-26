@@ -19,23 +19,25 @@
 
     <div class="header">
       <div class="footer">
-        <span>&copy;晋ICP备16007595号-2</span>
-        <span>{{'header.search.PLACEHOLDER' | translate}}</span>
+        <span>&copy;{{'teindex.record.CONTENT' | translate}}</span>
         <ul>
-          <li><a href="http://www.weibo.com/teloi" target="_blank" title="微博"><i class="fa fa-weibo"
-                                                                                 aria-hidden="true"></i></a></li>
-          <li><a href="mailto:teloi.zhang@esooft.com" target="_blank" title="邮箱"><i class="fa fa-envelope"
-                                                                                    aria-hidden="true"></i></a></li>
-          <li><a href="../../../assets/humans.txt" target="_blank" title="Humans"><i class="fa fa-info-circle"
-                                                                                     aria-hidden="true"></i></a></li>
+          <li><a href="http://www.weibo.com/teloi" target="_blank" title="{{'teindex.fonts.WEIBO' | translate}}"><i
+            class="fa fa-weibo"
+            aria-hidden="true"></i></a></li>
+          <li><a href="mailto:teloi.zhang@esooft.com" target="_blank" title="{{'teindex.fonts.MAIL' | translate}}"><i
+            class="fa fa-envelope"
+            aria-hidden="true"></i></a></li>
+          <li><a href="../../../assets/humans.txt" target="_blank" title="{{'teindex.fonts.HUMANS' | translate}}"><i
+            class="fa fa-info-circle"
+            aria-hidden="true"></i></a></li>
           <li *ngIf="currentLanguage === 'zh-cn'">
-            <a (click)="setLang('en')" title="中文">
-              <img src="../../../assets/img/country/China.png" width="16" height="16">
+            <a (click)="setLang('en')" title="{{'teindex.fonts.ZH_CN' | translate}}">
+              <img src="../../../assets/img/country/China.png" width="14" height="14">
             </a>
           </li>
           <li *ngIf="currentLanguage === 'en'">
-            <a (click)="setLang('zh-cn')" title="English">
-              <img src="../../../assets/img/country/UnitedStates.png" width="16" height="16">
+            <a (click)="setLang('zh-cn')" title="{{'teindex.fonts.EN' | translate}}">
+              <img src="../../../assets/img/country/UnitedStates.png" width="14" height="14">
             </a>
           </li>
         </ul>

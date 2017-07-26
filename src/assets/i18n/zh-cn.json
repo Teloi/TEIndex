@@ -1,24 +1,25 @@
 {
-  "header": {
-    "search": {
-      "PLACEHOLDER": "中文"
-    }
-  },
-  "offsidebar": {
-    "setting": {
-      "SETTINGS": "Settings"
-    }
-  },
-  "sidebar": {
-    "WELCOME": "Welcome",
-    "heading": {
-      "HEADER": "Menu Heading"
+  "teindex": {
+    "record": {
+      "CONTENT": "晋ICP备16007595号-2"
     },
-    "nav": {
-      "SINGLEVIEW": "Single View"
+    "fonts": {
+      "WEIBO": "微博",
+      "MAIL": "邮箱",
+      "HUMANS": "humans",
+      "ZH_CN": "中文",
+      "EN": "英文"
     }
   },
-  "dashboard": {
-    "WELCOME": "Welcome"
+  "blog": {
+    "header": {
+      "ARTICLE": "文章",
+      "PHOTO_ALBUM": "相册",
+      "OTHERS": "其它"
+    },
+    "index": {
+      "TITLE": "肚子饿的程序员",
+      "CONTENT": "——吃代码为生"
+    }
   }
 }

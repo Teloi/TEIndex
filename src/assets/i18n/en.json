@@ -1,24 +1,25 @@
 {
-    "header": {
-        "search": {
-            "PLACEHOLDER": "Type and hit enter.."
-        }
+  "teindex": {
+    "record": {
+      "CONTENT": "晋ICP备16007595号-2"
     },
-    "offsidebar": {
-        "setting": {
-            "SETTINGS": "Settings"
-        }
-    },
-    "sidebar": {
-        "WELCOME": "Welcome",
-        "heading": {
-            "HEADER": "Menu Heading"
-        },
-        "nav": {
-            "SINGLEVIEW": "Single View"
-        }
-    },
-    "dashboard": {
-        "WELCOME": "Welcome"
+    "fonts": {
+      "WEIBO": "Weibo",
+      "MAIL": "Mail",
+      "HUMANS": "humans",
+      "ZH_CN": "Chinese",
+      "EN": "English"
     }
+  },
+  "blog": {
+    "header": {
+      "ARTICLE": "Article",
+      "PHOTO_ALBUM": "Album",
+      "OTHERS": "Others"
+    },
+    "index": {
+      "TITLE": "A hungry programmer",
+      "CONTENT": "——Eat code for a living"
+    }
+  }
 }

@@ -14,14 +14,13 @@ import {BclassifyComponent} from './bclassify/bclassify.component';
 import {BphotoComponent} from './bphoto/bphoto.component';
 
 // Ngx-bootstrap
-import {AlertModule} from 'ngx-bootstrap';
+
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
-    RouterModule.forChild(routes),
-    AlertModule.forRoot()
+    RouterModule.forChild(routes)
   ],
   declarations: [
     BlogComponent,
