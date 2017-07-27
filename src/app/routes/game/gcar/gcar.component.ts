@@ -111,7 +111,7 @@ export class GcarComponent implements OnInit {
 
   addSkyBox() {
     let imagePrefix = '../../../../assets/img/car/sky';
-    let directions = ['+x', '-x', '+y', '-y', '+z', '-z'];
+    let directions = ['_x', '-x', '_y', '-y', '_z', '-z'];
     let imageSuffix = '.png';
     let skyGeometry = new THREE.CubeGeometry(100000, 100000, 100000);
 

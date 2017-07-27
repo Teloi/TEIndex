@@ -22,12 +22,12 @@
     <ul class="nav navbar-nav navbar-right">
       <li *ngIf="currentLanguage === 'zh-cn'">
         <a (click)="setLang('en')" title="{{'teindex.fonts.EN' | translate}}">
-          <img src="../../../assets/img/country/UnitedStates.png" width="16" height="16">
+          <img src="../../../assets/img/country/China.png" width="16" height="16">
         </a>
       </li>
       <li *ngIf="currentLanguage === 'en'">
         <a (click)="setLang('zh-cn')" title="{{'teindex.fonts.ZH_CN' | translate}}">
-          <img src="../../../assets/img/country/China.png" width="16" height="16">
+          <img src="../../../assets/img/country/UnitedStates.png" width="16" height="16">
         </a>
       </li>
       <li class="dropdown">
@@ -44,7 +44,6 @@
         </ul>
       </li>
       <p class="navbar-text">&nbsp;</p>
-
     </ul>
   </div>
 

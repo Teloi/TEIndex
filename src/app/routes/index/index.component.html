@@ -32,12 +32,12 @@
             aria-hidden="true"></i></a></li>
           <li *ngIf="currentLanguage === 'zh-cn'">
             <a (click)="setLang('en')" title="{{'teindex.fonts.EN' | translate}}">
-              <img src="../../../assets/img/country/UnitedStates.png" width="14" height="14">
+              <img src="../../../assets/img/country/China.png" width="14" height="14">
             </a>
           </li>
           <li *ngIf="currentLanguage === 'en'">
             <a (click)="setLang('zh-cn')" title="{{'teindex.fonts.ZH_CN' | translate}}">
-              <img src="../../../assets/img/country/China.png" width="14" height="14">
+              <img src="../../../assets/img/country/UnitedStates.png" width="14" height="14">
             </a>
           </li>
         </ul>
