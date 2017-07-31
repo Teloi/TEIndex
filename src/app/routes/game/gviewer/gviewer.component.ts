@@ -44,28 +44,26 @@ export class GviewerComponent implements OnInit {
       () => {
         this.viewer.addStats();
         this.viewer.addAxisHelper(100);
-        // this.viewer.buildPlane();
-
-
-        // build 球
+        this.viewer.buildPlane();
+        // // 方块2
+        // this.viewer.buildRigidBodyBoxbyo(new THREE.Vector3(0, -47.5, 0), new THREE.Quaternion(0, 0, 0, 1), 100, 5, 100, 0, 0x345678, 2);
+        // // 平面
+        // this.meshbuilder.buildRigidBodyPlane__Point_3(this.pointArray, 0, 0xffffff, false, 4, (threeObject, body, mass) => {
+        //     this.viewer.addRigidBodyObjects(threeObject, body, mass);
+        //   });
+        // // build 球
         this.meshbuilder.buildRigidBodySphere(new THREE.Vector3(0, 0, 0), new THREE.Quaternion(0, 0, 0, 1),
           5, 100, 0xabcdef, 4, (threeObject, body, mass) => {
             this.viewer.addRigidBodyObjects(threeObject, body, mass);
           });
-
-        // 方块
-        this.meshbuilder.buildRigidBodyBox(new THREE.Vector3(0, 50, 0), new THREE.Quaternion(0, 0, 0, 1),
-          10, 10, 10, 100, 0xabcdef, 4, (threeObject, body, mass) => {
-            this.viewer.addRigidBodyObjects(threeObject, body, mass);
-          });
+        // // 方块
+        // this.meshbuilder.buildRigidBodyBox(new THREE.Vector3(0, 50, 3), new THREE.Quaternion(0, 0, 0, 1),
+        //   10, 10, 10, 100, 0xabcdef, 4, (threeObject, body, mass) => {
+        //     this.viewer.addRigidBodyObjects(threeObject, body, mass);
+        //   });
 
         // 小车
         // this.viewer.buildVehicle(new THREE.Vector3(10, -40, 0), new THREE.Quaternion(0, 0, 0, 1));
-
-        // 方块2
-        this.viewer.buildRigidBodyBoxbyo(new THREE.Vector3(0, -47.5, 0), new THREE.Quaternion(0, 0, 0, 1), 100, 5, 100, 0, 0x345678, 2);
-        // 平面
-        // this.viewer.buildRigidBodyPlane__Point_3(this.pointArray, 0, 0xffffff, false);
         this.viewer.animate();
       }
     );

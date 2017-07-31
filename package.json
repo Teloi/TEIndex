@@ -27,6 +27,7 @@
     "@ngx-translate/core": "^7.1.0",
     "@ngx-translate/http-loader": "^0.1.0",
     "@types/three": "^0.84.0",
+    "cannon": "^0.6.2",
     "core-js": "^2.4.1",
     "ngx-bootstrap": "^1.8.0",
     "rxjs": "^5.1.0",

@@ -12,6 +12,7 @@ import {GindexComponent} from './gindex/gindex.component';
 import {GammocarComponent} from './gammocar/gammocar.component';
 import {GdemoComponent} from './gdemo/gdemo.component';
 import {GviewerComponent} from './gviewer/gviewer.component';
+import { GcaviewerComponent } from './gcaviewer/gcaviewer.component';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import {GviewerComponent} from './gviewer/gviewer.component';
     GammoComponent,
     GammocarComponent,
     GdemoComponent,
-    GviewerComponent
+    GviewerComponent,
+    GcaviewerComponent
   ],
   exports: [
     RouterModule

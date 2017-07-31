@@ -93,17 +93,23 @@ export class MeshbuilderService {
       friction = 1;
     }
     threeObject.position.copy(pos);
+    // Quaternion的意思是四元数，一个1x4的向量，只靠四个数，就能很好的描述三维空间中物体绕任意轴旋转
+    // 一个1x4向量
     threeObject.quaternion.copy(quat);
-    let transform = new Ammo.btTransform();
+    let transform = new Ammo.btTransform(); // 变换
+    // bullet中的刚体物理碰撞是六自由度物理碰撞。六自由度的意思是可以同时产生位移(xyz轴各一个)和旋转(xyz轴各一个)。
+    // bullet中表示刚体运动的类为btTransform，在updatePhysics函数中
+    // 从物体的montionState()中获取变化之后，可以用getOrigin和getRotation两个方法获取位置(btVector3类型)和旋转(btQuaternion类型)。
+    // 刚体物体的自由度为6，柔体更多，因为柔体自身可以发生形变，相关柔体的部分日后再说。
     transform.setIdentity();
     transform.setOrigin(new Ammo.btVector3(pos.x, pos.y, pos.z));
     transform.setRotation(new Ammo.btQuaternion(quat.x, quat.y, quat.z, quat.w));
-    let motionState = new Ammo.btDefaultMotionState(transform);
+    let motionState = new Ammo.btDefaultMotionState(transform); // 运动状态
     let localInertia = new Ammo.btVector3(0, 0, 0);
-    physicsShape.calculateLocalInertia(mass, localInertia);
+    physicsShape.calculateLocalInertia(mass, localInertia); // 函数可以根据物体的质量和固有惯性计算在力场中的实际惯性。比如在垂直向下的重力场下，物体都有下落的趋势
     let rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, motionState, physicsShape, localInertia);
     let body = new Ammo.btRigidBody(rbInfo);
-    body.setFriction(friction);
+    body.setFriction(friction); // 摩擦力
     threeObject.userData.physicsBody = body;
     // this.scene.add(threeObject);
     if (mass > 0) {

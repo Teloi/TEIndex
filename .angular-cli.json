@@ -32,7 +32,8 @@
         "../node_modules/three/examples/js/libs/dat.gui.min.js",
         "../node_modules/css-element-queries/src/ResizeSensor.js",
         "../node_modules/css-element-queries/src/ElementQueries.js",
-        "../src/assets/libs/ammo.js"
+        "../src/assets/libs/ammo.js",
+        "../node_modules/cannon/build/cannon.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

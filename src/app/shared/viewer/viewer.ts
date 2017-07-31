@@ -61,8 +61,8 @@ export class TEViewer {
     }
     try {
       this.checkWebGL();
-      this.scene = new THREE.Scene();
       this.renderer = this.webGLRenderer();
+      this.scene = new THREE.Scene();
       this.camera = this.perspectiveCamera();
       if (isControls) {
         this.controls = this.orbitControls(this.camera);
@@ -160,6 +160,7 @@ export class TEViewer {
   }
 
   private addLight(scene: THREE.Scene) {
+    // 环境光
     let ambientLight = new THREE.AmbientLight(0x404040);
     scene.add(ambientLight);
     // 线性光
