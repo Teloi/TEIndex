@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {TECAViewer} from '../../../shared/viewer/cannonviewer';
+import {Component, OnInit} from '@angular/core';
+import {CAViewer} from '../../../shared/viewer/cannonviewer';
 
 @Component({
   selector: 'app-gcaviewer',
@@ -7,7 +7,7 @@ import {TECAViewer} from '../../../shared/viewer/cannonviewer';
   styleUrls: ['./gcaviewer.component.scss']
 })
 export class GcaviewerComponent implements OnInit {
-  viewer: TECAViewer;
+  viewer: CAViewer;
   pointArray: Array<number>;
 
   isControls: boolean;
@@ -19,7 +19,7 @@ export class GcaviewerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.viewer = new TECAViewer('tecaviewer');
+    this.viewer = new CAViewer('tecaviewer');
     this.viewer.InitScene(this.isControls, this.isPhysics,
       () => {
         this.viewer.addStats();

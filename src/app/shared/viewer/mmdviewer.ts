@@ -7,7 +7,7 @@ declare let ElementQueries: any;
 declare let ResizeSensor: any;
 declare let Stats;
 
-export class Viewer {
+export class MMDViewer {
   private width: any;
   private height: any;
 
@@ -35,7 +35,7 @@ export class Viewer {
     this.clock = new THREE.Clock();
   }
 
-  public InitScene(isControls: boolean, callback?: Function) {
+  public InitScene(isControls: boolean, isPhysicalEnvironment: boolean, callback?: Function) {
     if (this.scene != null) {
       if (callback) {
         callback();

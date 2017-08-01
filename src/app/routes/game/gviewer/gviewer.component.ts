@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {TEViewer} from '../../../shared/viewer/viewer';
+import {AMMOViewer} from '../../../shared/viewer/ammoviewer';
 import {MeshbuilderService} from '../../../shared/services/mesh-builder.service';
 
 @Component({
@@ -9,7 +9,7 @@ import {MeshbuilderService} from '../../../shared/services/mesh-builder.service'
 })
 export class GviewerComponent implements OnInit {
 
-  viewer: TEViewer;
+  viewer: AMMOViewer;
   pointArray: Array<number>;
 
   isControls: boolean;
@@ -39,7 +39,7 @@ export class GviewerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.viewer = new TEViewer('teviewer');
+    this.viewer = new AMMOViewer('teviewer');
     this.viewer.InitScene(this.isControls, this.isPhysics,
       () => {
         this.viewer.addStats();

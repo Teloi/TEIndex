@@ -8,7 +8,7 @@ declare let ResizeSensor: any;
 declare let Stats;
 declare let CANNON;
 
-export class TECAViewer {
+export class CAViewer {
   // Html Element
   private width: any;
   private height: any;
