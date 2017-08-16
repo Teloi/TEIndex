@@ -12,7 +12,10 @@ import {TranslateModule} from '@ngx-translate/core';
     CommonModule
   ],
   declarations: [],
-  providers: [MeshbuilderService, TranslatorService],
+  providers: [
+    MeshbuilderService,
+    TranslatorService
+  ],
   exports: [
     TranslateModule
   ]

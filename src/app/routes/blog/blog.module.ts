@@ -13,8 +13,6 @@ import {BarticleComponent} from './barticle/barticle.component';
 import {BclassifyComponent} from './bclassify/bclassify.component';
 import {BphotoComponent} from './bphoto/bphoto.component';
 
-// Ngx-bootstrap
-
 
 @NgModule({
   imports: [
@@ -29,7 +27,8 @@ import {BphotoComponent} from './bphoto/bphoto.component';
     BmessageComponent,
     BarticleComponent,
     BclassifyComponent,
-    BphotoComponent],
+    BphotoComponent
+  ],
   exports: [
     RouterModule
   ]

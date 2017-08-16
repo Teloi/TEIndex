@@ -1,6 +1,5 @@
 /// <reference types="three" />
 
-
 declare let Ammo;
 
 import {Injectable} from '@angular/core';

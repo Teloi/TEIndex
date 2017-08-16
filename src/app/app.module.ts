@@ -14,14 +14,13 @@ import {SharedModule} from './shared/shared.module';
 // Ngx-transloate
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
-import {Http} from '@angular/http';
 import {TranslatorService} from './shared/services/translator.service';
 
 // New in Rc4 -------HttpClientModule
-import { HttpClientModule } from '@angular/common/http';
+import {HttpClient, HttpClientModule } from '@angular/common/http';
 
 // https://github.com/ocombe/ng2-translate/issues/218
-export function createTranslateLoader(http: Http) {
+export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
@@ -38,14 +37,14 @@ export function createTranslateLoader(http: Http) {
     HttpModule,
     RoutesModule,
     SharedModule.forRoot(),
+    HttpClientModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
         useFactory: (createTranslateLoader),
-        deps: [Http]
+        deps: [HttpClient]
       }
-    }),
-    HttpClientModule
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
