@@ -17,7 +17,7 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {TranslatorService} from './shared/services/translator.service';
 
 // New in Rc4 -------HttpClientModule
-import {HttpClient, HttpClientModule } from '@angular/common/http';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 
 // https://github.com/ocombe/ng2-translate/issues/218
 export function createTranslateLoader(http: HttpClient) {

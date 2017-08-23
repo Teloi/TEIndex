@@ -202,6 +202,7 @@ export class CAViewer {
     render();
   }
 
+
   // cannon
   world;
 
@@ -242,5 +243,11 @@ export class CAViewer {
     // Copy coordinates from Cannon.js to Three.js
     this.mesh.position.copy(this.body.position);
     this.mesh.quaternion.copy(this.body.quaternion);
+  }
+
+  public disposeControls() {
+    if (!isNullOrUndefined(this.controls)) {
+      this.controls.dispose();
+    }
   }
 }

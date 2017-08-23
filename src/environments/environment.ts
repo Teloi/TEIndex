@@ -8,16 +8,8 @@ export const environment = {
 };
 
 export class Environment {
-  static readonly serverUrl = 'http://localhost:5000/';
+  static readonly serverUrl = 'http://localhost:4299/';
   static readonly serverApiUrl = Environment.serverUrl + 'api/';
-  static readonly clientUrl = 'http://localhost:3000/';
+  static readonly clientUrl = 'http://localhost:4200/';
   static readonly clientSrcUrl = Environment.clientUrl + 'src/';
-  static readonly assetsUrl = 'src/assets';
-
-  static readonly shortTokenTime = 1800000;
-  static readonly longTokenTime = 604800000;
-  static readonly refreshBefore = 600000;
-
-  static readonly adminUserName = 'admin';
-  static readonly adminRoleName = 'Admin';
 }

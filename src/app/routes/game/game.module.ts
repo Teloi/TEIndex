@@ -12,7 +12,10 @@ import {GindexComponent} from './gindex/gindex.component';
 import {GammocarComponent} from './gammocar/gammocar.component';
 import {GdemoComponent} from './gdemo/gdemo.component';
 import {GviewerComponent} from './gviewer/gviewer.component';
-import { GcaviewerComponent } from './gcaviewer/gcaviewer.component';
+import {GcaviewerComponent} from './gcaviewer/gcaviewer.component';
+import {GcsgComponent} from './gcsg/gcsg.component';
+import {GoctreeComponent} from './goctree/goctree.component';
+import { GoctreegitComponent } from './goctreegit/goctreegit.component';
 
 @NgModule({
   imports: [
@@ -28,7 +31,10 @@ import { GcaviewerComponent } from './gcaviewer/gcaviewer.component';
     GammocarComponent,
     GdemoComponent,
     GviewerComponent,
-    GcaviewerComponent
+    GcaviewerComponent,
+    GcsgComponent,
+    GoctreeComponent,
+    GoctreegitComponent
   ],
   exports: [
     RouterModule

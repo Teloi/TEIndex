@@ -569,4 +569,10 @@ export class AMMOViewer {
     let color = Math.floor(Math.random() * (16777216));
     return new THREE.MeshPhongMaterial({color: color});
   }
+
+  public disposeControls() {
+    if (!isNullOrUndefined(this.controls)) {
+      this.controls.dispose();
+    }
+  }
 }

@@ -1,4 +1,4 @@
-<nav class="nav navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-inverse navbar-fixed-top">
   <!--header-->
   <div class="navbar-header">
     <button type="button" class="navbar-toggle" data-toggle="collapse"
@@ -15,8 +15,10 @@
     <!--导航内容-->
     <ul class="nav navbar-nav">
       <!--<li class="active"><a href="#">首页</a></li>-->
-      <li [routerLinkActive]="['active']"><a routerLink="./barticle"><span class="fa fa-book fa-text"></span>{{'blog.header.ARTICLE' | translate}}</a></li>
-      <li [routerLinkActive]="['active']"><a routerLink="./bphoto"><span class="fa fa-photo fa-text"></span>{{'blog.header.PHOTO_ALBUM' | translate}}</a></li>
+      <li [routerLinkActive]="['active']"><a routerLink="./barticle"><span class="fa fa-book fa-text"></span>{{'blog.header.ARTICLE'
+        | translate}}</a></li>
+      <li [routerLinkActive]="['active']"><a routerLink="./bphoto"><span class="fa fa-photo fa-text"></span>{{'blog.header.PHOTO_ALBUM'
+        | translate}}</a></li>
     </ul>
     <!---右侧-->
     <ul class="nav navbar-nav navbar-right">
@@ -48,6 +50,7 @@
   </div>
 
 </nav>
+
 <div class="col-md-12 col-lg-12 col-sm-12" style="padding:0px;padding-top: 50px;">
   <router-outlet></router-outlet>
 </div>

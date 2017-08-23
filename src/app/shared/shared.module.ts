@@ -6,6 +6,7 @@ import {MeshbuilderService} from './services/mesh-builder.service';
 // Translator
 import {TranslatorService} from './services/translator.service';
 import {TranslateModule} from '@ngx-translate/core';
+import {TEHttpService} from './services/http.service';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import {TranslateModule} from '@ngx-translate/core';
   declarations: [],
   providers: [
     MeshbuilderService,
-    TranslatorService
+    TranslatorService,
+    TEHttpService
   ],
   exports: [
     TranslateModule

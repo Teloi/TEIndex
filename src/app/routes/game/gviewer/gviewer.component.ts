@@ -30,7 +30,6 @@ export class GviewerComponent implements OnInit {
       50.0, -50.0, 50.0,
       -50.0, -50.0, 50.0,
 
-
       -50.0, -50.0, 50.0,
       -50.0, 50.0, 50.0,
       50.0, 50.0, 50.0];
@@ -67,6 +66,12 @@ export class GviewerComponent implements OnInit {
         this.viewer.animate();
       }
     );
+  }
+
+  ngOnDestroy() {
+    if (this.viewer) {
+      this.viewer.disposeControls();
+    }
   }
 
 }

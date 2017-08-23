@@ -6,6 +6,9 @@ import {GammocarComponent} from './gammocar/gammocar.component';
 import {GdemoComponent} from './gdemo/gdemo.component';
 import {GviewerComponent} from './gviewer/gviewer.component';
 import {GcaviewerComponent} from './gcaviewer/gcaviewer.component';
+import {GcsgComponent} from './gcsg/gcsg.component';
+import {GoctreeComponent} from './goctree/goctree.component';
+import {GoctreegitComponent} from './goctreegit/goctreegit.component';
 
 export const routes = [
   {
@@ -37,6 +40,18 @@ export const routes = [
     {
       path: 'gcaviewer',
       component: GcaviewerComponent
+    },
+    {
+      path: 'gcsg',
+      component: GcsgComponent
+    },
+    {
+      path: 'goctree',
+      component: GoctreeComponent
+    },
+    {
+      path: 'goctreegit',
+      component: GoctreegitComponent
     },
     {path: '**', redirectTo: ''}
   ]

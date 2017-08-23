@@ -6,24 +6,16 @@ declare let $: any;
 declare let ElementQueries: any;
 declare let ResizeSensor: any;
 declare let dat: any;
-import {Component, OnInit, OnDestroy} from '@angular/core';
-
-// export class Options {
-//   public message: string;
-//   public speed: number;
-//
-//   constructor() {
-//     this.message = 'dat.gui';
-//     this.speed = 0.8;
-//   }
-// }
+declare let Octree;
+import {Component, OnDestroy, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'app-gdemo',
-  templateUrl: './gdemo.component.html',
-  styleUrls: ['./gdemo.component.scss']
+  selector: 'app-goctreegit',
+  templateUrl: './goctreegit.component.html',
+  styleUrls: ['./goctreegit.component.scss']
 })
-export class GdemoComponent implements OnInit, OnDestroy {
+export class GoctreegitComponent implements OnInit, OnDestroy {
+
   container;
   stats: any;
   camera;
@@ -32,52 +24,17 @@ export class GdemoComponent implements OnInit, OnDestroy {
   renderer;
   clock = new THREE.Clock();
 
-  gui: any;
+  octree;
+  dim = {x: 500, y: 500, z: 500};
 
   constructor() {
     this.checkSup();
   }
 
-
   ngOnInit() {
     this.initGraphics();
     this.initResize();
-    this.initDatGui();
-    this.createObjects();
     this.animate();
-  }
-
-  initDatGui() {
-    this.gui = new dat.GUI();
-  }
-
-  createObjects() {
-    let floorTexture: THREE.Texture = THREE.ImageUtils.loadTexture('../../../../assets/img/car/sand.jpg');
-    floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
-    floorTexture.repeat.set(10, 10);
-    let floorMaterial = new THREE.MeshBasicMaterial({map: floorTexture, side: THREE.DoubleSide});
-    let floorGeometry = new THREE.PlaneGeometry(1000, 1000, 100, 100);
-    let floor = new THREE.Mesh(floorGeometry, floorMaterial);
-    floor.position.y = -0.5;
-    floor.rotation.x = Math.PI / 2;
-    this.scene.add(floor);
-
-    let geometry = new THREE.BufferGeometry();
-    let vertices = new Float32Array([
-      -100.0, -100.0, 100.0,
-      100.0, -100.0, 100.0,
-      100.0, 100.0, 100.0
-    ]);
-    geometry.addAttribute('position', new THREE.BufferAttribute(vertices, 3));
-    let material = new THREE.MeshBasicMaterial({color: 0xff0000});
-    let mesh = new THREE.Mesh(geometry, material);
-    this.scene.add(mesh);
-
-
-    let controller = this.gui.add(floor.position, 'y', -5, 500);
-    controller.onChange(function (value) {
-      floor.position.y = value;
-    });
   }
 
   initGraphics() {
@@ -123,10 +80,28 @@ export class GdemoComponent implements OnInit, OnDestroy {
     this.stats.domElement.style.right = '0px';
     this.stats.domElement.style.left = null;
     this.container.appendChild(this.stats.domElement);
+
+
+    this.octree = new Octree(null, new THREE.Vector3(0, 0, 0), this.dim.x, this.dim.y, this.dim.z);
+    this.scene.add(this.octree.mesh);
+
+    for (let i = 0; i < 100; i++) {
+      let sphere = this.createSphere(
+        (Math.random() - 0.5) * this.dim.x * 2,
+        (Math.random() - 0.5) * this.dim.y * 2,
+        (Math.random() - 0.5) * this.dim.z * 2);
+      this.octree.add(sphere);
+      this.scene.add(sphere);
+    }
+
   }
 
-  resizeViewer(elementId: string) {
-
+  createSphere(x, y, z) {
+    let geo = new THREE.SphereGeometry(10, 20, 20);
+    let material = new THREE.MeshBasicMaterial({color: 0x2C590A, wireframe: false, opacity: 0.5});
+    let sphere = new THREE.Mesh(geo, material);
+    sphere.position.set(x, y, z);
+    return sphere;
   }
 
   onWindowResize(elementId: string) {
@@ -160,6 +135,7 @@ export class GdemoComponent implements OnInit, OnDestroy {
   animate() {
     let scope = this;
     requestAnimationFrame(scope.animate.bind(scope));
+    this.octree.update();
     this.render();
     this.stats.update();
   }
@@ -181,7 +157,6 @@ export class GdemoComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.gui.destroy();
     this.controls.dispose();
   }
 }

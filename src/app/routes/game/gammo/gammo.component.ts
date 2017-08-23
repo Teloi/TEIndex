@@ -5,14 +5,14 @@ declare let Stats;
 declare let $: any;
 declare let ElementQueries: any;
 declare let ResizeSensor: any;
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-gammo',
   templateUrl: './gammo.component.html',
   styleUrls: ['./gammo.component.scss']
 })
-export class GammoComponent implements OnInit {
+export class GammoComponent implements OnInit, OnDestroy {
 
   container;
   stats: any;
@@ -276,6 +276,9 @@ export class GammoComponent implements OnInit {
     else {
       console.log('WebGL Actice!');
     }
+  }
+  ngOnDestroy() {
+    this.controls.dispose();
   }
 
 

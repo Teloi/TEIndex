@@ -1,7 +1,7 @@
 .mainIndex {
   background-image: url(../../../assets/img/bg-image.jpg);
   background-size: cover;
-  background-position: 30% 0;
+  background-position: 20% 0;
   background-repeat: no-repeat;
   width: 100%;
   height: 100%;
@@ -9,8 +9,141 @@
 
   .overColor {
     @extend .mainIndex;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(0, 0, 0, 0.5);
     background-image: none;
+
+    p{
+      text-align:right;
+      font-size:5em;
+      margin:0px 20px 0px 0;
+    }
+
+    a{
+      text-decoration:none;
+      -webkit-transition: all 0.5s;
+      -moz-transition: all 0.5s;
+      transition: all 0.5s;
+    }
+
+    p:nth-child(1) a{
+      color:white;
+      font-size:0.3em;
+      span{
+        font-size:3em;
+      }
+      font-family: Fantasy;
+    }
+
+    p:nth-child(1) a:hover{
+      -webkit-animation: neon1 1.5s ease-in-out infinite alternate;
+      -moz-animation: neon1 1.5s ease-in-out infinite alternate;
+      animation: neon1 1.5s ease-in-out infinite alternate;
+    }
+
+    p:nth-child(2) a{
+      color:#FF9900;
+      font-family:Fantasy;
+      span{
+        color:plum;
+        font-size:0.4em;
+      }
+    }
+
+    p:nth-child(2) a:hover{
+      -webkit-animation: neon2 1.5s ease-in-out infinite alternate;
+      -moz-animation: neon2 1.5s ease-in-out infinite alternate;
+      animation: neon2 1.5s ease-in-out infinite alternate;
+    }
+
+    @-webkit-keyframes neon1 {
+      from {
+        text-shadow: 0 0 10px #fff,
+        0 0 20px  #fff,
+        0 0 30px  #fff,
+        0 0 40px  #228DFF,
+        0 0 70px  #228DFF,
+        0 0 80px  #228DFF,
+        0 0 100px #228DFF,
+        0 0 150px #228DFF;
+      }
+      to {
+        text-shadow: 0 0 5px #fff,
+        0 0 10px #fff,
+        0 0 15px #fff,
+        0 0 20px #228DFF,
+        0 0 35px #228DFF,
+        0 0 40px #228DFF,
+        0 0 50px #228DFF,
+        0 0 75px #228DFF;
+      }
+    }
+
+    @-webkit-keyframes neon2 {
+      from {
+        text-shadow: 0 0 10px #fff,
+        0 0 20px  #fff,
+        0 0 30px  #fff,
+        0 0 40px  #FF9900,
+        0 0 70px  #FF9900,
+        0 0 80px  #FF9900,
+        0 0 100px #FF9900,
+        0 0 150px #FF9900;
+      }
+      to {
+        text-shadow: 0 0 5px #fff,
+        0 0 10px #fff,
+        0 0 15px #fff,
+        0 0 20px #FF9900,
+        0 0 35px #FF9900,
+        0 0 40px #FF9900,
+        0 0 50px #FF9900,
+        0 0 75px #FF9900;
+      }
+    }
+    @-moz-keyframes neon2 {
+      from {
+        text-shadow: 0 0 10px #fff,
+        0 0 20px  #fff,
+        0 0 30px  #fff,
+        0 0 40px  #FF9900,
+        0 0 70px  #FF9900,
+        0 0 80px  #FF9900,
+        0 0 100px #FF9900,
+        0 0 150px #FF9900;
+      }
+      to {
+        text-shadow: 0 0 5px #fff,
+        0 0 10px #fff,
+        0 0 15px #fff,
+        0 0 20px #FF9900,
+        0 0 35px #FF9900,
+        0 0 40px #FF9900,
+        0 0 50px #FF9900,
+        0 0 75px #FF9900;
+      }
+    }
+    @keyframes neon2 {
+      from {
+        text-shadow: 0 0 10px #fff,
+        0 0 20px  #fff,
+        0 0 30px  #fff,
+        0 0 40px  #FF9900,
+        0 0 70px  #FF9900,
+        0 0 80px  #FF9900,
+        0 0 100px #FF9900,
+        0 0 150px #FF9900;
+      }
+      to {
+        text-shadow: 0 0 5px #fff,
+        0 0 10px #fff,
+        0 0 15px #fff,
+        0 0 20px #FF9900,
+        0 0 35px #FF9900,
+        0 0 40px #FF9900,
+        0 0 50px #FF9900,
+        0 0 75px #FF9900;
+      }
+    }
   }
 
   .header {
@@ -59,6 +192,7 @@
     }
   }
 
+  // Style for font awesome By Teloi
   .fa-one {
     background: -webkit-linear-gradient(top, #000, #678875);
     -webkit-background-clip: text;

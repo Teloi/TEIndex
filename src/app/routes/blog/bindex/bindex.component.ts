@@ -1,10 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-
-export class HomeArt {
-  title: string;
-  contentTitle: string;
-  content: string;
-}
+import {BindexService} from '../../../services/blog/bindex.service';
+import {AbpResult} from '../../../shared/services/http.service';
 
 @Component({
   selector: 'app-bindex',
@@ -13,11 +9,17 @@ export class HomeArt {
 })
 export class BindexComponent implements OnInit {
 
-  constructor() {
+  public notice = '';
+
+  constructor(private bindexService: BindexService) {
   }
 
   ngOnInit() {
-
+    this.bindexService.getNotice().subscribe((response: AbpResult) => {
+      if (response.success) {
+        this.notice = response.result;
+      }
+    });
   }
 
 }

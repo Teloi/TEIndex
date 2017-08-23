@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {CAViewer} from '../../../shared/viewer/cannonviewer';
 
 @Component({
@@ -6,7 +6,7 @@ import {CAViewer} from '../../../shared/viewer/cannonviewer';
   templateUrl: './gcaviewer.component.html',
   styleUrls: ['./gcaviewer.component.scss']
 })
-export class GcaviewerComponent implements OnInit {
+export class GcaviewerComponent implements OnInit, OnDestroy {
   viewer: CAViewer;
   pointArray: Array<number>;
 
@@ -29,5 +29,11 @@ export class GcaviewerComponent implements OnInit {
         this.viewer.animate();
       }
     );
+  }
+
+  ngOnDestroy() {
+    if (this.viewer) {
+      this.viewer.disposeControls();
+    }
   }
 }

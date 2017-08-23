@@ -5,14 +5,14 @@ declare let Stats;
 declare let $: any;
 declare let ElementQueries: any;
 declare let ResizeSensor: any;
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-gammocar',
   templateUrl: './gammocar.component.html',
   styleUrls: ['./gammocar.component.scss']
 })
-export class GammocarComponent implements OnInit {
+export class GammocarComponent implements OnInit, OnDestroy {
   container;
   stats: any;
   camera;
@@ -692,5 +692,9 @@ export class GammocarComponent implements OnInit {
     else {
       console.log('WebGL Actice!');
     }
+  }
+
+  ngOnDestroy() {
+    this.controls.dispose();
   }
 }

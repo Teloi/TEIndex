@@ -1,33 +1,28 @@
 <div class="mainIndex">
   <div class="overColor">
     <div class="container-fluid">
-      <div class="col-md-1 col-md-offset-10 col-xs-1 col-xs-offset-10">
-        <a routerLink="../blog" [@simAnim]="staticIn">
-          <span class="fa-stack fa-4x">
-            <i class="fa fa-github-alt  fa-one"></i>
-          </span>
-        </a>
-      </div>
-      <div class="col-md-1 col-xs-1">
-        <a routerLink="../game" [@simAnim]="staticIn">
-          <span class="fa-stack fa-4x">
-            <i class="fa fa-heart  fa-one"></i>
-          </span>
-        </a>
-      </div>
+      <p><a routerLink="../blog">
+        <span class="fa fa-bold fa-one"></span>log Without Content
+      </a></p>
+      <p><a routerLink="../game">
+        sillY<span class="fa fa-gamepad"></span>
+      </a></p>
     </div>
 
     <div class="header">
       <div class="footer">
         <span>&copy;{{'teindex.record.CONTENT' | translate}}</span>
         <ul>
-          <li><a href="http://www.weibo.com/teloi" target="_blank" title="{{'teindex.fonts.WEIBO' | translate}}"><i
+          <li><a href="https://github.com/Teloi" title="{{'teindex.fonts.GITHUB' | translate}}"><i
+            class="fa fa-github-alt"
+            aria-hidden="true"></i></a></li>
+          <li><a href="http://www.weibo.com/teloi" title="{{'teindex.fonts.WEIBO' | translate}}"><i
             class="fa fa-weibo"
             aria-hidden="true"></i></a></li>
-          <li><a href="mailto:teloi.zhang@esooft.com" target="_blank" title="{{'teindex.fonts.MAIL' | translate}}"><i
+          <li><a href="mailto:teloi.zhang@esooft.com" title="{{'teindex.fonts.MAIL' | translate}}"><i
             class="fa fa-envelope"
             aria-hidden="true"></i></a></li>
-          <li><a href="../../../assets/humans.txt" target="_blank" title="{{'teindex.fonts.HUMANS' | translate}}"><i
+          <li><a href="../../../assets/humans.txt" title="{{'teindex.fonts.HUMANS' | translate}}"><i
             class="fa fa-info-circle"
             aria-hidden="true"></i></a></li>
           <li *ngIf="currentLanguage === 'zh-cn'">

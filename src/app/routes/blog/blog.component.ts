@@ -1,3 +1,4 @@
+declare let $;
 import {Component, OnInit} from '@angular/core';
 import {TranslatorService} from '../../shared/services/translator.service';
 
@@ -15,7 +16,6 @@ export class BlogComponent implements OnInit {
   }
 
   ngOnInit() {
-
   }
 
   setLang(value) {

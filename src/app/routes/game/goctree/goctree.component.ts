@@ -6,24 +6,15 @@ declare let $: any;
 declare let ElementQueries: any;
 declare let ResizeSensor: any;
 declare let dat: any;
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 
-// export class Options {
-//   public message: string;
-//   public speed: number;
-//
-//   constructor() {
-//     this.message = 'dat.gui';
-//     this.speed = 0.8;
-//   }
-// }
 
 @Component({
-  selector: 'app-gdemo',
-  templateUrl: './gdemo.component.html',
-  styleUrls: ['./gdemo.component.scss']
+  selector: 'app-goctree',
+  templateUrl: './goctree.component.html',
+  styleUrls: ['./goctree.component.scss']
 })
-export class GdemoComponent implements OnInit, OnDestroy {
+export class GoctreeComponent implements OnInit, OnDestroy {
   container;
   stats: any;
   camera;
@@ -32,7 +23,20 @@ export class GdemoComponent implements OnInit, OnDestroy {
   renderer;
   clock = new THREE.Clock();
 
-  gui: any;
+
+  octree: any;
+  geometry = new THREE.BoxGeometry(2, 2, 2);
+  radius = 500;
+  radiusMax = this.radius * 10;
+  radiusMaxHalf = this.radiusMax * 0.5;
+  radiusSearch = 400;
+  searchMesh;
+  meshesSearch = [];
+
+  rayCaster = new THREE.Raycaster();
+  origin = new THREE.Vector3();
+  direction = new THREE.Vector3();
+
 
   constructor() {
     this.checkSup();
@@ -41,43 +45,65 @@ export class GdemoComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initGraphics();
+    this.searchMesh = new THREE.Mesh(
+      new THREE.SphereGeometry(this.radiusSearch),
+      new THREE.MeshBasicMaterial({color: 0x00FF00, transparent: true, opacity: 0.4})
+    );
+    this.scene.add(this.searchMesh);
+    this.octree = new THREE.Octree({
+      // when undeferred = true, objects are inserted immediately
+      // instead of being deferred until next octree.update() call
+      // this may decrease performance as it forces a matrix update
+      undeferred: false,
+      // set the max depth of tree
+      depthMax: Infinity,
+      // max number of objects before nodes split or merge
+      objectsThreshold: 8,
+      // percent between 0 and 1 that nodes will overlap each other
+      // helps insert objects that lie over more than one node
+      overlapPct: 0.15,
+      // pass the scene to visualize the octree
+      scene: this.scene
+    });
     this.initResize();
-    this.initDatGui();
-    this.createObjects();
     this.animate();
   }
 
-  initDatGui() {
-    this.gui = new dat.GUI();
+  modifyOctree() {
+    let mesh = new THREE.Line(this.geometry, new THREE.LineBasicMaterial({color: 0xff00ff}));
+    // give new object a random position in radius
+    mesh.position.set(
+      Math.random() * this.radiusMax - this.radiusMaxHalf,
+      Math.random() * this.radiusMax - this.radiusMaxHalf,
+      Math.random() * this.radiusMax - this.radiusMaxHalf
+    );
+    this.octree.add(mesh);
+    this.scene.add(mesh);
   }
 
-  createObjects() {
-    let floorTexture: THREE.Texture = THREE.ImageUtils.loadTexture('../../../../assets/img/car/sand.jpg');
-    floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
-    floorTexture.repeat.set(10, 10);
-    let floorMaterial = new THREE.MeshBasicMaterial({map: floorTexture, side: THREE.DoubleSide});
-    let floorGeometry = new THREE.PlaneGeometry(1000, 1000, 100, 100);
-    let floor = new THREE.Mesh(floorGeometry, floorMaterial);
-    floor.position.y = -0.5;
-    floor.rotation.x = Math.PI / 2;
-    this.scene.add(floor);
-
-    let geometry = new THREE.BufferGeometry();
-    let vertices = new Float32Array([
-      -100.0, -100.0, 100.0,
-      100.0, -100.0, 100.0,
-      100.0, 100.0, 100.0
-    ]);
-    geometry.addAttribute('position', new THREE.BufferAttribute(vertices, 3));
-    let material = new THREE.MeshBasicMaterial({color: 0xff0000});
-    let mesh = new THREE.Mesh(geometry, material);
-    this.scene.add(mesh);
-
-
-    let controller = this.gui.add(floor.position, 'y', -5, 500);
-    controller.onChange(function (value) {
-      floor.position.y = value;
-    });
+  searchOctree() {
+    let i, il;
+    // revert previous search objects to base color
+    for (i = 0, il = this.meshesSearch.length; i < il; i++) {
+      this.meshesSearch[i].object.material.color.copy(new THREE.Color(0xff00ff));
+    }
+    // new search position
+    this.searchMesh.position.set(
+      Math.random() * this.radiusMax - this.radiusMaxHalf,
+      Math.random() * this.radiusMax - this.radiusMaxHalf,
+      Math.random() * this.radiusMax - this.radiusMaxHalf
+    );
+    // search octree from search mesh position with search radius
+    // optional third parameter: boolean, if should sort results by object when using faces in octree
+    // optional fourth parameter: vector3, direction of search when using ray (assumes radius is distance/far of ray)
+    this.origin.copy(this.searchMesh.position);
+    this.direction.set(Math.random() * 2 - 1, Math.random() * 2 - 1, Math.random() * 2 - 1).normalize();
+    this.rayCaster.set(this.origin, this.direction);
+    this.meshesSearch = this.octree.search(this.rayCaster.ray.origin, this.radiusSearch, true, this.rayCaster.ray.direction);
+    // set color of all meshes found in search
+    for (i = 0, il = this.meshesSearch.length; i < il; i++) {
+      this.meshesSearch[i].object.material.color.copy(new THREE.Color(0x00ff00));
+    }
   }
 
   initGraphics() {
@@ -125,10 +151,6 @@ export class GdemoComponent implements OnInit, OnDestroy {
     this.container.appendChild(this.stats.domElement);
   }
 
-  resizeViewer(elementId: string) {
-
-  }
-
   onWindowResize(elementId: string) {
     let height = window.innerHeight;
     // height -= $('#gheader').height();
@@ -160,7 +182,10 @@ export class GdemoComponent implements OnInit, OnDestroy {
   animate() {
     let scope = this;
     requestAnimationFrame(scope.animate.bind(scope));
+    this.modifyOctree();
+    this.searchOctree();
     this.render();
+    this.octree.update();
     this.stats.update();
   }
 
@@ -181,7 +206,7 @@ export class GdemoComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.gui.destroy();
     this.controls.dispose();
   }
 }
+

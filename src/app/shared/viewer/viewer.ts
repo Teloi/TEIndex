@@ -1,6 +1,7 @@
 /// <reference types="three" />
 
 import {isNullOrUndefined} from 'util';
+import add = THREE.Cache.add;
 
 declare let $;  // JQuery
 declare let ElementQueries: any;
@@ -16,7 +17,7 @@ export class Viewer {
   private clock: THREE.Clock;
 
   // Element
-  private scene: THREE.Scene;
+  public scene: THREE.Scene;
   private renderer: THREE.WebGLRenderer;
   public camera: THREE.Camera;
   public controls: any;
@@ -175,7 +176,22 @@ export class Viewer {
         this.stats.update();
       }
     }.bind(this);
+
     requestAnimationFrame(this.animate.bind(this));
     render();
+  }
+
+  public addMesh(mesh: THREE.Mesh) {
+    this.scene.add(mesh);
+  }
+
+  public remove(mesh: THREE.Mesh) {
+    this.scene.remove(mesh);
+  }
+
+  public disposeControls() {
+    if (!isNullOrUndefined(this.controls)) {
+      this.controls.dispose();
+    }
   }
 }

@@ -6,7 +6,6 @@ import {Routing} from './routes';
 import {SharedModule} from '../shared/shared.module';
 import {IndexComponent} from './index/index.component';
 
-
 @NgModule({
   imports: [
     CommonModule,
