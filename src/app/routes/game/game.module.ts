@@ -15,7 +15,8 @@ import {GviewerComponent} from './gviewer/gviewer.component';
 import {GcaviewerComponent} from './gcaviewer/gcaviewer.component';
 import {GcsgComponent} from './gcsg/gcsg.component';
 import {GoctreeComponent} from './goctree/goctree.component';
-import { GoctreegitComponent } from './goctreegit/goctreegit.component';
+import {GoctreegitComponent} from './goctreegit/goctreegit.component';
+import {GmmdComponent} from './gmmd/gmmd.component';
 
 @NgModule({
   imports: [
@@ -34,7 +35,8 @@ import { GoctreegitComponent } from './goctreegit/goctreegit.component';
     GcaviewerComponent,
     GcsgComponent,
     GoctreeComponent,
-    GoctreegitComponent
+    GoctreegitComponent,
+    GmmdComponent
   ],
   exports: [
     RouterModule

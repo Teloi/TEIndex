@@ -1,5 +1,7 @@
 /// <reference types="three" />
 
+import {isNullOrUndefined} from 'util';
+
 declare let Ammo;
 declare let Stats;
 declare let $: any;
@@ -695,6 +697,9 @@ export class GammocarComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.controls.dispose();
+    if (!isNullOrUndefined(this.controls)) {
+      this.controls.dispose();
+    }
+
   }
 }

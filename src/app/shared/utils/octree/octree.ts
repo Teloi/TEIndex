@@ -1,18 +1,23 @@
 export class ESOctree {
 
-  private parent_node: ESOctree;
+  // 父&子树
+  private parent_node: any;
   private children_nodes: ESOctree[];
 
+  // 原点
   private oringePosition: THREE.Vector3;
   private halfX: number;
   private halfY: number;
   private halfZ: number;
 
+  // 树深度
   public depth: number;
 
-  // Entities
-  private entities: THREE.Mesh[];
-  private _to_update: THREE.Mesh[]; // TO Update Entities?
+  // 内部实体
+  private entities: any[];
+
+  private _all_entities = new Array();
+  private _to_update: THREE.Mesh[];
   // 叶子？叶节点
   private _leaves: any;
 
@@ -51,7 +56,7 @@ export class ESOctree {
     // 视觉感受
     this.BoxGeo = new THREE.CubeGeometry(this.halfX * 2, this.halfY * 2, this.halfZ * 2);
     this.BoxMesh = new THREE.Mesh(this.BoxGeo, new THREE.MeshBasicMaterial({color: 0x0, opacity: 1, wireframe: true}));
-    this.BoxMesh.position = this.oringePosition.clone();
+    this.BoxMesh.position.set(this.oringePosition.clone().x, this.oringePosition.clone().y, this.oringePosition.clone().z);
 
     if (parent !== null) {
       this.BoxMesh.position.sub(parent.oringePosition);
@@ -82,7 +87,7 @@ export class ESOctree {
   };
 
   // 子节点更新
-  needLeavesUpdate = function () {
+  needLeavesUpdate() {
     let iter = this;
     while (iter !== null) {
       iter._need_leaves_update = true;
@@ -90,14 +95,15 @@ export class ESOctree {
     }
   };
 
-  remove = function (entity) {
+  // 将实体从当前节点中删除，并将当前this指向根节点
+  remove(entity) {
     for (let i = 0; i < this.entities.length; i++) {
       if (this.entities[i] === entity) {
         this.entities.splice(i, 1);
         break;
       }
     }
-
+    // 删除过后将当前this指向根结点
     let iter = this;
     while (iter !== null) {
       iter._need_all_entities_update = true;
@@ -105,16 +111,16 @@ export class ESOctree {
     }
   };
 
-  // 再细分
+  // 细分
   subdivide() {
     /*       _____________
-         /  4   /  5   /|        y
-        /_____ /______/ |        |
-         /      /      /| |        |___ x
-      /_____ / _____/ |/|       /
-      |   0  |  1   | |7|      /
-      |_____ |_____ |/|/       z
-      |   2  |  3   | /
+         /  4   /  5   /   |         y
+        /_____ /______/ |  |         |
+       /      /      /  |  |         |___ x
+      /_____ / _____/   |/ |        /
+      |   0  |  1   |  |/7 /       /
+      |_____ |_____ |/ | /       z
+      |   2  |  3   | |/
       |_____ |_____ |/ (lol)
     */
 
@@ -171,15 +177,17 @@ export class ESOctree {
 
   add(entity) {
 
-    let addToThis = function () {
-      let iter = this;
+    let _this = this;
+
+    function addToThis() {
+      let iter = _this;
       while (iter !== null) {
         iter._need_all_entities_update = true;
         iter = iter.parent_node;
       }
-      this.entities.push(entity);
-      this.BoxMesh.visible = true;
-    }.bind(this);
+      _this.entities.push(entity);
+      _this.BoxMesh.visible = true;
+    }
 
     // 如果不包含=>返回
     // 也就是说如果新增的Mesh 不在大Mesh中，不进行查找
@@ -191,12 +199,15 @@ export class ESOctree {
       addToThis();
     }
     else if (this.children_nodes.length === 0) {
+      // ↑小于最大深度&没有子节点并且它里面没有实体的时候
+      // ↓每个节点中的数量小于规定要求
       if (this.entities.length < this.entities_per_node) {
         addToThis();
       }
       else {
+        // 如果它里面有实体，则拆分
         this.subdivide();
-
+        // 拆分过后，如果内部有实体，则从这个节点中删除，并重新对所有实体做add动作（通过this值的变化）
         if (this.entities.length !== 0) {
           let entities_tmp = this.entities.slice();
           this.entities.length = 0;
@@ -206,11 +217,12 @@ export class ESOctree {
             this.add(ent);
           }
         }
-
+        // 然后再将这个节点添加到指定位置
         this.add(entity);
       }
     }
     else {
+      // ↑如果它当前有节点，已经分成八份
       // check if the obb intersects multiple children
       let child_id = -1;
       let multiple_intersect = false;
@@ -223,11 +235,12 @@ export class ESOctree {
           child_id = i;
         }
       }
-
+      // 把当前结点放入制定的位置中
       if (multiple_intersect) {
         addToThis();
       }
       else {
+        // 放入0节点中
         this.children_nodes[child_id].add(entity);
       }
     }
@@ -246,5 +259,134 @@ export class ESOctree {
     return true;
   };
 
+  countChildrenIntersections(max, entity) {
+    let children_idx = new Array();
+    for (let j = 0; j < this.children_nodes.length; j++) {
+      if (this.children_nodes[j].intersects(entity)) {
+        children_idx.push(j);
+      }
+      if (children_idx.length === max) {
+        break;
+      }
+    }
+    return children_idx;
+  }
+
+  // updates children entities reference
+  updateChildrenEntities() {
+    if (this._need_all_entities_update) {
+      this._all_entities.length = 0;
+      for (let i = 0; i < this.children_nodes.length; i++) {
+        this.children_nodes[i].updateChildrenEntities();
+        this._all_entities = this._all_entities.concat(this.children_nodes[i]._all_entities);
+      }
+
+      for (let i = 0; i < this.entities.length; i++) {
+        this._all_entities.push([this.entities[i], this]);
+      }
+    }
+  }
+
+  // updates leaves reference
+  updateLeaves() {
+    if (this._need_leaves_update) {
+      this._leaves.length = 0;
+      for (let i = 0; i < this.children_nodes.length; i++) {
+
+        this.children_nodes[i].updateLeaves();
+        this._leaves = this._leaves.concat(this.children_nodes[i]._leaves);
+      }
+
+      if (this.children_nodes.length === 0) {
+        this._leaves.push(this);
+      }
+
+      this._need_leaves_update = false;
+    }
+  }
+
+  update() {
+    let _this = this;
+    _this.updateChildrenEntities();
+    let entities_tmp = this._all_entities.slice();
+    entities_tmp.forEach(function (element) {
+      let entity = element[0];
+
+      for (let i = 0; i < _this._to_update.length; i++) {
+        if (entity === _this._to_update[i]) {
+          let octree;
+          let intersections;
+
+          // check if multiple intersection with children
+          // if yes do same recursively with parents till we can fit it entirely
+          // in one node, and add it to this node
+          octree = element[1];
+          while (octree !== null) {
+            intersections = octree.countChildrenIntersections(2, entity);
+
+            if (intersections.length === 1) {
+              // don't perform any operation if no update is required
+              if (element[1] === octree.children_nodes[intersections[0]]) {
+                break;
+              }
+              element[1].remove(entity);
+              octree.children_nodes[intersections[0]].add(entity);
+              break;
+            }
+            else if (octree.parent_node === null && intersections.length > 0) {
+              element[1].remove(entity);
+              octree.add(entity);
+              break;
+            }
+            else {
+              octree = octree.parent_node;
+            }
+          }
+          _this._to_update.splice(i, 1);
+          break;
+        }
+      }
+    });
+
+    // update _all_entities arrays
+    _this.updateChildrenEntities();
+
+    // get rid of dead leaves
+    _this.updateLeaves();
+
+    function pruneUp(node) {
+      if (node._all_entities.length <= 1) {
+        // remove the children from the leaves array and detach their mesh from parents
+        let removeChildrenNodes = function (nodes) {
+          for (let i = 0; i < nodes.children_nodes.length; i++) {
+            removeChildrenNodes(nodes.children_nodes[i]);
+            let idx = _this._leaves.indexOf(nodes.children_nodes[i]);
+            if (idx !== -1) {
+              _this._leaves.splice(idx, 1);
+            }
+            nodes.BoxMesh.remove(nodes.children_nodes[i].BoxMesh);
+          }
+        };
+
+        removeChildrenNodes(node);
+
+        node.needLeavesUpdate();
+        node.children_nodes.length = 0;
+
+        if (node._all_entities.length === 1 && (node._all_entities[0])[1] !== node) {
+          // if the entity was in a one of the child, put it in current node
+          node._all_entities[0][1] = node;	// will update this ref for parents node too
+          node.add(node._all_entities[0][0]);
+        }
+        if (node.parent_node !== null) {
+          pruneUp(node.parent_node);
+        }
+      }
+    }
+
+    this._leaves.forEach(function (node) {
+      pruneUp(node);
+    });
+  };
 
 }

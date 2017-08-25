@@ -28,7 +28,7 @@ function Octree(parent, origin, halfwidth, halfheight, halfdepth) {
   this.onEntityPoseChanged = function(entity) {
     if(_this._to_update.indexOf(entity) === -1)
       _this._to_update.push(entity);
-  }
+  };
 
   // visual representation for debugging purposes
   var geo = new THREE.CubeGeometry( halfwidth*2, halfheight*2, halfdepth*2 );

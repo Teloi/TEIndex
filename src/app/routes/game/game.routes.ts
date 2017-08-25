@@ -9,6 +9,7 @@ import {GcaviewerComponent} from './gcaviewer/gcaviewer.component';
 import {GcsgComponent} from './gcsg/gcsg.component';
 import {GoctreeComponent} from './goctree/goctree.component';
 import {GoctreegitComponent} from './goctreegit/goctreegit.component';
+import {GmmdComponent} from './gmmd/gmmd.component';
 
 export const routes = [
   {
@@ -52,6 +53,10 @@ export const routes = [
     {
       path: 'goctreegit',
       component: GoctreegitComponent
+    },
+    {
+      path: 'gmmd',
+      component: GmmdComponent
     },
     {path: '**', redirectTo: ''}
   ]

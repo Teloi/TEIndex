@@ -1,13 +1,16 @@
 /// <reference types="three" />
 
+import {forEach} from '@angular/router/src/utils/collection';
+
 declare let Ammo;
 declare let Stats;
 declare let $: any;
 declare let ElementQueries: any;
 declare let ResizeSensor: any;
 declare let dat: any;
-declare let Octree;
+// declare let Octree;
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ESOctree} from '../../../shared/utils/octree/octree';
 
 @Component({
   selector: 'app-goctreegit',
@@ -26,6 +29,7 @@ export class GoctreegitComponent implements OnInit, OnDestroy {
 
   octree;
   dim = {x: 500, y: 500, z: 500};
+  spheres = [];
 
   constructor() {
     this.checkSup();
@@ -82,14 +86,19 @@ export class GoctreegitComponent implements OnInit, OnDestroy {
     this.container.appendChild(this.stats.domElement);
 
 
-    this.octree = new Octree(null, new THREE.Vector3(0, 0, 0), this.dim.x, this.dim.y, this.dim.z);
-    this.scene.add(this.octree.mesh);
+    this.octree = new ESOctree(null, new THREE.Vector3(0, 0, 0), this.dim.x, this.dim.y, this.dim.z);
+    this.scene.add(this.octree.BoxMesh);
 
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 20; i++) {
       let sphere = this.createSphere(
         (Math.random() - 0.5) * this.dim.x * 2,
         (Math.random() - 0.5) * this.dim.y * 2,
         (Math.random() - 0.5) * this.dim.z * 2);
+
+      sphere['dir'] = new THREE.Vector3();			// for animating
+      sphere['changeFreq'] = Math.random() * 10000;	// for animating
+      sphere['timeAtLastChange'] = (new Date()).getTime();	// for animating
+      this.spheres.push(sphere);
       this.octree.add(sphere);
       this.scene.add(sphere);
     }
@@ -131,10 +140,30 @@ export class GoctreegitComponent implements OnInit, OnDestroy {
     });
   }
 
-
   animate() {
+    let now = (new Date()).getTime();
     let scope = this;
     requestAnimationFrame(scope.animate.bind(scope));
+    if (this.spheres) {
+      for (let sphere of this.spheres) {
+        let timeSinceLastChange = now - sphere.timeAtLastChange;
+        if (timeSinceLastChange > sphere.changeFreq) {
+          sphere.dir.set(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5);
+          sphere.dir.normalize();
+          sphere.timeAtLastChange = (new Date()).getTime();
+        }
+        let pos = (new THREE.Vector3()).addVectors(sphere.position, sphere.dir);
+
+        if (this.octree.contains(pos)) {
+          sphere.position.set(pos.x, pos.y, pos.z);
+          this.octree.onEntityPoseChanged(sphere);
+        }
+        else {
+          sphere.dir.set(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5);
+        }
+      }
+    }
+
     this.octree.update();
     this.render();
     this.stats.update();
