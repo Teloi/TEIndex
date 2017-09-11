@@ -33,8 +33,6 @@
         "../node_modules/css-element-queries/src/ResizeSensor.js",
         "../node_modules/css-element-queries/src/ElementQueries.js",
         "../src/assets/libs/ammo.js",
-        "../src/assets/libs/octree.js",
-        "../src/assets/libs/octree_git.js",
         "../node_modules/cannon/build/cannon.js"
       ],
       "environmentSource": "environments/environment.ts",

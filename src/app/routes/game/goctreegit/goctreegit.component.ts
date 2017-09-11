@@ -1,14 +1,12 @@
 /// <reference types="three" />
 
-import {forEach} from '@angular/router/src/utils/collection';
-
 declare let Ammo;
 declare let Stats;
 declare let $: any;
 declare let ElementQueries: any;
 declare let ResizeSensor: any;
 declare let dat: any;
-// declare let Octree;
+
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ESOctree} from '../../../shared/utils/octree/octree';
 
@@ -55,7 +53,6 @@ export class GoctreegitComponent implements OnInit, OnDestroy {
     this.renderer.setClearColor(0xbfd1e5);
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    // this.renderer.setSize(this.container.offsetWidth, this.container.offsetHeight);
     this.renderer.shadowMap.enabled = true;
     // 场景
     this.scene = new THREE.Scene();
@@ -85,28 +82,28 @@ export class GoctreegitComponent implements OnInit, OnDestroy {
     this.stats.domElement.style.left = null;
     this.container.appendChild(this.stats.domElement);
 
-
-    this.octree = new ESOctree(null, new THREE.Vector3(0, 0, 0), this.dim.x, this.dim.y, this.dim.z);
+    this.octree = new ESOctree(null, new THREE.Vector3(0, 0, 0), Math.abs(this.dim.x), Math.abs(this.dim.y), Math.abs(this.dim.z));
     this.scene.add(this.octree.BoxMesh);
 
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 100; i++) {
       let sphere = this.createSphere(
         (Math.random() - 0.5) * this.dim.x * 2,
         (Math.random() - 0.5) * this.dim.y * 2,
         (Math.random() - 0.5) * this.dim.z * 2);
 
       sphere['dir'] = new THREE.Vector3();			// for animating
-      sphere['changeFreq'] = Math.random() * 10000;	// for animating
+      sphere['changeFreq'] = Math.random() * 10000;  // for animating
       sphere['timeAtLastChange'] = (new Date()).getTime();	// for animating
       this.spheres.push(sphere);
       this.octree.add(sphere);
       this.scene.add(sphere);
     }
 
+
   }
 
   createSphere(x, y, z) {
-    let geo = new THREE.SphereGeometry(10, 20, 20);
+    let geo = new THREE.SphereBufferGeometry(10, 32, 32);
     let material = new THREE.MeshBasicMaterial({color: 0x2C590A, wireframe: false, opacity: 0.5});
     let sphere = new THREE.Mesh(geo, material);
     sphere.position.set(x, y, z);
