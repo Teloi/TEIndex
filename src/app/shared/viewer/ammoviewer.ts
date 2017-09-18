@@ -352,7 +352,7 @@ export class AMMOViewer {
     // 将键盘输入,物理和绘制同步
     let sync = function (dt) {
       let speed = vehicle.getCurrentSpeedKmHour();
-      if (isNullOrUndefined(this.container)) {
+      if (!isNullOrUndefined(this.speedometer)) {
         this.speedometer.innerHTML = (speed < 0 ? '(R) ' : '') + Math.abs(speed).toFixed(1) + ' km/h';
       }
       breakingForce = 0;
@@ -487,7 +487,6 @@ export class AMMOViewer {
     // 重力常数
     let gravityConstant = -9.8;
     this.physicsWorld.setGravity(new Ammo.btVector3(0, gravityConstant, 0));
-
     // About Car
     this.speedometer = document.getElementById('speedometer');
     window.addEventListener('keydown', function (e) {

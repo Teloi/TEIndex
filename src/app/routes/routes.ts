@@ -13,6 +13,10 @@ export const routes = [
     path: 'blog',
     loadChildren: './blog/blog.module#BlogModule'
   },
+  {
+    path: 'sample',
+    loadChildren: './sample/sample.module#SampleModule'
+  },
   {path: '**', redirectTo: ''}
 ];
 

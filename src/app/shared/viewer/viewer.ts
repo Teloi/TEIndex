@@ -1,7 +1,6 @@
 /// <reference types="three" />
 
 import {isNullOrUndefined} from 'util';
-import add = THREE.Cache.add;
 
 declare let $;  // JQuery
 declare let ElementQueries: any;
@@ -66,9 +65,6 @@ export class Viewer {
   private perspectiveCamera(): THREE.Camera {
     let camera: THREE.Camera;
     camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100000);
-    camera.position.x = -7;
-    camera.position.y = 10;
-    camera.position.z = 8;
     return camera;
   }
 
@@ -153,6 +149,25 @@ export class Viewer {
     this.stats.domElement.style.right = '0px';
     this.stats.domElement.style.left = null;
     this.container.appendChild(this.stats.domElement);
+  }
+
+  public addSkyBox() {
+    let imagePrefix = '../../../assets/img/skybox/sky';
+    let directions = ['_x', '-x', '_y', '-y', '_z', '-z'];
+    let imageSuffix = '.png';
+    let skyGeometry = new THREE.CubeGeometry(100000, 100000, 100000);
+
+    let materialArray = [];
+    for (let i = 0; i < 6; i++) {
+      materialArray.push(new THREE.MeshBasicMaterial({
+        map: THREE.ImageUtils.loadTexture(imagePrefix + directions[i] + imageSuffix),
+        side: THREE.BackSide
+      }));
+    }
+
+    let skyMaterial = new THREE.MultiMaterial(materialArray);
+    let skyBox = new THREE.Mesh(skyGeometry, skyMaterial);
+    this.scene.add(skyBox);
   }
 
   public addAxisHelper(size: number) {

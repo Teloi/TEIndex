@@ -69,7 +69,7 @@ export class GoctreeComponent implements OnInit, OnDestroy {
       overlapPct: 0.15
     });
 
-    let geom = new THREE.PlaneGeometry(500, 500, 100, 100);
+    let geom = new THREE.PlaneGeometry(500, 500, 10, 10);
     this.scene.add(new THREE.Mesh(geom, new THREE.MeshLambertMaterial({
       color: 0x778877, wireframe: true,
       opacity: 0.5

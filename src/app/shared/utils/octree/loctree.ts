@@ -3,26 +3,27 @@
 export namespace ES {
 
   export class Octree {
-    // parameters
-    scene: THREE.Scene;
-    depthMax: number;
-    undeferred: boolean;
-    overlapPct: number;
-    objectsThreshold: number;
-    root: any;
-    //
-    // 子节点个数
-    nodeCount: number;
 
-    // 可见边框
+    scene: THREE.Scene; // 加载场景,用来展示八叉树节点数据
+    depthMax: number; // 八叉树最大深度
+    undeferred: boolean; // 是否延迟渲染
+    overlapPct: number; // 松散程度0-1
+    objectsThreshold: number; // 结点内最大元素个数
+    root: any; // 根节点
+
+    // 子节点个数
+    nodeCount: number; // 节点数量,在节点添加的时候自增
+
+    // 可见边框 原始为1-1-1的正方体
     visualGeometry: THREE.CubeGeometry;
     visualMaterial: THREE.MeshBasicMaterial;
 
-    objects: any[];
-    objectsMap: {};
-    objectsData: any[];
-    objectsDeferred: any[];
+    objects: any[]; // 节点内所有元素 外部结构 例如BufferGeometry
+    objectsMap: {}; // 用来检索元素，存放元素guid索引表，{uuid：**,object:**}
+    objectsData: any[]; // 内部结构，指定的元素结构
+    objectsDeferred: any[]; // 待渲染的元素数据
 
+    // 未知*******
     utilVec31Search: THREE.Vector3;
     utilVec32Search: THREE.Vector3;
 
@@ -51,7 +52,7 @@ export namespace ES {
 
       // static properties ( modification is not recommended )
       // 静态参数，不建议修改
-      this.nodeCount = 0;
+      this.nodeCount = 0; // 初始化元素内节点个数
       this.INDEX_INSIDE_CROSS = -1;
       this.INDEX_OUTSIDE_OFFSET = 2;
 
@@ -92,11 +93,15 @@ export namespace ES {
       this.objectsMap = {};
       this.objectsData = [];
       this.objectsDeferred = [];
+
+
       // 递归深度
+      // Infinity 属性用于存放表示正无穷大的数值。
       this.depthMax = Util.isNumber(parameters.depthMax) ? parameters.depthMax : Infinity;
       this.objectsThreshold = Util.isNumber(parameters.objectsThreshold) ? parameters.objectsThreshold : 8;
       this.overlapPct = Util.isNumber(parameters.overlapPct) ? parameters.overlapPct : 0.15;
       this.undeferred = parameters.undeferred || false;
+      // 树的Root属性代表Node 在new一个树的过程中执行new OctreeNode并将属性传入
       this.root = parameters.root instanceof OctreeNode ? parameters.root : new OctreeNode(parameters);
     }
 
@@ -215,10 +220,10 @@ export namespace ES {
       }
 
       if (!this.objectsMap[object.uuid]) {
-        // store
+        // 树节点添加object,并且添加索引
         this.objects.push(object);
         this.objectsMap[object.uuid] = object;
-        // check options
+        // 检查选项 是geometry 还是 BufferGeometry
         if (options) {
           useFaces = options.useFaces;
           useVertices = options.useVertices;
@@ -480,81 +485,32 @@ export namespace ES {
     }
   }
 
-  export class OctreeObjectData {
-    vertices: THREE.Vector3;
-    radius: any;
-    position: any;
-    positionLast: any;
-    object: any;
-    node: any;
-
-    constructor(object, part) {
-      // properties
-      this.object = object;
-      // Remove Face3 & Face4
-      if (part instanceof THREE.Vector3) {
-        this.vertices = part;
-      }
-      this.radius = 0;
-      this.position = new THREE.Vector3();
-      // initial update
-      if (this.object instanceof THREE.Object3D) {
-        this.update();
-      }
-      else {
-        // Generic object
-        this.position.set(object.x, object.y, object.z);
-        this.radius = object.radius;
-      }
-      this.positionLast = this.position.clone();
-    }
-
-    update() {
-      if (this.vertices) {
-        if (this.object.geometry.boundingSphere === null) {
-          this.object.geometry.computeBoundingSphere();
-        }
-        this.radius = this.object.geometry.boundingSphere.radius;
-        this.position.copy(this.vertices).applyMatrix4(this.object.matrixWorld);
-      } else {
-        if (this.object.geometry) {
-          if (this.object.geometry.boundingSphere === null) {
-            this.object.geometry.computeBoundingSphere();
-          }
-          this.radius = this.object.geometry.boundingSphere.radius;
-          this.position.copy(this.object.geometry.boundingSphere.center).applyMatrix4(this.object.matrixWorld);
-        } else {
-          this.radius = this.object.boundRadius;
-          this.position.getPositionFromMatrix(this.object.matrixWorld);
-        }
-      }
-      this.radius = this.radius * Math.max(this.object.scale.x, this.object.scale.y, this.object.scale.z);
-    }
-  }
-
   export class OctreeNode {
+    // Node 节点的属性
+    tree: any; // 八叉树
+    parent: any; // 父亲节点
+    visual: THREE.Mesh; // 可见的Mesh 用来在scene中做展示
 
-    tree: any;
-    parent: any;
-    visual: THREE.Mesh;
+    objects: any[]; // 这个Node节点中的元素
+    nodesByIndex: any; // 子节点数组
+    nodesIndices: any; // 子节点Index数组
 
-    objects: any[];
-    nodesByIndex: any;
-    nodesIndices: any;
+    overlap: number; // 松散程度
+    radiusOverlap: any;// 节点内最大元素个数
 
-    overlap: number;
-    radiusOverlap: any;
-    right: any;
+    right: number;
     left: number;
     bottom: number;
-    top: any;
+    top: number;
     back: number;
-    front: any;
+    front: number;
+
     depth: number;
+
     indexOctant: any;
     radius: any;
-    position: any;
-    id: number;
+    position: any; // 如果是根Node,则它的Position 为树的位置，否则new Vector3
+    id: number; // this.tree.nodeCount
 
     utilVec31Expand: THREE.Vector3;
     utilVec31Ray: THREE.Vector3;
@@ -566,6 +522,8 @@ export namespace ES {
      */
     constructor(parameters) {
       // 帮助
+      // 这里的this代表Root,即Node节点
+
       this.utilVec31Branch = new THREE.Vector3();
       this.utilVec31Expand = new THREE.Vector3();
       this.utilVec31Ray = new THREE.Vector3();
@@ -578,8 +536,9 @@ export namespace ES {
         this.tree = parameters.tree;
       }
       else if (parameters.parent instanceof OctreeNode !== true) {
+        // 如果根树没有被定义，则将根树新建，将当前结点设置为root Node 节点
         parameters.root = this;
-        this.tree = new THREE.Octree(parameters);
+        this.tree = new ES.Octree(parameters);
       }
 
       // basic properties
@@ -590,15 +549,16 @@ export namespace ES {
       this.indexOctant = parameters.indexOctant;
       this.depth = 0;
       // reset and assign parent
-      // 复位并分配父节点
+      // Node 初始化
       this.reset();
+      // 如果有父Node,则进行分配
       this.setParent(parameters.parent);
       // additional properties
       // 附加属性
       this.overlap = this.radius * this.tree.overlapPct;
       // 扩大后的半径
       this.radiusOverlap = this.radius + this.overlap;
-
+      // 形成每个Node 中的稀疏正方体
       this.left = this.position.x - this.radiusOverlap;
       this.right = this.position.x + this.radiusOverlap;
       this.bottom = this.position.y - this.radiusOverlap;
@@ -607,7 +567,7 @@ export namespace ES {
       this.front = this.position.z + this.radiusOverlap;
 
       // visual
-      // 可见
+      // 如果scene存在，则将当前Node的包围正方体放入
       if (this.tree.scene) {
         this.visual = new THREE.Mesh(this.tree.visualGeometry, this.tree.visualMaterial);
         this.visual.scale.set(this.radiusOverlap * 2, this.radiusOverlap * 2, this.radiusOverlap * 2);
@@ -616,6 +576,10 @@ export namespace ES {
       }
     }
 
+    /**
+     * 为Node节点重新寻找父Node
+     * @param parent
+     */
     setParent(parent) {
       // store new parent
       if (parent !== this && this.parent !== parent) {
@@ -625,6 +589,9 @@ export namespace ES {
       }
     }
 
+    /**
+     * 更新内部属性为最新
+     */
     updateProperties() {
       let i, l;
       // properties
@@ -640,11 +607,17 @@ export namespace ES {
       }
     }
 
+    /**
+     * 初始化内部元素以及属性
+     * @param cascade
+     * @param removeVisual
+     */
     reset(cascade?, removeVisual?) {
       let i, l,
         node,
         nodesIndices = this.nodesIndices || [],
         nodesByIndex = this.nodesByIndex;
+      // 初始化内置属性，无元素，无子节点
       this.objects = [];
       this.nodesIndices = [];
       this.nodesByIndex = {};
@@ -675,7 +648,11 @@ export namespace ES {
       }
     }
 
-    // 删除结点
+    /**
+     * 删除结点
+     * @param indexOctant
+     * @param _node
+     */
     removeNode(indexOctant, _node?) {
       let index;
       let node;
@@ -688,7 +665,10 @@ export namespace ES {
       }
     }
 
-    // 添加元素
+    /**
+     * 添加元素
+     * @param object
+     */
     addObject(object) {
       let index;
       let indexOctant;
@@ -697,7 +677,7 @@ export namespace ES {
       // 获取对象偏移指数,象限
       indexOctant = this.getOctantIndex(object);
       // if object fully contained by an octant, add to subtree
-      // 如果对象完全包含在一个卦限，添加子树
+      // 如果对象完全包含在一个卦限，并且该节点有子Node
       if (indexOctant > -1 && this.nodesIndices.length > 0) {
         node = this.branch(indexOctant);
         node.addObject(object);
@@ -708,6 +688,7 @@ export namespace ES {
         this.parent.addObject(object);
       }
       else {
+        // 当前Node,没有子Node
         // add to this objects list
         index = this.objects.indexOf(object);
         //index = Util.indexOfValue(this.objects, object);
@@ -715,13 +696,18 @@ export namespace ES {
           this.objects.push(object);
         }
         // node reference
+        // 设置元素属性
         object.node = this;
         // check if need to expand, split, or both
-        // 检查是否需要展开、拆分或两个
+        // 检查是否需要展开、拆分或合并
         this.checkGrow();
       }
     }
 
+    /**
+     * 添加元素并不检查当前结点是否溢出
+     * @param objects
+     */
     addObjectWithoutCheck(objects) {
       let i, l,
         object;
@@ -1121,7 +1107,9 @@ export namespace ES {
       this.tree.root.checkContract();
     }
 
-    // 检查合并
+    /**
+     * 检查合并
+     */
     checkMerge() {
       let nodeParent = this;
       let nodeMerge;
@@ -1143,10 +1131,8 @@ export namespace ES {
      * @param nodes
      */
     merge(nodes) {
-
       let i, l,
         node;
-
       // handle nodes
       nodes = Util.toArray(nodes);
       for (i = 0, l = nodes.length; i < l; i++) {
@@ -1195,8 +1181,7 @@ export namespace ES {
     }
 
     contract(nodeRoot) {
-      let i, l,
-        node;
+      let i, l, node;
       // handle all nodes
       for (i = 0, l = this.nodesIndices.length; i < l; i++) {
         node = this.nodesByIndex[this.nodesIndices[i]];
@@ -1369,48 +1354,43 @@ export namespace ES {
       let i, l,
         node,
         intersects;
-
       // test intersects by parameters
-
+      // 如果是射线
       if (direction) {
-
         intersects = this.intersectRay(position, direction, radius, directionPct);
-
-      } else {
-
-        intersects = this.intersectSphere(position, radius);
-
       }
-
+      else {
+        // 球体
+        intersects = this.intersectSphere(position, radius);
+      }
       // if intersects
-
       if (intersects === true) {
-
         // gather objects
-
         objects = objects.concat(this.objects);
-
+        // 搜索子树
         // search subtree
-
         for (i = 0, l = this.nodesIndices.length; i < l; i++) {
-
           node = this.nodesByIndex[this.nodesIndices[i]];
-
           objects = node.search(position, radius, objects, direction);
-
         }
-
       }
 
       return objects;
 
     }
 
+    /**
+     * 当前Node与球相交?
+     * 球与正方体相交算法
+     * @param position
+     * @param radius
+     * @returns {boolean}
+     */
     intersectSphere(position, radius) {
-      let distance = radius * radius,
-        px = position.x,
-        py = position.y,
-        pz = position.z;
+      let distance = radius * radius;
+      let px = position.x;
+      let py = position.y;
+      let pz = position.z;
 
       if (px < this.left) {
         distance -= Math.pow(px - this.left, 2);
@@ -1429,17 +1409,22 @@ export namespace ES {
       } else if (pz > this.front) {
         distance -= Math.pow(pz - this.front, 2);
       }
+
       return distance >= 0;
     }
 
+    /**
+     * 当前结点与射线相交？
+     * @param origin
+     * @param direction
+     * @param distance
+     * @param directionPct
+     * @returns {boolean}
+     */
     intersectRay(origin, direction, distance, directionPct?) {
-
       if (typeof directionPct === 'undefined') {
-
         directionPct = this.utilVec31Ray.set(1, 1, 1).divide(direction);
-
       }
-
       let t1 = ( this.left - origin.x ) * directionPct.x,
         t2 = ( this.right - origin.x ) * directionPct.x,
         t3 = ( this.bottom - origin.y ) * directionPct.y,
@@ -1448,14 +1433,11 @@ export namespace ES {
         t6 = ( this.front - origin.z ) * directionPct.z,
         tmax = Math.min(Math.min(Math.max(t1, t2), Math.max(t3, t4)), Math.max(t5, t6)),
         tmin;
-
       // ray would intersect in reverse direction, i.e. this is behind ray
       if (tmax < 0) {
         return false;
       }
-
       tmin = Math.max(Math.max(Math.min(t1, t2), Math.min(t3, t4)), Math.min(t5, t6));
-
       // if tmin > tmax or tmin > ray distance, ray doesn't intersect AABB
       if (tmin > tmax || tmin > distance) {
         return false;
@@ -1464,28 +1446,16 @@ export namespace ES {
     }
 
     getDepthEnd(depth) {
-
-      let i, l,
-        node;
-
+      let i, l, node;
       if (this.nodesIndices.length > 0) {
-
         for (i = 0, l = this.nodesIndices.length; i < l; i++) {
-
           node = this.nodesByIndex[this.nodesIndices[i]];
-
           depth = node.getDepthEnd(depth);
-
         }
-
       } else {
-
         depth = !depth || this.depth > depth ? this.depth : depth;
-
       }
-
       return depth;
-
     }
 
     getNodeCountEnd() {
@@ -1493,8 +1463,7 @@ export namespace ES {
     }
 
     getNodeCountRecursive() {
-      let i, l,
-        count = this.nodesIndices.length;
+      let i, l, count = this.nodesIndices.length;
       for (i = 0, l = this.nodesIndices.length; i < l; i++) {
         count += this.nodesByIndex[this.nodesIndices[i]].getNodeCountRecursive();
       }
@@ -1502,9 +1471,7 @@ export namespace ES {
     }
 
     getObjectsEnd(objects) {
-
-      let i, l,
-        node;
+      let i, l, node;
       objects = ( objects || [] ).concat(this.objects);
       for (i = 0, l = this.nodesIndices.length; i < l; i++) {
         node = this.nodesByIndex[this.nodesIndices[i]];
@@ -1514,25 +1481,16 @@ export namespace ES {
     }
 
     getObjectCountEnd() {
-
-      let i, l,
-        count = this.objects.length;
-
+      let i, l, count = this.objects.length;
       for (i = 0, l = this.nodesIndices.length; i < l; i++) {
-
         count += this.nodesByIndex[this.nodesIndices[i]].getObjectCountEnd();
-
       }
-
       return count;
-
     }
 
     getObjectCountStart() {
-
-      let count = this.objects.length,
-        parent = this.parent;
-
+      let count = this.objects.length;
+      let parent = this.parent;
       while (parent instanceof OctreeNode) {
         count += parent.objects.length;
         parent = parent.parent;
@@ -1540,31 +1498,59 @@ export namespace ES {
       return count;
     }
 
-    toConsole(space) {
 
-      let i, l,
-        node,
-        spaceAddition = '   ';
+  }
 
-      space = typeof space === 'string' ? space : spaceAddition;
+  export class OctreeObjectData {
+    vertices: THREE.Vector3;
+    radius: any;
+    position: any;
+    positionLast: any;
+    object: any;
+    node: any;
 
-      console.log(( this.parent ? space + ' octree NODE > ' : ' octree ROOT > ' ),
-        this, ' // id: ', this.id, ' // indexOctant: ', this.indexOctant, ' // position: ',
-        this.position.x, this.position.y, this.position.z, ' // radius: ', this.radius, ' // depth: ', this.depth);
-      console.log(( this.parent ? space + ' ' : ' ' ), '+ objects ( ', this.objects.length, ' ) ', this.objects);
-      console.log(( this.parent ? space + ' ' : ' ' ), '+ children ( ', this.nodesIndices.length, ' )',
-        this.nodesIndices, this.nodesByIndex);
-
-      for (i = 0, l = this.nodesIndices.length; i < l; i++) {
-
-        node = this.nodesByIndex[this.nodesIndices[i]];
-
-        node.toConsole(space + spaceAddition);
-
+    constructor(object, part) {
+      // properties
+      this.object = object;
+      // Remove Face3 & Face4
+      if (part instanceof THREE.Vector3) {
+        this.vertices = part;
       }
-
+      this.radius = 0;
+      this.position = new THREE.Vector3();
+      // initial update
+      if (this.object instanceof THREE.Object3D) {
+        this.update();
+      }
+      else {
+        // Generic object
+        this.position.set(object.x, object.y, object.z);
+        this.radius = object.radius;
+      }
+      this.positionLast = this.position.clone();
     }
 
+    update() {
+      if (this.vertices) {
+        if (this.object.geometry.boundingSphere === null) {
+          this.object.geometry.computeBoundingSphere();
+        }
+        this.radius = this.object.geometry.boundingSphere.radius;
+        this.position.copy(this.vertices).applyMatrix4(this.object.matrixWorld);
+      } else {
+        if (this.object.geometry) {
+          if (this.object.geometry.boundingSphere === null) {
+            this.object.geometry.computeBoundingSphere();
+          }
+          this.radius = this.object.geometry.boundingSphere.radius;
+          this.position.copy(this.object.geometry.boundingSphere.center).applyMatrix4(this.object.matrixWorld);
+        } else {
+          this.radius = this.object.boundRadius;
+          this.position.getPositionFromMatrix(this.object.matrixWorld);
+        }
+      }
+      this.radius = this.radius * Math.max(this.object.scale.x, this.object.scale.y, this.object.scale.z);
+    }
   }
 
   export class Util {

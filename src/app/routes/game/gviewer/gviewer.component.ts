@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AMMOViewer} from '../../../shared/viewer/ammoviewer';
 import {MeshbuilderService} from '../../../shared/services/mesh-builder.service';
 
@@ -7,7 +7,7 @@ import {MeshbuilderService} from '../../../shared/services/mesh-builder.service'
   templateUrl: './gviewer.component.html',
   styleUrls: ['./gviewer.component.scss']
 })
-export class GviewerComponent implements OnInit {
+export class GviewerComponent implements OnInit, OnDestroy {
 
   viewer: AMMOViewer;
   pointArray: Array<number>;
