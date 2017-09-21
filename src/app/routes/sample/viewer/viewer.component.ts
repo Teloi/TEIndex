@@ -7,8 +7,8 @@ import {Viewer} from '../../../shared/viewer/viewer';
   styleUrls: ['./viewer.component.scss']
 })
 export class ViewerComponent implements OnInit, OnDestroy {
-  viewer: Viewer;
-  isControls: boolean;
+  private viewer: Viewer;
+  private isControls: boolean;
 
   constructor() {
     this.isControls = true;

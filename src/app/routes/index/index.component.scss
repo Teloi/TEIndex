@@ -12,44 +12,44 @@
     background-color: rgba(0, 0, 0, 0.5);
     background-image: none;
 
-    p{
-      text-align:right;
-      font-size:5em;
-      margin:0px 20px 0px 0;
+    p {
+      text-align: right;
+      font-size: 5em;
+      margin: 0px 20px 0px 0;
     }
 
-    a{
-      text-decoration:none;
+    a {
+      text-decoration: none;
       -webkit-transition: all 0.5s;
       -moz-transition: all 0.5s;
       transition: all 0.5s;
     }
 
-    p:nth-child(1) a{
-      color:white;
-      font-size:0.3em;
-      span{
-        font-size:3em;
+    p:nth-child(1) a {
+      color: white;
+      font-size: 0.3em;
+      span {
+        font-size: 3em;
       }
       font-family: Fantasy;
     }
 
-    p:nth-child(1) a:hover{
+    p:nth-child(1) a:hover {
       -webkit-animation: neon1 1.5s ease-in-out infinite alternate;
       -moz-animation: neon1 1.5s ease-in-out infinite alternate;
       animation: neon1 1.5s ease-in-out infinite alternate;
     }
 
-    p:nth-child(2) a{
-      color:#FF9900;
-      font-family:Fantasy;
-      span{
-        color:plum;
-        font-size:0.4em;
+    p:nth-child(2) a {
+      color: #FF9900;
+      font-family: Fantasy;
+      span {
+        color: plum;
+        font-size: 0.4em;
       }
     }
 
-    p:nth-child(2) a:hover{
+    p:nth-child(2) a:hover {
       -webkit-animation: neon2 1.5s ease-in-out infinite alternate;
       -moz-animation: neon2 1.5s ease-in-out infinite alternate;
       animation: neon2 1.5s ease-in-out infinite alternate;
@@ -58,11 +58,11 @@
     @-webkit-keyframes neon1 {
       from {
         text-shadow: 0 0 10px #fff,
-        0 0 20px  #fff,
-        0 0 30px  #fff,
-        0 0 40px  #228DFF,
-        0 0 70px  #228DFF,
-        0 0 80px  #228DFF,
+        0 0 20px #fff,
+        0 0 30px #fff,
+        0 0 40px #228DFF,
+        0 0 70px #228DFF,
+        0 0 80px #228DFF,
         0 0 100px #228DFF,
         0 0 150px #228DFF;
       }
@@ -81,11 +81,11 @@
     @-webkit-keyframes neon2 {
       from {
         text-shadow: 0 0 10px #fff,
-        0 0 20px  #fff,
-        0 0 30px  #fff,
-        0 0 40px  #FF9900,
-        0 0 70px  #FF9900,
-        0 0 80px  #FF9900,
+        0 0 20px #fff,
+        0 0 30px #fff,
+        0 0 40px #FF9900,
+        0 0 70px #FF9900,
+        0 0 80px #FF9900,
         0 0 100px #FF9900,
         0 0 150px #FF9900;
       }
@@ -103,11 +103,11 @@
     @-moz-keyframes neon2 {
       from {
         text-shadow: 0 0 10px #fff,
-        0 0 20px  #fff,
-        0 0 30px  #fff,
-        0 0 40px  #FF9900,
-        0 0 70px  #FF9900,
-        0 0 80px  #FF9900,
+        0 0 20px #fff,
+        0 0 30px #fff,
+        0 0 40px #FF9900,
+        0 0 70px #FF9900,
+        0 0 80px #FF9900,
         0 0 100px #FF9900,
         0 0 150px #FF9900;
       }
@@ -125,11 +125,11 @@
     @keyframes neon2 {
       from {
         text-shadow: 0 0 10px #fff,
-        0 0 20px  #fff,
-        0 0 30px  #fff,
-        0 0 40px  #FF9900,
-        0 0 70px  #FF9900,
-        0 0 80px  #FF9900,
+        0 0 20px #fff,
+        0 0 30px #fff,
+        0 0 40px #FF9900,
+        0 0 70px #FF9900,
+        0 0 80px #FF9900,
         0 0 100px #FF9900,
         0 0 150px #FF9900;
       }
@@ -146,9 +146,8 @@
     }
   }
 
-  .header {
+  .footer {
     position: fixed;
-    bottom: 0;
     left: 0;
     right: 0;
     width: 100%;
@@ -157,6 +156,21 @@
 
     background-color: rgba(0, 0, 0, 0.5);
     overflow: hidden;
+    text-align: left;
+    bottom: 0;
+
+    form {
+      input {
+        margin: 0px;
+        font-size: 12px;
+        line-height: 50px;
+        font-weight: 300;
+        float: left;
+        color: white;
+        background-color: transparent;
+        border-style: none;
+      }
+    }
 
     ul {
       list-style: none;
@@ -176,18 +190,6 @@
           font-size: 12px;
           color: white;
         }
-      }
-    }
-
-    .footer {
-      text-align: left;
-      bottom: 0;
-      span {
-        margin: 0px;
-        font-size: 12px;
-        line-height: 50px;
-        color: white;
-        font-weight: 300;
       }
     }
   }

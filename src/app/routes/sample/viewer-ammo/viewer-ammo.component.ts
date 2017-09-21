@@ -9,9 +9,9 @@ import {MeshbuilderService} from '../../../shared/services/mesh-builder.service'
 })
 export class ViewerAmmoComponent implements OnInit, OnDestroy {
 
-  viewer: AMMOViewer;
-  isControls: boolean;
-  isPhysics: boolean;
+  private viewer: AMMOViewer;
+  private isControls: boolean;
+  private isPhysics: boolean;
 
   constructor(private meshbuilder: MeshbuilderService) {
     this.isControls = true;

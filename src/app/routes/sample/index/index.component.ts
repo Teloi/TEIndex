@@ -12,4 +12,5 @@ export class IndexComponent implements OnInit {
   ngOnInit() {
   }
 
+  // TODO: Copy home icon on game index
 }

@@ -12,34 +12,37 @@
       </a></p>
     </div>
 
-    <div class="header">
-      <div class="footer">
-        <span>&copy;{{'teindex.record.CONTENT' | translate}}</span>
-        <ul>
-          <li><a href="https://github.com/Teloi" title="{{'teindex.fonts.GITHUB' | translate}}"><i
-            class="fa fa-github-alt"
-            aria-hidden="true"></i></a></li>
-          <li><a href="http://www.weibo.com/teloi" title="{{'teindex.fonts.WEIBO' | translate}}"><i
-            class="fa fa-weibo"
-            aria-hidden="true"></i></a></li>
-          <li><a href="mailto:teloi.zhang@esooft.com" title="{{'teindex.fonts.MAIL' | translate}}"><i
-            class="fa fa-envelope"
-            aria-hidden="true"></i></a></li>
-          <li><a href="../../../assets/humans.txt" title="{{'teindex.fonts.HUMANS' | translate}}"><i
-            class="fa fa-info-circle"
-            aria-hidden="true"></i></a></li>
-          <li *ngIf="currentLanguage === 'zh-cn'">
-            <a (click)="setLang('en')" title="{{'teindex.fonts.EN' | translate}}">
-              <img src="../../../assets/img/country/China.png" width="14" height="14">
-            </a>
-          </li>
-          <li *ngIf="currentLanguage === 'en'">
-            <a (click)="setLang('zh-cn')" title="{{'teindex.fonts.ZH_CN' | translate}}">
-              <img src="../../../assets/img/country/UnitedStates.png" width="14" height="14">
-            </a>
-          </li>
-        </ul>
-      </div>
+
+    <div class="footer">
+      <!--Footer CoverBy Baidu Search -->
+      <form method=GET action="http://www.baidu.com/baidu" target="_blank">
+        <input type="text" name="word" size="18" placeholder="&copy;{{'teindex.record.CONTENT' | translate}}">
+      </form>
+      <!--Function Button-->
+      <ul>
+        <li><a href="https://github.com/Teloi" title="{{'teindex.fonts.GITHUB' | translate}}"><i
+          class="fa fa-github-alt"
+          aria-hidden="true"></i></a></li>
+        <li><a href="http://www.weibo.com/teloi" title="{{'teindex.fonts.WEIBO' | translate}}"><i
+          class="fa fa-weibo"
+          aria-hidden="true"></i></a></li>
+        <li><a href="mailto:teloi.zhang@esooft.com" title="{{'teindex.fonts.MAIL' | translate}}"><i
+          class="fa fa-envelope"
+          aria-hidden="true"></i></a></li>
+        <li><a href="../../../assets/humans.txt" title="{{'teindex.fonts.HUMANS' | translate}}"><i
+          class="fa fa-info-circle"
+          aria-hidden="true"></i></a></li>
+        <li *ngIf="currentLanguage === 'zh-cn'">
+          <a (click)="setLang('en')" title="{{'teindex.fonts.EN' | translate}}">
+            <img src="../../../assets/img/country/China.png" width="14" height="14">
+          </a>
+        </li>
+        <li *ngIf="currentLanguage === 'en'">
+          <a (click)="setLang('zh-cn')" title="{{'teindex.fonts.ZH_CN' | translate}}">
+            <img src="../../../assets/img/country/UnitedStates.png" width="14" height="14">
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
 </div>

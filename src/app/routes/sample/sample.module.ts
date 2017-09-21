@@ -9,7 +9,9 @@ import {SampleComponent} from './sample.component';
 import {IndexComponent} from './index/index.component';
 import {ViewerComponent} from './viewer/viewer.component';
 import {ViewerAmmoComponent} from './viewer-ammo/viewer-ammo.component';
-
+import {ViewerCannonComponent} from './viewer-cannon/viewer-cannon.component';
+import {ViewerCsgComponent} from './viewer-csg/viewer-csg.component';
+import {ViewerOctreeComponent} from './viewer-octree/viewer-octree.component';
 
 @NgModule({
   imports: [
@@ -17,7 +19,15 @@ import {ViewerAmmoComponent} from './viewer-ammo/viewer-ammo.component';
     SharedModule,
     RouterModule.forChild(routes),
   ],
-  declarations: [SampleComponent, IndexComponent, ViewerComponent, ViewerAmmoComponent],
+  declarations: [
+    SampleComponent,
+    IndexComponent,
+    ViewerComponent,
+    ViewerAmmoComponent,
+    ViewerCannonComponent,
+    ViewerCsgComponent,
+    ViewerOctreeComponent
+  ],
   exports: [RouterModule]
 })
 export class SampleModule {
