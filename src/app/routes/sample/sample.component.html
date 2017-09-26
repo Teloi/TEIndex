@@ -1,1 +1,53 @@
-<router-outlet></router-outlet>
+<!--全屏-->
+<nz-layout style="width: 100%;  height: 100%;  position: fixed;">
+  <nz-sider style="z-index: 1" nzCollapsible [(nzCollapsed)]="isCollapsed" [nzCollapsedWidth]="0" [nzBreakpoint]="'lg'">
+    <ul nz-menu [nzClickActive]="false" [nzTheme]="'dark'" [nzMode]="isCollapsed?'vertical':'inline'">
+      <li nz-menu-item>
+        <a routerLink="./"></a>
+        <span>
+          <i class="anticon anticon-book"></i>
+          <span class="nav-text">介绍</span>
+        </span>
+      </li>
+      <li nz-menu-item>
+        <a routerLink="./viewer"></a>
+        <span>
+          <i class="anticon anticon-star-o"></i>
+          <span class="nav-text">Viewer</span>
+        </span>
+      </li>
+      <li nz-menu-item>
+        <a routerLink="./viewer-ammo"></a>
+        <span>
+          <i class="anticon anticon-star-o"></i>
+          <span class="nav-text">Viewer Ammo</span>
+        </span>
+      </li>
+      <li nz-menu-item>
+        <a routerLink="./viewer-cannon"></a>
+        <span>
+          <i class="anticon anticon-star-o"></i>
+          <span class="nav-text">Viewer Cannon</span>
+        </span>
+      </li>
+      <li nz-menu-item>
+        <a routerLink="./viewer-csg"></a>
+        <span>
+          <i class="anticon anticon-star-o"></i>
+          <span class="nav-text">Viewer Csg</span>
+        </span>
+      </li>
+      <li nz-menu-item>
+        <a routerLink="./viewer-octree"></a>
+        <span>
+          <i class="anticon anticon-star-o"></i>
+          <span class="nav-text">Viewer Octree</span>
+        </span>
+      </li>
+
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <router-outlet></router-outlet>
+  </nz-layout>
+</nz-layout>
