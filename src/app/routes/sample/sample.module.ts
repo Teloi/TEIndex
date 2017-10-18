@@ -4,6 +4,10 @@ import {SharedModule} from '../../shared/shared.module';
 import {RouterModule} from '@angular/router';
 import {routes} from './sample.route';
 
+// https://ng.ant.design/#/docs/angular/getting-started
+import {NgZorroAntdModule} from 'ng-zorro-antd';
+
+
 // Local Components
 import {SampleComponent} from './sample.component';
 import {IndexComponent} from './index/index.component';
@@ -12,9 +16,7 @@ import {ViewerAmmoComponent} from './viewer-ammo/viewer-ammo.component';
 import {ViewerCannonComponent} from './viewer-cannon/viewer-cannon.component';
 import {ViewerCsgComponent} from './viewer-csg/viewer-csg.component';
 import {ViewerOctreeComponent} from './viewer-octree/viewer-octree.component';
-
-// https://ng.ant.design/#/docs/angular/getting-started
-import { NgZorroAntdModule } from 'ng-zorro-antd';
+import {ViewerMmdComponent} from './viewer-mmd/viewer-mmd.component';
 
 @NgModule({
   imports: [
@@ -30,7 +32,8 @@ import { NgZorroAntdModule } from 'ng-zorro-antd';
     ViewerAmmoComponent,
     ViewerCannonComponent,
     ViewerCsgComponent,
-    ViewerOctreeComponent
+    ViewerOctreeComponent,
+    ViewerMmdComponent
   ],
   exports: [RouterModule]
 })

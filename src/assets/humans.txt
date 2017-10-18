@@ -1,7 +1,7 @@
 # humanstxt.org/
 # The humans responsible & technology colophon
 
-# TEAM
+# Author
   Teloi
 
 # THANKS
@@ -10,13 +10,14 @@
 # TECHNOLOGY COLOPHON
 
   HTML5, CSS3, TypeScript
-
   <Angular&Angular/cli>
   https://github.com/angular/angular-cli
   <ThreeJS>
   https://github.com/mrdoob/three.js
   <Bootstrap>
   http://v3.bootcss.com/
+  <NG-ZORRO>
+  https://github.com/NG-ZORRO
   <Ammo.js>
   https://github.com/kripken/ammo.js
   <Ngx-translate>

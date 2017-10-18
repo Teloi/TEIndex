@@ -1,3 +1,5 @@
+/// <reference types="three" />
+
 export class ESOctree {
 
   // 父&子树

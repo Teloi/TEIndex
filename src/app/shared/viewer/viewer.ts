@@ -13,7 +13,7 @@ export class Viewer {
 
   // Init
   private container: HTMLElement;
-  private clock: THREE.Clock;
+  public clock: THREE.Clock;
 
   // Element
   public scene: THREE.Scene;
@@ -52,7 +52,7 @@ export class Viewer {
       }
       this.addLight(this.scene);
       this.container.appendChild(this.renderer.domElement);
-
+      this.initSceneOther();
       this.initResize();
       if (callback) {
         callback();
@@ -60,6 +60,10 @@ export class Viewer {
     } catch (error) {
       console.error('Failed to load scene: ', error, error.stack, this, arguments);
     }
+  }
+
+  public initSceneOther() {
+    return;
   }
 
   private perspectiveCamera(): THREE.Camera {
@@ -74,8 +78,8 @@ export class Viewer {
       console.error('InitOrbitControls Error!');
     }
     let controls = new THREE.OrbitControls(camera);
-    controls.maxPolarAngle = Math.PI * 0.5;
-    controls.target.y = 2;
+    // controls.maxPolarAngle = Math.PI * 0.5;
+    // controls.target.y = 2;
     return controls;
   }
 
@@ -152,23 +156,48 @@ export class Viewer {
     this.container.appendChild(this.stats.domElement);
   }
 
-  public addSkyBox() {
-    let imagePrefix = '../../../assets/img/skybox/sky';
-    let directions = ['_x', '-x', '_y', '-y', '_z', '-z'];
-    let imageSuffix = '.png';
-    let skyGeometry = new THREE.CubeGeometry(100000, 100000, 100000);
+  public addSkyBox(filePath?: string) {
+    // 新的天空盒Load方法
+    let r = '../../../assets/img/skyboxs/MilkyWay/dark-s_';
+    // let r = '../../../assets/img/skyboxs/Park3Med/';
+    let urls = [
+      r + 'px.jpg', r + 'nx.jpg',
+      r + 'py.jpg', r + 'ny.jpg',
+      r + 'pz.jpg', r + 'nz.jpg'
+    ];
 
-    let materialArray = [];
-    for (let i = 0; i < 6; i++) {
-      materialArray.push(new THREE.MeshBasicMaterial({
-        map: THREE.ImageUtils.loadTexture(imagePrefix + directions[i] + imageSuffix),
-        side: THREE.BackSide
-      }));
-    }
+    new THREE.CubeTextureLoader().load(urls, function (textureCube) {
+      textureCube.mapping = THREE.CubeRefractionMapping;
+      this.scene.background = textureCube;
+      // 透明玻璃材质测试
+      // let test = new THREE.BoxGeometry(4, 4, 4);
+      // let me = new THREE.MeshPhongMaterial({ color: 0xffffff, envMap: textureCube, refractionRatio: 0.98 });
+      // let box = new THREE.Mesh(test, me);
+      // this.scene.add(box);
+    }.bind(this));
 
-    let skyMaterial = new THREE.MultiMaterial(materialArray);
-    let skyBox = new THREE.Mesh(skyGeometry, skyMaterial);
-    this.scene.add(skyBox);
+
+    // 旧的天空盒
+    // if (isNullOrUndefined(filePath)) {
+    //   filePath = 'dark';
+    // }
+    // let imagePrefix = '../../../assets/img/skyboxs/' + filePath + '/sky';
+    // let directions = ['_x', '-x', '_y', '-y', '_z', '-z'];
+    // let imageSuffix = '.png';
+    // let skyGeometry = new THREE.CubeGeometry(100000, 100000, 100000);
+    //
+    // let materialArray = [];
+    // for (let i = 0; i < 6; i++) {
+    //   materialArray.push(new THREE.MeshBasicMaterial({
+    //     map: THREE.ImageUtils.loadTexture(imagePrefix + directions[i] + imageSuffix),
+    //     side: THREE.BackSide
+    //   }));
+    // }
+    //
+    // let skyMaterial = new THREE.MultiMaterial(materialArray);
+    // let skyBox = new THREE.Mesh(skyGeometry, skyMaterial);
+    // this.scene.add(skyBox);
+
   }
 
   public addAxisHelper(size: number) {
@@ -192,16 +221,20 @@ export class Viewer {
         this.stats.update();
       }
     }.bind(this);
-
+    this.initAnimateOther();
     requestAnimationFrame(this.animate.bind(this));
     render();
   }
 
-  public addMesh(mesh: THREE.Mesh) {
+  public initAnimateOther() {
+    return;
+  }
+
+  public addMesh(mesh: THREE.Object3D) {
     this.scene.add(mesh);
   }
 
-  public remove(mesh: THREE.Mesh) {
+  public remove(mesh: THREE.Object3D) {
     this.scene.remove(mesh);
   }
 

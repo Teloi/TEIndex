@@ -17,7 +17,7 @@ export const routes = [
     path: 'sample',
     loadChildren: './sample/sample.module#SampleModule'
   },
-  {path: '**', redirectTo: ''}
+  {path: '**', redirectTo: '404'}
 ];
 
 export const Routing = RouterModule.forRoot(routes);

@@ -1590,7 +1590,7 @@ export namespace TE {
     }
   }
 
-  export class ESRaycaster extends THREE.Raycaster {
+  export class ESRaycaster {
     intersectOctreeObject(object, recursive) {
       let intersects,
         octreeObject,
@@ -1606,13 +1606,13 @@ export namespace TE {
           object.geometry.faces = facesSearch;
         }
         // intersect
-        intersects = this.intersectObject(object, recursive);
+        intersects = new THREE.Raycaster().intersectObject(object, recursive);
         // revert object geometry's faces
         if (facesSearch.length > 0) {
           object.geometry.faces = facesAll;
         }
       } else {
-        intersects = this.intersectObject(object, recursive);
+        intersects = new THREE.Raycaster().intersectObject(object, recursive);
       }
       return intersects;
     };

@@ -1,5 +1,5 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AMMOViewer} from '../../../shared/viewer/ammoviewer';
+/// <reference types="three" />
+import {AMMOViewer} from '../../../shared/viewer/ammoviewer';import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MeshbuilderService} from '../../../shared/services/mesh-builder.service';
 
 @Component({

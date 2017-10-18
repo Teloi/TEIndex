@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Viewer} from '../../../shared/viewer/viewer';
 import {TE} from '../../../shared/utils/octree/octree';
-
+/// <reference types="three" />
 @Component({
   selector: 'app-viewer-octree',
   templateUrl: './viewer-octree.component.html',
@@ -109,6 +109,7 @@ export class ViewerOctreeComponent implements OnInit, OnDestroy {
     if (this.viewer) {
       this.viewer.disposeControls();
     }
+    this.octree = null;
   }
 
 }
