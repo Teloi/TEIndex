@@ -1,6 +1,7 @@
+/// <reference types="three" />
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CAViewer} from '../../../shared/viewer/cannonviewer';
-/// <reference types="three" />
+
 @Component({
   selector: 'app-viewer-cannon',
   templateUrl: './viewer-cannon.component.html',
@@ -21,9 +22,9 @@ export class ViewerCannonComponent implements OnInit, OnDestroy {
     this.viewer = new CAViewer('viewer-cannon');
     this.viewer.InitScene(this.isControls,
       () => {
-        this.viewer.addStats();
+        this.viewer.addStatsHelper();
         this.viewer.addAxisHelper(100);
-        this.viewer.addSkyBox();
+        this.viewer.addSkyBoxHelper();
         // 后续拆分
         this.viewer.addObject();
         this.viewer.addCaObject();

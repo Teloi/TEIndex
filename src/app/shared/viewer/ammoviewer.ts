@@ -1,5 +1,4 @@
 /// <reference types="three" />
-
 declare let $;  // JQuery
 declare let ElementQueries: any;
 declare let ResizeSensor: any;
@@ -8,6 +7,7 @@ declare let Ammo;
 declare let Detector;
 
 import {isNullOrUndefined} from 'util';
+
 export class AMMOViewer {
 
   // Html Element

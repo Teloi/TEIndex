@@ -1,5 +1,4 @@
 /// <reference types="three" />
-
 import {isNullOrUndefined} from 'util';
 
 declare let $;  // JQuery
@@ -20,6 +19,7 @@ export class Viewer {
   private renderer: THREE.WebGLRenderer;
   public camera: THREE.Camera;
   public controls: any;
+  public skyBoxtexture: THREE.CubeTexture;
 
   // Help
   stats: any;
@@ -33,37 +33,6 @@ export class Viewer {
     this.width = $(this.container).width();
     this.height = $(this.container).height();
     this.clock = new THREE.Clock();
-  }
-
-  public InitScene(isControls: boolean, callback?: Function) {
-    if (this.scene != null) {
-      if (callback) {
-        callback();
-      }
-      return;
-    }
-    try {
-      this.checkWebGL();
-      this.renderer = this.webGLRenderer();
-      this.scene = new THREE.Scene();
-      this.camera = this.perspectiveCamera();
-      if (isControls) {
-        this.controls = this.orbitControls(this.camera);
-      }
-      this.addLight(this.scene);
-      this.container.appendChild(this.renderer.domElement);
-      this.initSceneOther();
-      this.initResize();
-      if (callback) {
-        callback();
-      }
-    } catch (error) {
-      console.error('Failed to load scene: ', error, error.stack, this, arguments);
-    }
-  }
-
-  public initSceneOther() {
-    return;
   }
 
   private perspectiveCamera(): THREE.Camera {
@@ -119,13 +88,11 @@ export class Viewer {
   }
 
   private initResize() {
-
     let onWindowResize = function (element: any) {
       let height = window.innerHeight;
       // height -= $('#gheader').height();
       $(element).height(height);
     }.bind(this);
-
     let onRanderResize = function (element: any) {
       let width = $(element).width();
       let height = $(element).height();
@@ -137,7 +104,6 @@ export class Viewer {
         this.renderer.setSize(width, height);
       }
     }.bind(this);
-
     ElementQueries.init();
     onWindowResize(this.container);
     onRanderResize(this.container);
@@ -147,7 +113,67 @@ export class Viewer {
     }.bind(this));
   }
 
-  public addStats() {
+  // init
+  public InitScene(isControls: boolean, callback?: Function) {
+    if (this.scene != null) {
+      if (callback) {
+        callback();
+      }
+      return;
+    }
+    try {
+      this.checkWebGL();
+      this.renderer = this.webGLRenderer();
+      this.scene = new THREE.Scene();
+      this.camera = this.perspectiveCamera();
+      isControls ? this.controls = this.orbitControls(this.camera) : this.controls = null;
+      this.addLight(this.scene);
+      this.container.appendChild(this.renderer.domElement);
+      this.addInitScene();
+      this.initResize();
+      if (callback) {
+        callback();
+      }
+    } catch (error) {
+      console.error('Failed to load scene: ', error, error.stack, this, arguments);
+    }
+  }
+
+  public addInitScene() {
+    return;
+  }
+
+  public animate() {
+    let render = function () {
+      let deltaTime = this.clock.getDelta();
+      this.renderer.render(this.scene, this.camera);
+      if (!isNullOrUndefined(this.controls)) {
+        this.controls.update(deltaTime);
+      }
+      if (!isNullOrUndefined(this.stats)) {
+        this.stats.update();
+      }
+      this.addAnimate(deltaTime);
+    }.bind(this);
+    requestAnimationFrame(this.animate.bind(this));
+    render();
+  }
+
+  public addAnimate(deltaTime: number) {
+    return;
+  }
+
+  // Mesh
+  public addMesh(mesh: THREE.Object3D) {
+    this.scene.add(mesh);
+  }
+
+  public removeMesh(mesh: THREE.Object3D) {
+    this.scene.remove(mesh);
+  }
+
+  // Helper
+  public addStatsHelper() {
     this.stats = new Stats();
     this.stats.domElement.style.position = 'absolute';
     this.stats.domElement.style.top = '0px';
@@ -156,10 +182,13 @@ export class Viewer {
     this.container.appendChild(this.stats.domElement);
   }
 
-  public addSkyBox(filePath?: string) {
-    // 新的天空盒Load方法
-    let r = '../../../assets/img/skyboxs/MilkyWay/dark-s_';
-    // let r = '../../../assets/img/skyboxs/Park3Med/';
+  public addSkyBoxHelper(filePath?: string) {
+    /*
+    *   MilkyWay/dark-s_
+    *   Park3Med/
+    */
+    let path = filePath ? filePath : 'Park3Med/';
+    let r = '../../../assets/img/skyboxs/' + path;
     let urls = [
       r + 'px.jpg', r + 'nx.jpg',
       r + 'py.jpg', r + 'ny.jpg',
@@ -169,6 +198,7 @@ export class Viewer {
     new THREE.CubeTextureLoader().load(urls, function (textureCube) {
       textureCube.mapping = THREE.CubeRefractionMapping;
       this.scene.background = textureCube;
+      this.skyBoxtexture = textureCube;
       // 透明玻璃材质测试
       // let test = new THREE.BoxGeometry(4, 4, 4);
       // let me = new THREE.MeshPhongMaterial({ color: 0xffffff, envMap: textureCube, refractionRatio: 0.98 });
@@ -208,34 +238,6 @@ export class Viewer {
   public addCameraHelper() {
     let helper = new THREE.CameraHelper(this.camera);
     this.scene.add(helper);
-  }
-
-  public animate() {
-    let render = function () {
-      let deltaTime = this.clock.getDelta();
-      this.renderer.render(this.scene, this.camera);
-      if (!isNullOrUndefined(this.controls)) {
-        this.controls.update(deltaTime);
-      }
-      if (!isNullOrUndefined(this.stats)) {
-        this.stats.update();
-      }
-    }.bind(this);
-    this.initAnimateOther();
-    requestAnimationFrame(this.animate.bind(this));
-    render();
-  }
-
-  public initAnimateOther() {
-    return;
-  }
-
-  public addMesh(mesh: THREE.Object3D) {
-    this.scene.add(mesh);
-  }
-
-  public remove(mesh: THREE.Object3D) {
-    this.scene.remove(mesh);
   }
 
   public disposeControls() {

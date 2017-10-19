@@ -1,7 +1,8 @@
+/// <reference types="three" />
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Viewer} from '../../../shared/viewer/viewer';
 import {CSG} from '../../../shared/utils/csg/csg';
-/// <reference types="three" />
+
 @Component({
   selector: 'app-viewer-csg',
   templateUrl: './viewer-csg.component.html',
@@ -20,8 +21,8 @@ export class ViewerCsgComponent implements OnInit, OnDestroy {
     this.viewer = new Viewer('viewer-csg');
     this.viewer.InitScene(this.isControls,
       () => {
-        this.viewer.addStats();
-        this.viewer.addSkyBox();
+        this.viewer.addStatsHelper();
+        this.viewer.addSkyBoxHelper();
         this.viewer.addMesh(this.Demo1());
         this.viewer.animate();
       }
