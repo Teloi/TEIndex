@@ -17,8 +17,8 @@ export class MMDViewer extends Viewer {
         let m = new THREE.MeshPhongMaterial();
         m.copy(mesh.material.materials[i]);
         // m.color = 0xffffff;
-        m.envMap = this.skyBoxtexture;
-        m.refractionRatio = 0.98;
+        // m.envMap = this.skyBoxtexture;
+        // m.refractionRatio = 0.98;
         m.needsUpdate = true;
         array.push(m);
       }

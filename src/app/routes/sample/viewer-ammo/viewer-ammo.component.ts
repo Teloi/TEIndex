@@ -15,7 +15,7 @@ export class ViewerAmmoComponent implements OnInit, OnDestroy {
   private isPhysics: boolean;
 
   constructor(private meshbuilder: MeshbuilderService) {
-    this.isControls = true;
+    this.isControls = false;
     this.isPhysics = true;
   }
 
