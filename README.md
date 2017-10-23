@@ -15,6 +15,9 @@
     npm install
     npm start || ng server
 
+### Example
+- http://101.200.58.228
+
 ### Page
 ![index](md/main.png)
 ![alt tag](md/blog.png)![alt tag](md/sample.png)
