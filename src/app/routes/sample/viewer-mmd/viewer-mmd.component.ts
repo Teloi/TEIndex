@@ -1,6 +1,6 @@
 /// <reference types="three" />
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {MMDViewer} from '../../../shared/viewer/mmdviewer';
+import {MMDModel, ViewerMMD} from '../../../shared/viewer/viewer-mmd';
 
 @Component({
   selector: 'app-viewer-mmd',
@@ -8,7 +8,7 @@ import {MMDViewer} from '../../../shared/viewer/mmdviewer';
   styleUrls: ['./viewer-mmd.component.scss']
 })
 export class ViewerMmdComponent implements OnInit, OnDestroy {
-  private viewer: MMDViewer;
+  private viewer: ViewerMMD;
   private isControls: boolean;
 
   constructor() {
@@ -16,16 +16,25 @@ export class ViewerMmdComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.viewer = new MMDViewer('viewer-mmd');
+    this.viewer = new ViewerMMD('viewer-mmd');
     this.viewer.InitScene(this.isControls,
       () => {
         this.viewer.addStatsHelper();
         this.viewer.addSkyBoxHelper();
-        this.viewer.loadMMD(
-          '../../../assets/objs/mmd/models/Alice/alice111.pmx',
-          ['../../../assets/objs/mmd/vmds/极乐净土动作数据.vmd'],
-          0, -10, 0
-        );
+        let pmx = '../../../assets/objs/mmd/models/Alice/alice111.pmx';
+        let vmd = ['../../../assets/objs/mmd/vmds/极乐净土动作数据.vmd'];
+        let name = '爱丽丝';
+        this.viewer.loadMMD(pmx, vmd, name,
+          (model: MMDModel) => {
+            this.viewer.modelPosition(model, new THREE.Vector3(0, -10, 0));
+            this.viewer.modelAction(model);
+            this.viewer.modelIk(model);
+            this.viewer.modelPhysics(model);
+            this.viewer.finishLoaded = true;
+          },
+          (percent) => {
+            // progress-bar
+          });
         this.viewer.animate();
       }
     );

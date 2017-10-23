@@ -131,8 +131,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
           0, 0, 6
         ]);
         geometry.addAttribute('position', new THREE.BufferAttribute(vertices, 3));
-        console.log(this.computeVolume(geometry));
-        console.log(this.computeVolume_BufferGeometry_NoIndex(geometry));
+        // console.log(this.computeVolume(geometry));
+        // console.log(this.computeVolume_BufferGeometry_NoIndex(geometry));
         this.viewer.animate();
       }
     );

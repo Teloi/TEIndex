@@ -4,10 +4,6 @@ import {SharedModule} from '../../shared/shared.module';
 import {RouterModule} from '@angular/router';
 import {routes} from './sample.route';
 
-// https://ng.ant.design/#/docs/angular/getting-started
-import {NgZorroAntdModule} from 'ng-zorro-antd';
-
-
 // Local Components
 import {SampleComponent} from './sample.component';
 import {IndexComponent} from './index/index.component';
@@ -22,8 +18,7 @@ import {ViewerMmdComponent} from './viewer-mmd/viewer-mmd.component';
   imports: [
     CommonModule,
     SharedModule,
-    RouterModule.forChild(routes),
-    NgZorroAntdModule
+    RouterModule.forChild(routes)
   ],
   declarations: [
     SampleComponent,
