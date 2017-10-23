@@ -17,20 +17,9 @@
 
 ### Page
 ![index](md/main.png)
-<center class="half">
-    <img src="md/blog.png" width="400px" height="165px">
-    <img src="md/sample.png" width="400px" height="165px">
-</center>
-<center class="third">
-    <img src="md/sample-viewer.png" width="270px">
-    <img src="md/sample-viewer-mmd.png" width="270px">
-    <img src="md/sample-viewer-ammo.png" width="270px">
-</center>
-<center class="third">
-    <img src="md/sample-viewer-cannon.png" width="270px">
-    <img src="md/sample-viewer-octree.png" width="270px">
-    <img src="md/sample-viewer-csg.png" width="270px">
-</center>
+![alt tag](md/blog.png)![alt tag](md/sample.png)
+![alt tag](md/sample-viewer.png)![alt tag](md/sample-viewer-mmd.png)![alt tag](md/sample-viewer-ammo.png)
+![alt tag](md/sample-viewer-cannon.png)![alt tag](md/sample-viewer-octree.png)![alt tag](md/sample-viewer-csg.png)
 
 ### License
 MIT
