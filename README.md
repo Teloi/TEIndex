@@ -18,19 +18,18 @@
 ### Page
 ![index](md/main.png)
 <figure class="half">
-    <img src="md/blog.png">
-    <img src="md/sample.png">
-</figure>
-#### sample
-<figure class="third">
-    <img src="md/sample-viewer.png">
-    <img src="md/sample-viewer-mmd.png">
-    <img src="md/sample-viewer-ammo.png">
+    <img src="md/blog.png" width="300px">
+    <img src="md/sample.png" width="300px">
 </figure>
 <figure class="third">
-    <img src="md/sample-viewer-cannon.png">
-    <img src="md/sample-viewer-octree.png">
-    <img src="md/sample-viewer-csg.png">
+    <img src="md/sample-viewer.png" width="200px">
+    <img src="md/sample-viewer-mmd.png" width="200px">
+    <img src="md/sample-viewer-ammo.png" width="200px">
+</figure>
+<figure class="third">
+    <img src="md/sample-viewer-cannon.png" width="200px">
+    <img src="md/sample-viewer-octree.png" width="200px">
+    <img src="md/sample-viewer-csg.png" width="200px">
 </figure>
 
 ### License
