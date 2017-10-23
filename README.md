@@ -16,15 +16,16 @@
     npm start || ng server
 
 ### Page
-![index](http://blog.teloi.cn/wp-content/uploads/2017/10/Main.png)
-![blog](http://blog.teloi.cn/wp-content/uploads/2017/10/blog.png)
-![blog](http://blog.teloi.cn/wp-content/uploads/2017/10/sample.png)
+![index](md/Main.png)
+![blog](md/blog.png)
+![sample](md/sample.png)
 #### sample
-![blog](http://blog.teloi.cn/wp-content/uploads/2017/10/sample-viewer.png)
-![blog](http://blog.teloi.cn/wp-content/uploads/2017/10/sample-viewer-mmd.png)
-![blog](http://blog.teloi.cn/wp-content/uploads/2017/10/sample-viewer-ammo.png)
-![blog](http://blog.teloi.cn/wp-content/uploads/2017/10/sample-viewer-cannon.png)
-![blog](http://blog.teloi.cn/wp-content/uploads/2017/10/sample-viewer-octree.png)
+![viewer](md/sample-viewer.png)
+![mmd](md/sample-viewer-mmd.png)
+![ammo](md/sample-viewer-ammo.png)
+![cannon](md/sample-viewer-cannon.png)
+![octree](md/sample-viewer-octree.png)
+![csg](md/sample-viewer-csg.png)
 
 ### License
 MIT
