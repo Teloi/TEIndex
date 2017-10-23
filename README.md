@@ -17,15 +17,21 @@
 
 ### Page
 ![index](md/main.png)
-![blog](md/blog.png)
-![sample](md/sample.png)
+<figure class="half">
+    <img src="md/blog.png">
+    <img src="md/sample.png">
+</figure>
 #### sample
-![viewer](md/sample-viewer.png)
-![mmd](md/sample-viewer-mmd.png)
-![ammo](md/sample-viewer-ammo.png)
-![cannon](md/sample-viewer-cannon.png)
-![octree](md/sample-viewer-octree.png)
-![csg](md/sample-viewer-csg.png)
+<figure class="third">
+    <img src="md/sample-viewer.png">
+    <img src="md/sample-viewer-mmd.png">
+    <img src="md/sample-viewer-ammo.png">
+</figure>
+<figure class="third">
+    <img src="md/sample-viewer-cannon.png">
+    <img src="md/sample-viewer-octree.png">
+    <img src="md/sample-viewer-csg.png">
+</figure>
 
 ### License
 MIT
