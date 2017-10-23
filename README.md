@@ -16,7 +16,7 @@
     npm start || ng server
 
 ### Page
-![index](md/Main.png)
+![index](md/main.png)
 ![blog](md/blog.png)
 ![sample](md/sample.png)
 #### sample
