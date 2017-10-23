@@ -35,7 +35,7 @@ export class ViewerCsgComponent implements OnInit, OnDestroy {
     let csgcube = CSG.fromGeometry(geometrycube);
     let csgsphere = CSG.fromGeometry(geometrysphere);
     let geometrynew = csgcube.subtract(csgsphere).toGeometry();
-    let materialnew = new THREE.MeshBasicMaterial({color: 0xfefefe, wireframe: false, opacity: 0.5});
+    let materialnew = new THREE.MeshBasicMaterial({color: 0xfefefe, wireframe: true, opacity: 0.5});
     let mesh = new THREE.Mesh(geometrynew, materialnew);
     return mesh;
   }
