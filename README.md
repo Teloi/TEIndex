@@ -1,11 +1,13 @@
 # TEIndex
 
-This Blog was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.3.0.
-
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`
-
-##demo
-
-http://101.200.58.228
+**Generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.3.0.
+**Some cases of using [Three.js](https://github.com/mrdoob/three.js)
+**Mainly based on Typescript
+**Personal entertainment project
+----------
+## Quickstart
+    npm install
+    npm start || ng server
+ Navigate to `http://localhost:4200/`    
+----------
+![Main Page](./md_image/main.png)
