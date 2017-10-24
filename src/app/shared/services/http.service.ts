@@ -25,7 +25,6 @@ export class AbpResultT<T> {
   success = true;
   error: AbpError;
   unAuthorizedRequest = true;
-  // tslint:disable-next-line
   __abp = true;
 }
 

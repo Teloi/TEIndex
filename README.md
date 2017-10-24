@@ -1,4 +1,4 @@
-## TEindex
+[TOC]
 
 ### Documentation
 
@@ -20,9 +20,9 @@
 
 ### Page
 ![index](md/main.png)
-![alt tag](md/blog.png)![alt tag](md/sample.png)
-![alt tag](md/sample-viewer.png)![alt tag](md/sample-viewer-mmd.png)![alt tag](md/sample-viewer-ammo.png)
-![alt tag](md/sample-viewer-cannon.png)![alt tag](md/sample-viewer-octree.png)![alt tag](md/sample-viewer-csg.png)
+<!-- ![alt tag](md/blog.png)![alt tag](md/sample.png) -->
+![alt tag](md/sample-viewer.png) ![alt tag](md/sample-viewer-mmd.png) ![alt tag](md/sample-viewer-ammo.png)
+![alt tag](md/sample-viewer-cannon.png) ![alt tag](md/sample-viewer-octree.png) ![alt tag](md/sample-viewer-csg.png)
 
 ### License
 MIT
