@@ -13,8 +13,8 @@ export class MeshbuilderService {
   }
 
   buildRigidBodySphere(pos, quat, radius, mass, color, friction?, callback?: Function) {
-    let mesh = new THREE.Mesh(new THREE.SphereBufferGeometry(radius, 20, 20), new THREE.MeshPhongMaterial({color: color}));
-    let shape = new Ammo.btSphereShape(radius);
+    const mesh = new THREE.Mesh(new THREE.SphereBufferGeometry(radius, 20, 20), new THREE.MeshPhongMaterial({color: color}));
+    const shape = new Ammo.btSphereShape(radius);
     shape.setMargin(this.margin);
     this.createRigidBody(mesh, shape, mass, pos, quat, friction, (threeObject, body) => {
       if (callback) {
@@ -24,8 +24,8 @@ export class MeshbuilderService {
   }
 
   buildRigidBodyBox(pos, quat, sx, sy, sz, mass, color, friction?, callback?: Function) {
-    let mesh = new THREE.Mesh(new THREE.BoxBufferGeometry(sx, sy, sz, 1, 1, 1), new THREE.MeshPhongMaterial({color: color}));
-    let shape = new Ammo.btBoxShape(new Ammo.btVector3(sx * 0.5, sy * 0.5, sz * 0.5));
+    const mesh = new THREE.Mesh(new THREE.BoxBufferGeometry(sx, sy, sz, 1, 1, 1), new THREE.MeshPhongMaterial({color: color}));
+    const shape = new Ammo.btBoxShape(new Ammo.btVector3(sx * 0.5, sy * 0.5, sz * 0.5));
     shape.setMargin(this.margin);
     this.createRigidBody(mesh, shape, mass, pos, quat, friction, (threeObject, body) => {
       if (callback) {
@@ -35,8 +35,9 @@ export class MeshbuilderService {
   }
 
   buildRigidBodyCylinder(pos, quat, radius, height, mass, color, friction?, callback?: Function) {
-    let mesh = new THREE.Mesh(new THREE.CylinderBufferGeometry(radius, radius, height, 20, 1), new THREE.MeshPhongMaterial({color: color}));
-    let shape = new Ammo.btCylinderShape(new Ammo.btVector3(radius, height * 0.5, radius));
+    const mesh = new THREE.Mesh(new THREE.CylinderBufferGeometry(radius, radius, height, 20, 1),
+      new THREE.MeshPhongMaterial({color: color}));
+    const shape = new Ammo.btCylinderShape(new Ammo.btVector3(radius, height * 0.5, radius));
     shape.setMargin(this.margin);
     this.createRigidBody(mesh, shape, mass, pos, quat, friction, (threeObject, body) => {
       if (callback) {
@@ -46,8 +47,8 @@ export class MeshbuilderService {
   }
 
   buildRigidBodyCone(pos, quat, radius, height, mass, color, friction?, callback?: Function) {
-    let mesh = new THREE.Mesh(new THREE.CylinderBufferGeometry(0, radius, height, 20, 2), new THREE.MeshPhongMaterial({color: color}));
-    let shape = new Ammo.btConeShape(radius, height);
+    const mesh = new THREE.Mesh(new THREE.CylinderBufferGeometry(0, radius, height, 20, 2), new THREE.MeshPhongMaterial({color: color}));
+    const shape = new Ammo.btConeShape(radius, height);
     shape.setMargin(this.margin);
     this.createRigidBody(mesh, shape, mass, pos, quat, friction, (threeObject, body) => {
       if (callback) {
@@ -57,26 +58,26 @@ export class MeshbuilderService {
   }
 
   buildRigidBodyPlane__Point_3(array: Array<number>, mass: number, color, isTrans: boolean, friction?: number, callback?: Function) {
-    let pos = new THREE.Vector3();
-    let quat = new THREE.Quaternion();
+    const pos = new THREE.Vector3();
+    const quat = new THREE.Quaternion();
     pos.set(0, 0, 0);
     quat.set(0, 0, 0, 1);
     for (let i = 0; i < array.length; i += 9) {
-      let meshArray: Array<number> = new Array<number>();
+      const meshArray: Array<number> = new Array<number>();
       for (let num = 0; num < 9; num++) {
         meshArray.push(array[i + num]);
       }
-      let geometry = new THREE.BufferGeometry();
-      let vertices = new Float32Array(meshArray);
+      const geometry = new THREE.BufferGeometry();
+      const vertices = new Float32Array(meshArray);
       geometry.addAttribute('position', new THREE.BufferAttribute(vertices, 3));
-      let material = new THREE.MeshBasicMaterial({color});
+      const material = new THREE.MeshBasicMaterial({color});
       material.alphaTest = isTrans ? 1 : 0;
-      let mesh = new THREE.Mesh(geometry, material);
-      let btConvexHullShape = new Ammo.btConvexHullShape();
+      const mesh = new THREE.Mesh(geometry, material);
+      const btConvexHullShape = new Ammo.btConvexHullShape();
       for (let j = 0; j < meshArray.length; j += 3) {
         btConvexHullShape.addPoint(new Ammo.btVector3(meshArray[j], meshArray[j + 1], meshArray[j + 2]), true);
       }
-      let shape = btConvexHullShape;
+      const shape = btConvexHullShape;
       shape.setMargin(this.margin);
       this.createRigidBody(mesh, shape, mass, pos, quat, friction, (threeObject, body) => {
         if (callback) {
@@ -94,7 +95,7 @@ export class MeshbuilderService {
     // Quaternion的意思是四元数，一个1x4的向量，只靠四个数，就能很好的描述三维空间中物体绕任意轴旋转
     // 一个1x4向量
     threeObject.quaternion.copy(quat);
-    let transform = new Ammo.btTransform(); // 变换
+    const transform = new Ammo.btTransform(); // 变换
     // bullet中的刚体物理碰撞是六自由度物理碰撞。六自由度的意思是可以同时产生位移(xyz轴各一个)和旋转(xyz轴各一个)。
     // bullet中表示刚体运动的类为btTransform，在updatePhysics函数中
     // 从物体的montionState()中获取变化之后，可以用getOrigin和getRotation两个方法获取位置(btVector3类型)和旋转(btQuaternion类型)。
@@ -102,11 +103,11 @@ export class MeshbuilderService {
     transform.setIdentity();
     transform.setOrigin(new Ammo.btVector3(pos.x, pos.y, pos.z));
     transform.setRotation(new Ammo.btQuaternion(quat.x, quat.y, quat.z, quat.w));
-    let motionState = new Ammo.btDefaultMotionState(transform); // 运动状态
-    let localInertia = new Ammo.btVector3(0, 0, 0);
+    const motionState = new Ammo.btDefaultMotionState(transform); // 运动状态
+    const localInertia = new Ammo.btVector3(0, 0, 0);
     physicsShape.calculateLocalInertia(mass, localInertia); // 函数可以根据物体的质量和固有惯性计算在力场中的实际惯性。比如在垂直向下的重力场下，物体都有下落的趋势
-    let rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, motionState, physicsShape, localInertia);
-    let body = new Ammo.btRigidBody(rbInfo);
+    const rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, motionState, physicsShape, localInertia);
+    const body = new Ammo.btRigidBody(rbInfo);
     body.setFriction(friction); // 摩擦力
     threeObject.userData.physicsBody = body;
     // this.scene.add(threeObject);

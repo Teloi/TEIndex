@@ -41,7 +41,7 @@ export class TEHttpService {
   }
 
   httpGet(url: string, params?: any, ignoreError?: boolean) {
-    let urlEx = TEHttpService.buildUrl(params);
+    const urlEx = TEHttpService.buildUrl(params);
     return this.http.get(this.urlPrefix + url + urlEx, {headers: this.headers})
       .map((response: AbpResult) => {
         // this.refreshToken();

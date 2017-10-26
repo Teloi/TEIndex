@@ -22,8 +22,7 @@ export class GameComponent implements OnInit {
     this.router.events.subscribe((event) => {
       if (event['url'] !== '/game') {
         this.isShowHome = true;
-      }
-      else {
+      } else {
         this.isShowHome = false;
       }
     });

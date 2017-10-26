@@ -19,7 +19,7 @@ export class SampleComponent implements OnInit {
 
   ngOnInit() {
     this.router.events.subscribe((event) => {
-      this.isShowHome = (event['url'] !== '/sample') ? true : false;
+      this.isShowHome = (event['url'] !== '/sample');
     });
   }
 }

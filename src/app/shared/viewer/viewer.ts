@@ -107,7 +107,7 @@ export class Viewer {
     ElementQueries.init();
     onWindowResize(this.container);
     onRanderResize(this.container);
-    new ResizeSensor($(this.container), function () {
+    const temp = new ResizeSensor($(this.container), function () {
       onWindowResize(this.container);
       onRanderResize(this.container);
     }.bind(this));

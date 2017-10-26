@@ -87,28 +87,27 @@ export class AMMOViewer {
   /*****************************Function***************************/
 
   public buildPlane() {
-    let floorTexture: THREE.Texture = THREE.ImageUtils.loadTexture('../../../../assets/img/floor.jpg');
+    const floorTexture: THREE.Texture = THREE.ImageUtils.loadTexture('../../../../assets/img/floor.jpg');
     floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
     floorTexture.repeat.set(10, 10);
-    let floorMaterial = new THREE.MeshBasicMaterial({map: floorTexture, side: THREE.DoubleSide});
-    let floorGeometry = new THREE.PlaneGeometry(100, 100, 100, 100);
-    let floor = new THREE.Mesh(floorGeometry, floorMaterial);
+    const floorMaterial = new THREE.MeshBasicMaterial({map: floorTexture, side: THREE.DoubleSide});
+    const floorGeometry = new THREE.PlaneGeometry(100, 100, 100, 100);
+    const floor = new THREE.Mesh(floorGeometry, floorMaterial);
     floor.position.y = 0;
     floor.rotation.x = Math.PI / 2;
     this.scene.add(floor);
   }
 
   public animate() {
-    let render = function () {
-      let deltaTime = this.clock.getDelta();
+    const render = function () {
+      const deltaTime = this.clock.getDelta();
       this.renderer.render(this.scene, this.camera);
       if (!isNullOrUndefined(this.physicsWorld)) {
         this.updatePhysics(deltaTime);
       }
       if (!isNullOrUndefined(this.controls)) {
         this.controls.update(deltaTime);
-      }
-      else {
+      } else {
         if (this.wheelMeshes.length !== 0) {
           this.camera.position.set((this.wheelMeshes[3].position.x + this.wheelMeshes[2].position.x)
             - (this.wheelMeshes[0].position.x + this.wheelMeshes[1].position.x) / 2,
@@ -144,14 +143,14 @@ export class AMMOViewer {
     if (camera === null) {
       console.error('InitOrbitControls Error!');
     }
-    let controls = new THREE.OrbitControls(camera);
+    const controls = new THREE.OrbitControls(camera);
     controls.maxPolarAngle = Math.PI * 0.5;
     controls.target.y = 2;
     return controls;
   }
 
   private webGLRenderer(): THREE.WebGLRenderer {
-    let renderer = new THREE.WebGLRenderer();
+    const renderer = new THREE.WebGLRenderer();
     renderer.setClearColor(0xbfd1e5);
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -161,13 +160,13 @@ export class AMMOViewer {
 
   private addLight(scene: THREE.Scene) {
     // 环境光
-    let ambientLight = new THREE.AmbientLight(0x404040);
+    const ambientLight = new THREE.AmbientLight(0x404040);
     scene.add(ambientLight);
     // 线性光
-    let light = new THREE.DirectionalLight(0xffffff, 1);
+    const light = new THREE.DirectionalLight(0xffffff, 1);
     light.position.set(-10, 10, 5);
     light.castShadow = true;
-    let d = 10;
+    const d = 10;
     light.shadow.camera['left'] = -d;
     light.shadow.camera['right'] = d;
     light.shadow.camera['top'] = d;
@@ -194,40 +193,40 @@ export class AMMOViewer {
   }
 
   buildRigidBodyBoxbyo(pos, quat, w, l, h, mass, color, friction?) {
-    let material = new THREE.MeshPhongMaterial({color: color});
-    let shape = new THREE.BoxBufferGeometry(w, l, h, 1, 1, 1);
-    let geometry = new Ammo.btBoxShape(new Ammo.btVector3(w * 0.5, l * 0.5, h * 0.5));
+    const material = new THREE.MeshPhongMaterial({color: color});
+    const shape = new THREE.BoxBufferGeometry(w, l, h, 1, 1, 1);
+    const geometry = new Ammo.btBoxShape(new Ammo.btVector3(w * 0.5, l * 0.5, h * 0.5));
     if (!mass) {
       mass = 0;
     }
     if (!friction) {
       friction = 1;
     }
-    let mesh = new THREE.Mesh(shape, material);
+    const mesh = new THREE.Mesh(shape, material);
     mesh.position.copy(pos);
     mesh.quaternion.copy(quat);
     this.scene.add(mesh);
-    let transform = new Ammo.btTransform();
+    const transform = new Ammo.btTransform();
     transform.setIdentity();
     transform.setOrigin(new Ammo.btVector3(pos.x, pos.y, pos.z));
     transform.setRotation(new Ammo.btQuaternion(quat.x, quat.y, quat.z, quat.w));
-    let motionState = new Ammo.btDefaultMotionState(transform);
-    let localInertia = new Ammo.btVector3(0, 0, 0);
+    const motionState = new Ammo.btDefaultMotionState(transform);
+    const localInertia = new Ammo.btVector3(0, 0, 0);
     geometry.calculateLocalInertia(mass, localInertia);
-    let rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, motionState, geometry, localInertia);
-    let body = new Ammo.btRigidBody(rbInfo);
+    const rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, motionState, geometry, localInertia);
+    const body = new Ammo.btRigidBody(rbInfo);
     body.setFriction(friction);
 
     this.physicsWorld.addRigidBody(body);
     if (mass > 0) {
       body.setActivationState(this.DISABLE_DEACTIVATION);
       // 同步物理场景和绘图空间
-      let sync = function sync(dt) {
-        let ms = body.getMotionState();
+      const sync = function (dt) {
+        const ms = body.getMotionState();
         if (ms) {
           ms.getWorldTransform(this.TRANSFORM_AUX);
-          let p = this.TRANSFORM_AUX.getOrigin();
-          let q = this.TRANSFORM_AUX.getRotation();
+          const p = this.TRANSFORM_AUX.getOrigin();
+          const q = this.TRANSFORM_AUX.getRotation();
           mesh.position.set(p.x(), p.y(), p.z());
           mesh.quaternion.set(q.x(), q.y(), q.z(), q.w());
         }
@@ -239,10 +238,10 @@ export class AMMOViewer {
 
   buildVehicle(pos, quat) {
     // 绘制车轮
-    let createWheelMesh = function (radius, width) {
-      let t = new THREE.CylinderBufferGeometry(radius, radius, width, 24, 1);
+    const createWheelMesh = function (radius, width) {
+      const t = new THREE.CylinderBufferGeometry(radius, radius, width, 24, 1);
       t.rotateZ(Math.PI / 2);
-      let mesh = new THREE.Mesh(t, this.createRendomColorObjectMeatrial());
+      const mesh = new THREE.Mesh(t, this.createRendomColorObjectMeatrial());
       mesh.add(new THREE.Mesh(new THREE.BoxGeometry(width * 1.5, radius * 1.75, radius * .25, 1, 1, 1),
         this.createRendomColorObjectMeatrial()));
       this.scene.add(mesh);
@@ -250,79 +249,79 @@ export class AMMOViewer {
     }.bind(this);
 
     // 绘制底盘
-    let createChassisMesh = function (w, l, h) {
-      let shape = new THREE.BoxBufferGeometry(w, l, h, 1, 1, 1);
-      let mesh = new THREE.Mesh(shape, this.createRendomColorObjectMeatrial());
+    const createChassisMesh = function (w, l, h) {
+      const shape = new THREE.BoxBufferGeometry(w, l, h, 1, 1, 1);
+      const mesh = new THREE.Mesh(shape, this.createRendomColorObjectMeatrial());
       this.scene.add(mesh);
       return mesh;
     }.bind(this);
 
     // 车辆常量
-    let chassisWidth = 1.8;
-    let chassisHeight = .6;
-    let chassisLength = 4;
-    let massVehicle = 2000; // 重力
+    const chassisWidth = 1.8;
+    const chassisHeight = .6;
+    const chassisLength = 4;
+    const massVehicle = 2000; // 重力
 
-    let wheelAxisPositionBack = -1;
-    let wheelRadiusBack = .4;
-    let wheelWidthBack = .3;
-    let wheelHalfTrackBack = 1;
-    let wheelAxisHeightBack = .3;
-    let wheelAxisFrontPosition = 1.7;
-    let wheelHalfTrackFront = 1;
-    let wheelAxisHeightFront = .3;
-    let wheelRadiusFront = .35;
-    let wheelWidthFront = .2;
+    const wheelAxisPositionBack = -1;
+    const wheelRadiusBack = .4;
+    const wheelWidthBack = .3;
+    const wheelHalfTrackBack = 1;
+    const wheelAxisHeightBack = .3;
+    const wheelAxisFrontPosition = 1.7;
+    const wheelHalfTrackFront = 1;
+    const wheelAxisHeightFront = .3;
+    const wheelRadiusFront = .35;
+    const wheelWidthFront = .2;
 
-    let friction = 2000;  // 摩擦力
+    const friction = 2000;  // 摩擦力
 
-    let suspensionStiffness = 20.0; // 悬挂刚性
-    let suspensionDamping = 2.3;    // 悬挂阻尼
-    let suspensionCompression = 4.4; // 悬挂压缩
-    let suspensionRestLength = 0.6; // 悬挂能恢复的长度
+    const suspensionStiffness = 20.0; // 悬挂刚性
+    const suspensionDamping = 2.3;    // 悬挂阻尼
+    const suspensionCompression = 4.4; // 悬挂压缩
+    const suspensionRestLength = 0.6; // 悬挂能恢复的长度
 
-    let rollInfluence = 0.2;
-    let steeringIncrement = .04;
-    let steeringClamp = .5;
-    let maxEngineForce = 2000;
-    let maxBreakingForce = 100;
+    const rollInfluence = 0.2;
+    const steeringIncrement = .04;
+    const steeringClamp = .5;
+    const maxEngineForce = 2000;
+    const maxBreakingForce = 100;
 
     // 底盘
-    let geometry = new Ammo.btBoxShape(new Ammo.btVector3(chassisWidth * .5, chassisHeight * .5, chassisLength * .5));
-    let transform = new Ammo.btTransform();
+    const geometry = new Ammo.btBoxShape(new Ammo.btVector3(chassisWidth * .5, chassisHeight * .5, chassisLength * .5));
+    const transform = new Ammo.btTransform();
     transform.setIdentity();
     transform.setOrigin(new Ammo.btVector3(pos.x, pos.y, pos.z));
     transform.setRotation(new Ammo.btQuaternion(quat.x, quat.y, quat.z, quat.w));
-    let motionState = new Ammo.btDefaultMotionState(transform);
-    let localInertia = new Ammo.btVector3(0, 0, 0);
+    const motionState = new Ammo.btDefaultMotionState(transform);
+    const localInertia = new Ammo.btVector3(0, 0, 0);
     geometry.calculateLocalInertia(massVehicle, localInertia);
-    let body = new Ammo.btRigidBody(new Ammo.btRigidBodyConstructionInfo(massVehicle, motionState, geometry, localInertia));
+    const body = new Ammo.btRigidBody(new Ammo.btRigidBodyConstructionInfo(massVehicle, motionState, geometry, localInertia));
     body.setActivationState(this.DISABLE_DEACTIVATION);
     this.physicsWorld.addRigidBody(body);
-    let chassisMesh = createChassisMesh(chassisWidth, chassisHeight, chassisLength);
+    const chassisMesh = createChassisMesh(chassisWidth, chassisHeight, chassisLength);
     // Raycast Vehicle
     let engineForce = 0;
     let vehicleSteering = 0;
     let breakingForce = 0;
-    let tuning = new Ammo.btVehicleTuning(); // 保存车辆参数配置
-    let rayCaster = new Ammo.btDefaultVehicleRaycaster(this.physicsWorld);
-    let vehicle = new Ammo.btRaycastVehicle(tuning, body, rayCaster);
+    const tuning = new Ammo.btVehicleTuning(); // 保存车辆参数配置
+    const rayCaster = new Ammo.btDefaultVehicleRaycaster(this.physicsWorld);
+    const vehicle = new Ammo.btRaycastVehicle(tuning, body, rayCaster);
     vehicle.setCoordinateSystem(0, 1, 2);
     this.physicsWorld.addAction(vehicle);
 
     // 车轮
-    let FRONT_LEFT = 0;
-    let FRONT_RIGHT = 1;
-    let BACK_LEFT = 2;
-    let BACK_RIGHT = 3;
+    const FRONT_LEFT = 0;
+    const FRONT_RIGHT = 1;
+    const BACK_LEFT = 2;
+    const BACK_RIGHT = 3;
 
     // let wheelMeshes = [];
-    let wheelDirectionCS0 = new Ammo.btVector3(0, -1, 0);
-    let wheelAxleCS = new Ammo.btVector3(-1, 0, 0);
+    const wheelDirectionCS0 = new Ammo.btVector3(0, -1, 0);
+    const wheelAxleCS = new Ammo.btVector3(-1, 0, 0);
 
-    let addWheel = function (isFront, position, radius, width, index) {
+    const addWheel = function (isFront, position, radius, width, index) {
 
-      let wheelInfo = vehicle.addWheel(
+      const wheelInfo = vehicle.addWheel(
         position,
         wheelDirectionCS0,
         wheelAxleCS,
@@ -350,8 +349,8 @@ export class AMMOViewer {
       wheelRadiusBack, wheelWidthBack, BACK_RIGHT);
 
     // 将键盘输入,物理和绘制同步
-    let sync = function (dt) {
-      let speed = vehicle.getCurrentSpeedKmHour();
+    const sync = function (dt) {
+      const speed = vehicle.getCurrentSpeedKmHour();
       if (!isNullOrUndefined(this.speedometer)) {
         this.speedometer.innerHTML = (speed < 0 ? '(R) ' : '') + Math.abs(speed).toFixed(1) + ' km/h';
       }
@@ -360,16 +359,14 @@ export class AMMOViewer {
       if (this.actions.acceleration) {
         if (speed < -1) {
           breakingForce = maxBreakingForce;
-        }
-        else {
+        } else {
           engineForce = maxEngineForce;
         }
       }
       if (this.actions.braking) {
         if (speed > 1) {
           breakingForce = maxBreakingForce;
-        }
-        else {
+        } else {
           engineForce = -maxEngineForce / 2;
         }
       }
@@ -377,22 +374,18 @@ export class AMMOViewer {
         if (vehicleSteering < steeringClamp) {
           vehicleSteering += steeringIncrement;
         }
-      }
-      else {
+      } else {
         if (this.actions.right) {
           if (vehicleSteering > -steeringClamp) {
             vehicleSteering -= steeringIncrement;
           }
-        }
-        else {
+        } else {
           if (vehicleSteering < -steeringIncrement) {
             vehicleSteering += steeringIncrement;
-          }
-          else {
+          } else {
             if (vehicleSteering > steeringIncrement) {
               vehicleSteering -= steeringIncrement;
-            }
-            else {
+            } else {
               vehicleSteering = 0;
             }
           }
@@ -408,7 +401,7 @@ export class AMMOViewer {
       vehicle.setSteeringValue(vehicleSteering, FRONT_LEFT);
       vehicle.setSteeringValue(vehicleSteering, FRONT_RIGHT);
       let tm, p, q, i;
-      let n = vehicle.getNumWheels();
+      const n = vehicle.getNumWheels();
       for (i = 0; i < n; i++) {
         vehicle.updateWheelTransform(i, true);
         tm = vehicle.getWheelTransformWS(i);
@@ -432,13 +425,13 @@ export class AMMOViewer {
   /*****************************IF Physics Private***************************/
   updatePhysics(deltaTime) {
     for (let i = 0, iL = this.rigidBodies.length; i < iL; i++) {
-      let objThree = this.rigidBodies[i];
-      let objPhys = objThree.userData.physicsBody;
-      let ms = objPhys.getMotionState();
+      const objThree = this.rigidBodies[i];
+      const objPhys = objThree.userData.physicsBody;
+      const ms = objPhys.getMotionState();
       if (ms) {
         ms.getWorldTransform(this.TRANSFORM_AUX);
-        let p = this.TRANSFORM_AUX.getOrigin();
-        let q = this.TRANSFORM_AUX.getRotation();
+        const p = this.TRANSFORM_AUX.getOrigin();
+        const q = this.TRANSFORM_AUX.getRotation();
         objThree.position.set(p.x(), p.y(), p.z());
         objThree.quaternion.set(q.x(), q.y(), q.z(), q.w());
       }
@@ -476,16 +469,16 @@ export class AMMOViewer {
 
   private initPhysics() {
     // 默认碰撞配置参数
-    let collisionConfiguration = new Ammo.btDefaultCollisionConfiguration();
+    const collisionConfiguration = new Ammo.btDefaultCollisionConfiguration();
     // 调度员
-    let dispatcher = new Ammo.btCollisionDispatcher(collisionConfiguration);
+    const dispatcher = new Ammo.btCollisionDispatcher(collisionConfiguration);
     // 粗测阶段
-    let broadphase = new Ammo.btDbvtBroadphase();
+    const broadphase = new Ammo.btDbvtBroadphase();
     // 创建解算器，用于求解约束方程。得到物体在重力等作用下的最终位置的
-    let solver = new Ammo.btSequentialImpulseConstraintSolver();
+    const solver = new Ammo.btSequentialImpulseConstraintSolver();
     this.physicsWorld = new Ammo.btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
     // 重力常数
-    let gravityConstant = -9.8;
+    const gravityConstant = -9.8;
     this.physicsWorld.setGravity(new Ammo.btVector3(0, gravityConstant, 0));
     // About Car
     this.speedometer = document.getElementById('speedometer');
@@ -518,15 +511,15 @@ export class AMMOViewer {
 
   private initResize() {
 
-    let onWindowResize = function (element: any) {
-      let height = window.innerHeight;
+    const onWindowResize = function (element: any) {
+      const height = window.innerHeight;
       // height -= $('#gheader').height();
       $(element).height(height);
     }.bind(this);
 
-    let onRanderResize = function (element: any) {
-      let width = $(element).width();
-      let height = $(element).height();
+    const onRanderResize = function (element: any) {
+      const width = $(element).width();
+      const height = $(element).height();
       if (this.camera instanceof THREE.PerspectiveCamera) {
         this.camera.aspect = width / height;
         this.camera.updateProjectionMatrix();
@@ -539,7 +532,7 @@ export class AMMOViewer {
     ElementQueries.init();
     onWindowResize(this.container);
     onRanderResize(this.container);
-    new ResizeSensor($(this.container), function () {
+    const temp = new ResizeSensor($(this.container), function () {
       onWindowResize(this.container);
       onRanderResize(this.container);
     }.bind(this));
@@ -555,17 +548,17 @@ export class AMMOViewer {
   }
 
   public addAxisHelper(size: number) {
-    let helper = new THREE.AxisHelper(size);
+    const helper = new THREE.AxisHelper(size);
     this.scene.add(helper);
   }
 
   public addCameraHelper() {
-    let helper = new THREE.CameraHelper(this.camera);
+    const helper = new THREE.CameraHelper(this.camera);
     this.scene.add(helper);
   }
 
   public createRendomColorObjectMeatrial() {
-    let color = Math.floor(Math.random() * (16777216));
+    const color = Math.floor(Math.random() * (16777216));
     return new THREE.MeshPhongMaterial({color: color});
   }
 

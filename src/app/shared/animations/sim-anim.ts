@@ -1,8 +1,8 @@
 import {trigger, state, style, transition, animate} from '@angular/animations';
 
 // 动画时间线
-let time = '300ms'
-let styles = {
+const time = '300ms';
+const styles = {
   ease: time + ' ease ',
   linear: time + ' linear ',
   easeIn: time + ' ease-in',
@@ -19,7 +19,7 @@ let styles = {
 
 // 动画配置
 
-let opts = {
+const opts = {
   fadeIn: [
     style({opacity: 0}),
     animate(styles.inOutBack, style({opacity: 1})),
