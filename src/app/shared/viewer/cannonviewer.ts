@@ -26,14 +26,14 @@ export class CAViewer extends Viewer {
 
   // private function
   public addObject() {
-    let geometry = new THREE.BoxGeometry(2, 2, 2);
-    let material = new THREE.MeshLambertMaterial({color: 0xff0000, wireframe: false});
+    const geometry = new THREE.BoxGeometry(2, 2, 2);
+    const material = new THREE.MeshLambertMaterial({color: 0xff0000, wireframe: false});
     this.mesh = new THREE.Mesh(geometry, material);
     this.scene.add(this.mesh);
   }
 
   public addCaObject() {
-    let shape = new CANNON.Box(new CANNON.Vec3(1, 1, 1));
+    const shape = new CANNON.Box(new CANNON.Vec3(1, 1, 1));
     // let mass = 1;
     this.body = new CANNON.Body({
       mass: 1

@@ -1,8 +1,10 @@
-[TOC]
+## TEIndex
 
 ### Documentation
 
-- Generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.3.0.
+- Generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.6.
+
+- Angular 4.4.6
 
 - Some cases of using [Three.js](https://github.com/mrdoob/three.js).
 

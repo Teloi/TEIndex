@@ -46,14 +46,14 @@ export class Viewer {
     if (camera === null) {
       console.error('InitOrbitControls Error!');
     }
-    let controls = new THREE.OrbitControls(camera);
+    const controls = new THREE.OrbitControls(camera);
     // controls.maxPolarAngle = Math.PI * 0.5;
     // controls.target.y = 2;
     return controls;
   }
 
   private webGLRenderer(): THREE.WebGLRenderer {
-    let renderer = new THREE.WebGLRenderer();
+    const renderer = new THREE.WebGLRenderer();
     renderer.setClearColor(0xbfd1e5);
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -63,13 +63,13 @@ export class Viewer {
 
   private addLight(scene: THREE.Scene) {
     // 环境光
-    let ambientLight = new THREE.AmbientLight(0x404040);
+    const ambientLight = new THREE.AmbientLight(0x404040);
     scene.add(ambientLight);
     // 线性光
-    let light = new THREE.DirectionalLight(0xffffff, 1);
+    const light = new THREE.DirectionalLight(0xffffff, 1);
     light.position.set(-10, 10, 5);
     light.castShadow = true;
-    let d = 10;
+    const d = 10;
     light.shadow.camera['left'] = -d;
     light.shadow.camera['right'] = d;
     light.shadow.camera['top'] = d;
@@ -88,14 +88,14 @@ export class Viewer {
   }
 
   private initResize() {
-    let onWindowResize = function (element: any) {
-      let height = window.innerHeight;
+    const onWindowResize = function (element: any) {
+      const height = window.innerHeight;
       // height -= $('#gheader').height();
       $(element).height(height);
     }.bind(this);
-    let onRanderResize = function (element: any) {
-      let width = $(element).width();
-      let height = $(element).height();
+    const onRanderResize = function (element: any) {
+      const width = $(element).width();
+      const height = $(element).height();
       if (this.camera instanceof THREE.PerspectiveCamera) {
         this.camera.aspect = width / height;
         this.camera.updateProjectionMatrix();
@@ -144,8 +144,8 @@ export class Viewer {
   }
 
   public animate() {
-    let render = function () {
-      let deltaTime = this.clock.getDelta();
+    const render = function () {
+      const deltaTime = this.clock.getDelta();
       this.renderer.render(this.scene, this.camera);
       if (!isNullOrUndefined(this.controls)) {
         this.controls.update(deltaTime);
@@ -187,9 +187,9 @@ export class Viewer {
     *   MilkyWay/dark-s_
     *   Park3Med/
     */
-    let path = filePath ? filePath : 'Park3Med/';
-    let r = '../../../assets/img/skyboxs/' + path;
-    let urls = [
+    const path = filePath ? filePath : 'Park3Med/';
+    const r = '../../../assets/img/skyboxs/' + path;
+    const urls = [
       r + 'px.jpg', r + 'nx.jpg',
       r + 'py.jpg', r + 'ny.jpg',
       r + 'pz.jpg', r + 'nz.jpg'
@@ -231,12 +231,12 @@ export class Viewer {
   }
 
   public addAxisHelper(size: number) {
-    let helper = new THREE.AxisHelper(size);
+    const helper = new THREE.AxisHelper(size);
     this.scene.add(helper);
   }
 
   public addCameraHelper() {
-    let helper = new THREE.CameraHelper(this.camera);
+    const helper = new THREE.CameraHelper(this.camera);
     this.scene.add(helper);
   }
 

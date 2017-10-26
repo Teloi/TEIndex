@@ -20,16 +20,16 @@ export class ViewerMMD extends Viewer {
   public finishLoaded: boolean;
 
   public loadMMD(modelFile: string, vmdFiles: string[], name: string, callback: Function, onProgress?: Function, onError?: Function) {
-    let loader = new THREE.MMDLoader();
+    const loader = new THREE.MMDLoader();
     loader.load(modelFile, vmdFiles,
       function (object) {
-        let item = new MMDModel(name, object);
+        const item = new MMDModel(name, object);
         this.mmdModels.push(item);
         callback(item);
       }.bind(this),
       function (percent) {
         if (percent.lengthComputable) {
-          let percentComplete = percent.loaded / percent.total * 100;
+          const percentComplete = percent.loaded / percent.total * 100;
           if (onProgress) {
             onProgress(percentComplete);
           }
@@ -47,9 +47,9 @@ export class ViewerMMD extends Viewer {
   }
 
   public modelAction(model: MMDModel) {
-    let array = [];
+    const array = [];
     for (let i = 0, il = model.mesh.material.materials.length; i < il; i++) {
-      let m = new THREE.MeshPhongMaterial();
+      const m = new THREE.MeshPhongMaterial();
       m.copy(model.mesh.material.materials[i]);
       m.envMap = this.skyBoxtexture;
       m.refractionRatio = 0.98;
@@ -83,7 +83,7 @@ export class ViewerMMD extends Viewer {
   public addAnimate(time) {
     if (this.finishLoaded !== undefined && this.finishLoaded) {
       this.helper.animate(time);
-      for (let model of this.mmdModels) {
+      for (const model of this.mmdModels) {
         if (model.physicsHelper !== undefined && model.physicsHelper.visible) {
           model.physicsHelper.update();
         }

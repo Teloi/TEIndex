@@ -21,9 +21,9 @@ export class ViewerMmdComponent implements OnInit, OnDestroy {
       () => {
         this.viewer.addStatsHelper();
         this.viewer.addSkyBoxHelper();
-        let pmx = '../../../assets/objs/mmd/models/Alice/alice111.pmx';
-        let vmd = ['../../../assets/objs/mmd/vmds/极乐净土动作数据.vmd'];
-        let name = '爱丽丝';
+        const pmx = '../../../assets/objs/mmd/models/Alice/alice111.pmx';
+        const vmd = ['../../../assets/objs/mmd/vmds/极乐净土动作数据.vmd'];
+        const name = '爱丽丝';
         this.viewer.loadMMD(pmx, vmd, name,
           (model: MMDModel) => {
             this.viewer.modelPosition(model, new THREE.Vector3(0, -10, 0));

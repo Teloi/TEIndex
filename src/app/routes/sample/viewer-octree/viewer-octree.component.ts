@@ -27,8 +27,8 @@ export class ViewerOctreeComponent implements OnInit, OnDestroy {
         this.viewer.addSkyBoxHelper();
         // octree
         this.initOCtree();
-        let mesh = this.newBox();
-        let polygens = this.splitGeometryPoints(mesh.geometry);
+        const mesh = this.newBox();
+        const polygens = this.splitGeometryPoints(mesh.geometry);
         this.mergeGeometrysAppendTree(polygens);
         // octree
         this.viewer.animate();
@@ -48,19 +48,19 @@ export class ViewerOctreeComponent implements OnInit, OnDestroy {
   }
 
   newBox(): THREE.Mesh {
-    let boxGeometry = new THREE.BoxGeometry(20, 20, 20, 10, 10, 10);
-    let boxMaterial = new THREE.MeshBasicMaterial({color: 0x00FFFF, wireframe: true, opacity: 0.5});
-    let boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
+    const boxGeometry = new THREE.BoxGeometry(20, 20, 20, 10, 10, 10);
+    const boxMaterial = new THREE.MeshBasicMaterial({color: 0x00FFFF, wireframe: true, opacity: 0.5});
+    const boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
     return boxMesh;
   }
 
   splitGeometryPoints(geometry) {
-    let points: any[] = [];
+    const points: any[] = [];
     if (geometry instanceof THREE.Geometry) {
       if (geometry.faces && geometry.faces.length > 0) {
-        let vertices: THREE.Vector3[] = geometry.vertices;
+        const vertices: THREE.Vector3[] = geometry.vertices;
         let v1, v2, v3, point;
-        for (let face of geometry.faces) {
+        for (const face of geometry.faces) {
           v1 = new THREE.Vector3(vertices[face.a].x, vertices[face.a].y, vertices[face.a].z);
           v2 = new THREE.Vector3(vertices[face.b].x, vertices[face.b].y, vertices[face.b].z);
           v3 = new THREE.Vector3(vertices[face.c].x, vertices[face.c].y, vertices[face.c].z);
@@ -73,8 +73,8 @@ export class ViewerOctreeComponent implements OnInit, OnDestroy {
   }
 
   mergeGeometrysAppendTree(points) {
-    for (let plg of points) {
-      let vertices: number[] = [];
+    for (const plg of points) {
+      const vertices: number[] = [];
       if (plg.length >= 3) {
         for (let i = 2, len = plg.length; i < len; ++i) {
           vertices.push(plg[0].x, plg[0].y, plg[0].z);
@@ -82,10 +82,10 @@ export class ViewerOctreeComponent implements OnInit, OnDestroy {
           vertices.push(plg[i].x, plg[i].y, plg[i].z);
         }
       }
-      let trianglesGeometry: THREE.BufferGeometry = new THREE.BufferGeometry();
+      const trianglesGeometry: THREE.BufferGeometry = new THREE.BufferGeometry();
       trianglesGeometry.addAttribute('position', new THREE.BufferAttribute(new Float32Array(vertices), 3));
       trianglesGeometry.computeVertexNormals();
-      let trianglesMaterial = new THREE.MeshLambertMaterial({color: 0x00FFFF, wireframe: false, opacity: 0.5});
+      const trianglesMaterial = new THREE.MeshLambertMaterial({color: 0x00FFFF, wireframe: false, opacity: 0.5});
       this.treeAppend(trianglesGeometry, trianglesMaterial);
     }
   }
