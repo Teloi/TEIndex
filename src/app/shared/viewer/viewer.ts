@@ -88,12 +88,12 @@ export class Viewer {
   }
 
   private initResize() {
-    const onWindowResize = function (element: any) {
+    const onWindowResize = (element: HTMLElement) => {
       const height = window.innerHeight;
       // height -= $('#gheader').height();
       $(element).height(height);
-    }.bind(this);
-    const onRanderResize = function (element: any) {
+    };
+    const onRanderResize = (element: HTMLElement) => {
       const width = $(element).width();
       const height = $(element).height();
       if (this.camera instanceof THREE.PerspectiveCamera) {
@@ -103,14 +103,14 @@ export class Viewer {
       if (this.renderer) {
         this.renderer.setSize(width, height);
       }
-    }.bind(this);
+    };
     ElementQueries.init();
     onWindowResize(this.container);
     onRanderResize(this.container);
-    const temp = new ResizeSensor($(this.container), function () {
+    const temp = new ResizeSensor($(this.container), () => {
       onWindowResize(this.container);
       onRanderResize(this.container);
-    }.bind(this));
+    });
   }
 
   // init
