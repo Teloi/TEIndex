@@ -6,8 +6,6 @@ import {ViewerCannonComponent} from './viewer-cannon/viewer-cannon.component';
 import {ViewerCsgComponent} from './viewer-csg/viewer-csg.component';
 import {ViewerOctreeComponent} from './viewer-octree/viewer-octree.component';
 import {ViewerMmdComponent} from './viewer-mmd/viewer-mmd.component';
-import {OsgViewerComponent} from './osg-viewer/osg-viewer.component';
-
 
 export const routes = [
   {
@@ -39,10 +37,6 @@ export const routes = [
     {
       path: 'viewer-mmd',
       component: ViewerMmdComponent
-    },
-    {
-      path: 'osg-viewer',
-      component: OsgViewerComponent
     },
     {path: '**', redirectTo: ''}
   ]
