@@ -23,8 +23,7 @@
         "styles.scss"
       ],
       "scripts": [
-        "../node_modules/jquery/dist/jquery.js",
-        "../node_modules/bootstrap/dist/js/bootstrap.js",
+        "../node_modules/jquery/dist/jquery.min.js",
         "../node_modules/three/build/three.min.js",
         "../node_modules/three/examples/js/libs/stats.min.js",
         "../node_modules/three/examples/js/Detector.js",
@@ -37,8 +36,7 @@
         "../node_modules/three/examples/js/loaders/TGALoader.js",
         "../node_modules/three/examples/js/loaders/MMDLoader.js",
         "../node_modules/three/examples/js/animation/CCDIKSolver.js",
-        "../node_modules/three/examples/js/animation/MMDPhysics.js",
-        "../node_modules/cannon/build/cannon.js"
+        "../node_modules/three/examples/js/animation/MMDPhysics.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

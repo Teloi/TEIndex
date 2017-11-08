@@ -1,7 +1,6 @@
 /// <reference types="three" />
 import {Viewer} from './viewer';
-
-declare let CANNON;
+import * as CANNON from 'cannon';
 
 export class CAViewer extends Viewer {
 
@@ -34,7 +33,6 @@ export class CAViewer extends Viewer {
 
   public addCaObject() {
     const shape = new CANNON.Box(new CANNON.Vec3(1, 1, 1));
-    // let mass = 1;
     this.body = new CANNON.Body({
       mass: 1
     });

@@ -144,7 +144,7 @@ export class Viewer {
   }
 
   public animate() {
-    const render = function () {
+    const render = () => {
       const deltaTime = this.clock.getDelta();
       this.renderer.render(this.scene, this.camera);
       if (!isNullOrUndefined(this.controls)) {
@@ -154,7 +154,7 @@ export class Viewer {
         this.stats.update();
       }
       this.addAnimate(deltaTime);
-    }.bind(this);
+    };
     requestAnimationFrame(this.animate.bind(this));
     render();
   }
@@ -195,39 +195,11 @@ export class Viewer {
       r + 'pz.jpg', r + 'nz.jpg'
     ];
 
-    new THREE.CubeTextureLoader().load(urls, function (textureCube) {
+    new THREE.CubeTextureLoader().load(urls, (textureCube) => {
       textureCube.mapping = THREE.CubeRefractionMapping;
       this.scene.background = textureCube;
       this.skyBoxtexture = textureCube;
-      // 透明玻璃材质测试
-      // let test = new THREE.BoxGeometry(4, 4, 4);
-      // let me = new THREE.MeshPhongMaterial({ color: 0xffffff, envMap: textureCube, refractionRatio: 0.98 });
-      // let box = new THREE.Mesh(test, me);
-      // this.scene.add(box);
-    }.bind(this));
-
-
-    // 旧的天空盒
-    // if (isNullOrUndefined(filePath)) {
-    //   filePath = 'dark';
-    // }
-    // let imagePrefix = '../../../assets/img/skyboxs/' + filePath + '/sky';
-    // let directions = ['_x', '-x', '_y', '-y', '_z', '-z'];
-    // let imageSuffix = '.png';
-    // let skyGeometry = new THREE.CubeGeometry(100000, 100000, 100000);
-    //
-    // let materialArray = [];
-    // for (let i = 0; i < 6; i++) {
-    //   materialArray.push(new THREE.MeshBasicMaterial({
-    //     map: THREE.ImageUtils.loadTexture(imagePrefix + directions[i] + imageSuffix),
-    //     side: THREE.BackSide
-    //   }));
-    // }
-    //
-    // let skyMaterial = new THREE.MultiMaterial(materialArray);
-    // let skyBox = new THREE.Mesh(skyGeometry, skyMaterial);
-    // this.scene.add(skyBox);
-
+    });
   }
 
   public addAxisHelper(size: number) {

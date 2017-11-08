@@ -22,38 +22,40 @@ export class ViewerMMD extends Viewer {
   public loadMMD(modelFile: string, vmdFiles: string[], name: string, callback: Function, onProgress?: Function, onError?: Function) {
     const loader = new THREE.MMDLoader();
     loader.load(modelFile, vmdFiles,
-      function (object) {
-        const item = new MMDModel(name, object);
-        this.mmdModels.push(item);
-        callback(item);
-      }.bind(this),
-      function (percent) {
+      (object) => {
+        const model = new MMDModel(name, object);
+        this.mmdModels.push(model);
+        callback(model);
+      },
+      (percent) => {
         if (percent.lengthComputable) {
           const percentComplete = percent.loaded / percent.total * 100;
           if (onProgress) {
             onProgress(percentComplete);
           }
         }
-      }.bind(this),
-      function (error) {
+      },
+      (error) => {
         if (onError) {
           onError(error);
         }
-      }.bind(this));
+      });
   }
 
   public modelPosition(model: MMDModel, position: THREE.Vector3) {
     model.mesh.position.set(position.x, position.y, position.z);
   }
 
-  public modelAction(model: MMDModel) {
+  public modelAction(model: MMDModel, isClearGlass: boolean) {
     const array = [];
     for (let i = 0, il = model.mesh.material.materials.length; i < il; i++) {
       const m = new THREE.MeshPhongMaterial();
       m.copy(model.mesh.material.materials[i]);
-      m.envMap = this.skyBoxtexture;
-      m.refractionRatio = 0.98;
-      m.needsUpdate = true;
+      if (isClearGlass) {
+        m.envMap = this.skyBoxtexture;
+        m.refractionRatio = 0.98;
+        m.needsUpdate = true;
+      }
       array.push(m);
     }
     model.mesh.material.materials = array;
