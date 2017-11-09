@@ -2,9 +2,9 @@
 
 ### Documentation
 
-- Generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.6.
+- Generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.5.0.
 
-- Angular 4.4.6
+- Angular 5.0.0
 
 - Some cases of using [Three.js](https://github.com/mrdoob/three.js).
 
@@ -12,10 +12,18 @@
 
 - Personal entertainment project.
 
-### Installation
+### Development server
 
-    npm install
-    npm start || ng server
+- Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+
+### Code scaffolding
+
+- Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+
+### Build
+
+- Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+
 
 ### Example
 - https://www.teloi.cn
@@ -27,4 +35,4 @@
 ![alt tag](md/sample-viewer-cannon.png) ![alt tag](md/sample-viewer-octree.png) ![alt tag](md/sample-viewer-csg.png)
 
 ### License
-MIT
+MIT License

@@ -24,6 +24,7 @@
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js",
+        "../node_modules/bootstrap/dist/js/bootstrap.min.js",
         "../node_modules/three/build/three.min.js",
         "../node_modules/three/examples/js/libs/stats.min.js",
         "../node_modules/three/examples/js/Detector.js",
