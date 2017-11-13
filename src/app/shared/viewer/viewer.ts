@@ -19,6 +19,7 @@ export class Viewer {
   private renderer: THREE.WebGLRenderer;
   public camera: THREE.Camera;
   public controls: any;
+  public light: THREE.Light;
   public skyBoxtexture: THREE.CubeTexture;
 
   // Help
@@ -53,7 +54,10 @@ export class Viewer {
   }
 
   private webGLRenderer(): THREE.WebGLRenderer {
-    const renderer = new THREE.WebGLRenderer();
+    const renderer = new THREE.WebGLRenderer({
+      // 抗锯齿
+      antialias: true
+    });
     renderer.setClearColor(0xbfd1e5);
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -63,22 +67,31 @@ export class Viewer {
 
   private addLight(scene: THREE.Scene) {
     // 环境光
-    const ambientLight = new THREE.AmbientLight(0x404040);
+    const ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.1);
     scene.add(ambientLight);
     // 线性光
-    const light = new THREE.DirectionalLight(0xffffff, 1);
-    light.position.set(-10, 10, 5);
-    light.castShadow = true;
-    const d = 10;
-    light.shadow.camera['left'] = -d;
-    light.shadow.camera['right'] = d;
-    light.shadow.camera['top'] = d;
-    light.shadow.camera['bottom'] = -d;
-    light.shadow.camera['near'] = 2;
-    light.shadow.camera['far'] = 2;
-    light.shadow.mapSize.x = 1024;
-    light.shadow.mapSize.y = 1024;
-    scene.add(light);
+    // this.light = new THREE.DirectionalLight(0xffffff, 1);
+    // this.light.position.set(-10, 20, 5);
+    // this.light.castShadow = true;
+    // const helper = new THREE.DirectionalLightHelper(this.light, 10);
+    // this.scene.add(helper);
+
+
+    this.light = new THREE.SpotLight(0xFFFFFF, 1, 0, 0.20, 0, 2);
+    this.light.position.set(-10, 50, 50);
+    this.light.castShadow = true;
+    const helper = new THREE.SpotLightHelper(this.light);
+    this.scene.add(helper);
+    // const d = 10;
+    // light.shadow.camera['left'] = -d;
+    // light.shadow.camera['right'] = d;
+    // light.shadow.camera['top'] = d;
+    // light.shadow.camera['bottom'] = -d;
+    // light.shadow.camera['near'] = 2;
+    // light.shadow.camera['far'] = 2;
+    // this.light.shadow.mapSize.x = 2024;
+    // this.light.shadow.mapSize.y = 2024;
+    scene.add(this.light);
   }
 
   private checkWebGL() {
@@ -172,6 +185,27 @@ export class Viewer {
     this.scene.remove(mesh);
   }
 
+  // Camera
+
+  /**
+   * updateLightPosition By angel
+   * From Sun.ts
+   * @param lat elevation
+   * @param lon azimuth
+   */
+  public updateLightPosition(lat: number, lon: number) {
+    if (!isNullOrUndefined(this.light)) {
+
+      const theta = lat * (Math.PI / 180);
+      const phi = lon * (Math.PI / 180);
+
+      this.light.position.x = 15 * Math.cos(theta) * Math.sin(phi);
+      this.light.position.y = 15 * Math.sin(theta);
+      this.light.position.z = 15 * Math.cos(theta) * Math.cos(phi);
+      this.light.castShadow = true;
+    }
+  }
+
   // Helper
   public addStatsHelper() {
     this.stats = new Stats();
@@ -190,9 +224,12 @@ export class Viewer {
     const path = filePath ? filePath : 'Park3Med/';
     const r = '../../../assets/img/skyboxs/' + path;
     const urls = [
-      r + 'px.jpg', r + 'nx.jpg',
-      r + 'py.jpg', r + 'ny.jpg',
-      r + 'pz.jpg', r + 'nz.jpg'
+      // r + 'px.jpg', r + 'nx.jpg',
+      // r + 'py.jpg', r + 'ny.jpg',
+      // r + 'pz.jpg', r + 'nz.jpg'
+      r + '/sky_x.png', r + '/sky-x.png',
+      r + '/sky_y.png', r + '/sky-y.png',
+      r + '/sky_z.png', r + '/sky-z.png',
     ];
 
     new THREE.CubeTextureLoader().load(urls, (textureCube) => {

@@ -15,13 +15,22 @@ export class ViewerMmdComponent implements OnInit, OnDestroy {
     this.isControls = true;
   }
 
+  plane() {
+    const geo = new THREE.BoxGeometry(100, 0.1, 100);
+    const mes = new THREE.MeshPhongMaterial({'color': 0xFFFFFF});
+    const mesh = new THREE.Mesh(geo, mes);
+    mesh.position.setY(-10);
+    mesh.receiveShadow = true;
+    return mesh;
+  }
+
   ngOnInit() {
     this.viewer = new ViewerMMD('viewer-mmd');
     this.viewer.InitScene(this.isControls,
       () => {
         this.viewer.addStatsHelper();
-        this.viewer.addSkyBoxHelper();
-        const pmx = '../../../assets/objs/mmd/models/miku/miku_v2.pmd';
+        this.viewer.addSkyBoxHelper('dark');
+        const pmx = '../../../assets/objs/mmd/models/Alice/alice111.pmx';
         const vmd = ['../../../assets/objs/mmd/vmds/极乐净土动作数据.vmd'];
         const name = '初音';
         this.viewer.loadMMD(pmx, vmd, name,
@@ -35,6 +44,7 @@ export class ViewerMmdComponent implements OnInit, OnDestroy {
           (percent) => {
             // progress-bar
           });
+        this.viewer.addMesh(this.plane());
         this.viewer.animate();
       }
     );

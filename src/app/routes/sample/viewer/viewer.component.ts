@@ -1,6 +1,7 @@
 /// <reference types="three" />
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Viewer} from '../../../shared/viewer/viewer';
+import {ThreeExt} from '../../../shared/utils/three.util';
 
 @Component({
   selector: 'app-viewer',
@@ -11,93 +12,39 @@ export class ViewerComponent implements OnInit, OnDestroy {
   private viewer: Viewer;
   private isControls: boolean;
 
-  endplane: any;
-  endbox: any;
+  private pos: any[] = [];
+  private hour: number;
+  private currentTime: Date;
 
   constructor() {
     this.isControls = true;
+    this.hour = 0;
+    this.currentTime = new Date();
   }
 
-  test() {
-    const material = new THREE.LineBasicMaterial({color: 0xff0099});
-    const geometry = new THREE.Geometry();
-    geometry.vertices.push(new THREE.Vector3(3, 1, 4));
-    geometry.vertices.push(new THREE.Vector3(10, 10, 10));
-    const line = new THREE.Line(geometry, material);
-    return line;
+  change() {
+    this.pos = [];
+    this.hour += 1;
+    const list = ThreeExt.sunPosition(2012, 16, 8, this.hour, 10, 10, 31.05, 121.76);
+    this.pos.push(list[0], list[1]);
+    this.viewer.updateLightPosition(this.pos[0], this.pos[1]);
   }
 
-  plane() {
-    const a = new THREE.Vector3(3, 1, 4);
-    const b = new THREE.Vector3(10, 10, 10);
-    // 水平面
-    const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0));
-    // 其中一个点的映射
-    const point2 = plane.projectPoint(a);
-    // 通过三个点确定一个平面
-    plane.setFromCoplanarPoints(a, point2, b);
-    // 这个平面的法线与原始向量的叉乘 为垂直于这两个向量的向量
-    const normal = plane.normal.cross(new THREE.Line3(a, b).delta());
-    plane.setFromNormalAndCoplanarPoint(normal, a);
-    const material = new THREE.LineBasicMaterial({color: 0xff0099});
-    const geometry = new THREE.Geometry();
-    geometry.vertices.push(a);
-    geometry.vertices.push(plane.normal);
-    this.endplane = plane;
-    const line = new THREE.Line(geometry, material);
-    return line;
-  }
-
-  boundingtest() {
-    const geometryS = new THREE.Geometry();
-    geometryS.vertices.push(new THREE.Vector3(3, 1, 4));
-    geometryS.vertices.push(new THREE.Vector3(10, 10, 10));
-    geometryS.computeBoundingBox();
-
-    const box = geometryS.boundingBox;
-    this.endbox = box;
-    const geometry = new THREE.BufferGeometry();
-    const vertices = new Float32Array([
-      box.min.x, box.min.y, box.min.z,
-      box.max.x, box.min.y, box.min.z,
-      box.min.x, box.min.y, box.max.z,
-
-      box.max.x, box.min.y, box.min.z,
-      box.max.x, box.min.y, box.max.z,
-      box.min.x, box.min.y, box.max.z,
-    ]);
-    geometry.addAttribute('position', new THREE.BufferAttribute(vertices, 3));
-    const material = new THREE.MeshBasicMaterial({color: 0xff0000, side: THREE.DoubleSide});
-    const mesh = new THREE.Mesh(geometry, material);
+  box() {
+    const geo = new THREE.BoxGeometry(2, 10, 2);
+    const mes = new THREE.MeshPhongMaterial({'color': 0xF0F8FF});
+    const mesh = new THREE.Mesh(geo, mes);
+    mesh.position.setY(5);
+    mesh.castShadow = true;
     return mesh;
   }
 
-  test2() {
-    const p1 = new THREE.Vector3(this.endbox.min.x, this.endbox.min.y, this.endbox.min.z);
-    const point_one = new THREE.Vector3(p1.x, this.meterY(p1.x, p1.z, this.endplane), p1.z);
-
-    const p3 = new THREE.Vector3(this.endbox.max.x, this.endbox.min.y, this.endbox.min.z);
-    const point_two = new THREE.Vector3(p3.x, this.meterY(p3.x, p3.z, this.endplane), p3.z);
-
-    const p5 = new THREE.Vector3(this.endbox.min.x, this.endbox.min.y, this.endbox.max.z);
-    const point_three = new THREE.Vector3(p5.x, this.meterY(p5.x, p5.z, this.endplane), p5.z);
-
-    const p7 = new THREE.Vector3(this.endbox.max.x, this.endbox.min.y, this.endbox.max.z);
-    const point_four = new THREE.Vector3(p7.x, this.meterY(p7.x, p7.z, this.endplane), p7.z);
-
-    const material = new THREE.LineBasicMaterial({color: 0xff0099});
-    const geometry = new THREE.Geometry();
-    geometry.vertices.push(point_one);
-    geometry.vertices.push(point_two);
-    geometry.vertices.push(point_three);
-    geometry.vertices.push(point_four);
-    const line = new THREE.Line(geometry, material);
-    this.viewer.addMesh(line);
-  }
-
-  meterY(x, z, plane: THREE.Plane) {
-    const normal = plane.normal;
-    return ((-plane.constant) - normal.x * x - normal.z * z) / normal.y;
+  plane() {
+    const geo = new THREE.BoxGeometry(100, 1, 100);
+    const mes = new THREE.MeshPhongMaterial({'color': 0xFFFFFF});
+    const mesh = new THREE.Mesh(geo, mes);
+    mesh.receiveShadow = true;
+    return mesh;
   }
 
   ngOnInit() {
@@ -105,34 +52,10 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.viewer.InitScene(this.isControls,
       () => {
         this.viewer.addStatsHelper();
-        this.viewer.addSkyBoxHelper();
+        // this.viewer.addSkyBoxHelper();
         this.viewer.addAxisHelper(30);
-        this.viewer.addMesh(this.test());
+        this.viewer.addMesh(this.box());
         this.viewer.addMesh(this.plane());
-        this.viewer.addMesh(this.boundingtest());
-        this.test2();
-
-        const geometry = new THREE.BufferGeometry();
-        const vertices = new Float32Array([
-          1, 0, 0,
-          0, 0, 0,
-          0, 1, 0,
-
-          1, 0, 0,
-          0, 0, 6,
-          0, 0, 0,
-
-          0, 0, 0,
-          0, 0, 6,
-          0, 1, 0,
-
-          1, 0, 0,
-          0, 1, 0,
-          0, 0, 6
-        ]);
-        geometry.addAttribute('position', new THREE.BufferAttribute(vertices, 3));
-        // console.log(this.computeVolume(geometry));
-        // console.log(this.computeVolume_BufferGeometry_NoIndex(geometry));
         this.viewer.animate();
       }
     );
@@ -142,76 +65,5 @@ export class ViewerComponent implements OnInit, OnDestroy {
     if (this.viewer) {
       this.viewer.disposeControls();
     }
-  }
-
-  // Utils
-
-  /**
-   * compute the geometry volume
-   * @param geometry
-   * @returns {number}
-   */
-  private computeVolume(geometry) {
-
-    if (geometry instanceof THREE.BufferGeometry) {
-      geometry = new THREE.Geometry().fromBufferGeometry(geometry);
-    }
-
-    let volume = 0;
-    for (let f = 0, fl = geometry.faces.length; f < fl; f++) {
-      const face = geometry.faces[f];
-
-      const vA = geometry.vertices[face.a];
-      const vB = geometry.vertices[face.b];
-      const vC = geometry.vertices[face.c];
-
-      const x1 = vA.x,
-        x2 = vB.x,
-        x3 = vC.x;
-      const y1 = vA.y,
-        y2 = vB.y,
-        y3 = vC.y;
-      const z1 = vA.z,
-        z2 = vB.z,
-        z3 = vC.z;
-      const V = (-x3 * y2 * z1 + x2 * y3 * z1 + x3 * y1 * z2 - x1 * y3 * z2 - x2 * y1 * z3 + x1 * y2 * z3) / 6;
-      volume += V;
-    }
-
-    return volume;
-
-  }
-
-  /**
-   * compute the buffergeometry volume
-   * @param geometry
-   * @returns {number}
-   */
-  private computeVolume_BufferGeometry_NoIndex(geometry) {
-
-    const points = [];
-    const positions = geometry.getAttribute('position').array;
-    for (let i = 0; i < positions.length; i += 3) {
-      points.push(new THREE.Vector3(positions[i], positions[i + 1], positions[i + 2]));
-    }
-    let volume = 0;
-    for (let i = 2; i < points.length; i += 3) {
-      const vA = points[i - 2];
-      const vB = points[i - 1];
-      const vC = points[i];
-
-      const x1 = vA.x,
-        x2 = vB.x,
-        x3 = vC.x;
-      const y1 = vA.y,
-        y2 = vB.y,
-        y3 = vC.y;
-      const z1 = vA.z,
-        z2 = vB.z,
-        z3 = vC.z;
-      const V = (-x3 * y2 * z1 + x2 * y3 * z1 + x3 * y1 * z2 - x1 * y3 * z2 - x2 * y1 * z3 + x1 * y2 * z3) / 6;
-      volume += V;
-    }
-    return volume;
   }
 }

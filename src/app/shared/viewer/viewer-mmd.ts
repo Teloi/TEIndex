@@ -9,6 +9,7 @@ export class MMDModel {
   public physicsHelper: any;
 
   constructor(name, mesh) {
+    mesh.castShadow = true;
     this.name = name;
     this.mesh = mesh;
   }
