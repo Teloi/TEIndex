@@ -1,5 +1,5 @@
 /// <reference types="three" />
-import {isNullOrUndefined} from 'util';
+import { isNullOrUndefined } from 'util';
 
 declare let $;  // JQuery
 declare let ElementQueries: any;
@@ -15,11 +15,11 @@ export class Viewer {
   public clock: THREE.Clock;
 
   // Element
-  public scene: THREE.Scene;
   private renderer: THREE.WebGLRenderer;
+  public scene: THREE.Scene;
   public camera: THREE.Camera;
   public controls: any;
-  public light: THREE.Light;
+  public light: any;
   public skyBoxtexture: THREE.CubeTexture;
 
   // Help
@@ -45,11 +45,9 @@ export class Viewer {
 
   private orbitControls(camera): THREE.OrbitControls {
     if (camera === null) {
-      console.error('InitOrbitControls Error!');
+      console.error('Init OrbitControls Error!');
     }
     const controls = new THREE.OrbitControls(camera);
-    // controls.maxPolarAngle = Math.PI * 0.5;
-    // controls.target.y = 2;
     return controls;
   }
 
@@ -65,10 +63,10 @@ export class Viewer {
     return renderer;
   }
 
-  private addLight(scene: THREE.Scene) {
+  public addLight(target?: THREE.Object3D) {
     // 环境光
     const ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.1);
-    scene.add(ambientLight);
+    this.scene.add(ambientLight);
     // 线性光
     // this.light = new THREE.DirectionalLight(0xffffff, 1);
     // this.light.position.set(-10, 20, 5);
@@ -80,8 +78,13 @@ export class Viewer {
     this.light = new THREE.SpotLight(0xFFFFFF, 1, 0, 0.20, 0, 2);
     this.light.position.set(-10, 50, 50);
     this.light.castShadow = true;
-    const helper = new THREE.SpotLightHelper(this.light);
-    this.scene.add(helper);
+    if (target) {
+      this.light.target = target;
+    }
+
+    // const helper = new THREE.SpotLightHelper(this.light);
+    // this.scene.add(helper);
+    
     // const d = 10;
     // light.shadow.camera['left'] = -d;
     // light.shadow.camera['right'] = d;
@@ -91,7 +94,7 @@ export class Viewer {
     // light.shadow.camera['far'] = 2;
     // this.light.shadow.mapSize.x = 2024;
     // this.light.shadow.mapSize.y = 2024;
-    scene.add(this.light);
+    this.scene.add(this.light);
   }
 
   private checkWebGL() {
@@ -140,7 +143,6 @@ export class Viewer {
       this.scene = new THREE.Scene();
       this.camera = this.perspectiveCamera();
       isControls ? this.controls = this.orbitControls(this.camera) : this.controls = null;
-      this.addLight(this.scene);
       this.container.appendChild(this.renderer.domElement);
       this.addInitScene();
       this.initResize();
@@ -152,6 +154,9 @@ export class Viewer {
     }
   }
 
+  /**
+   * 为Scene开启的继承接口
+   */
   public addInitScene() {
     return;
   }

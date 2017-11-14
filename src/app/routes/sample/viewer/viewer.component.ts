@@ -51,6 +51,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.viewer = new Viewer('viewer');
     this.viewer.InitScene(this.isControls,
       () => {
+        this.viewer.addLight();
         this.viewer.addStatsHelper();
         // this.viewer.addSkyBoxHelper();
         this.viewer.addAxisHelper(30);

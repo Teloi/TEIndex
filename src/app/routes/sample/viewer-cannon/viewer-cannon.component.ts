@@ -22,6 +22,7 @@ export class ViewerCannonComponent implements OnInit, OnDestroy {
     this.viewer = new CAViewer('viewer-cannon');
     this.viewer.InitScene(this.isControls,
       () => {
+        this.viewer.addLight();
         this.viewer.addStatsHelper();
         this.viewer.addAxisHelper(100);
         this.viewer.addSkyBoxHelper();

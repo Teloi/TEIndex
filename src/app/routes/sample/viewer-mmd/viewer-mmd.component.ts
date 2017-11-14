@@ -1,6 +1,6 @@
 /// <reference types="three" />
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {MMDModel, ViewerMMD} from '../../../shared/viewer/viewer-mmd';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MMDModel, ViewerMMD } from '../../../shared/viewer/viewer-mmd';
 
 @Component({
   selector: 'app-viewer-mmd',
@@ -12,14 +12,21 @@ export class ViewerMmdComponent implements OnInit, OnDestroy {
   private isControls: boolean;
 
   constructor() {
-    this.isControls = true;
+    this.isControls = false;
   }
 
   plane() {
     const geo = new THREE.BoxGeometry(100, 0.1, 100);
-    const mes = new THREE.MeshPhongMaterial({'color': 0xFFFFFF});
+    const textureLoader = new THREE.TextureLoader();
+    const texture1 = textureLoader.load('../../../assets/img/mmd/glass.jpg');
+    const mes = new THREE.MeshPhongMaterial({ color: 0xffffff, map: texture1 });
+    texture1.wrapS = texture1.wrapT = THREE.RepeatWrapping;
+    texture1.repeat.set(8, 8);
+    mes.transparent = true;
+    mes.opacity = 0.5;
+    mes.refractionRatio = 0.98;
     const mesh = new THREE.Mesh(geo, mes);
-    mesh.position.setY(-10);
+    mesh.position.setY(0);
     mesh.receiveShadow = true;
     return mesh;
   }
@@ -32,18 +39,19 @@ export class ViewerMmdComponent implements OnInit, OnDestroy {
         this.viewer.addSkyBoxHelper('dark');
         const pmx = '../../../assets/objs/mmd/models/Alice/alice111.pmx';
         const vmd = ['../../../assets/objs/mmd/vmds/极乐净土动作数据.vmd'];
+        const cameraVmd = ['../../../assets/objs/mmd/cameras/极乐净土镜头.vmd'];
+        const video = '../../../assets/objs/mmd/audios/极乐净土音乐.mp3';
         const name = '初音';
-        this.viewer.loadMMD(pmx, vmd, name,
-          (model: MMDModel) => {
-            this.viewer.modelPosition(model, new THREE.Vector3(0, -10, 0));
-            this.viewer.modelAction(model, false);
-            this.viewer.modelIk(model);
-            this.viewer.modelPhysics(model);
-            this.viewer.finishLoaded = true;
-          },
-          (percent) => {
-            // progress-bar
-          });
+        this.viewer.loadMMD(pmx, vmd, cameraVmd, video, name, (model: MMDModel) => {
+          this.viewer.addLight(model.mesh);
+          this.viewer.modelPosition(model, new THREE.Vector3(0, 0, 0));
+          this.viewer.modelAction(model, false);
+          this.viewer.modelIk(model);
+          this.viewer.modelPhysics(model);
+          this.viewer.finishLoaded = true;
+        }, (percent) => {
+          // progress-bar
+        });
         this.viewer.addMesh(this.plane());
         this.viewer.animate();
       }

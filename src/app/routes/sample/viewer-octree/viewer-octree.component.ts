@@ -23,6 +23,7 @@ export class ViewerOctreeComponent implements OnInit, OnDestroy {
     this.viewer = new Viewer('viewer-octree');
     this.viewer.InitScene(this.isControls,
       () => {
+        this.viewer.addLight();
         this.viewer.addStatsHelper();
         this.viewer.addSkyBoxHelper();
         // octree

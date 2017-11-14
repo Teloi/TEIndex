@@ -21,6 +21,7 @@ export class ViewerCsgComponent implements OnInit, OnDestroy {
     this.viewer = new Viewer('viewer-csg');
     this.viewer.InitScene(this.isControls,
       () => {
+        this.viewer.addLight();
         this.viewer.addStatsHelper();
         this.viewer.addSkyBoxHelper();
         this.viewer.addMesh(this.Demo1());
