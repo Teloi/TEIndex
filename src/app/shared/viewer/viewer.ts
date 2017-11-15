@@ -1,5 +1,5 @@
 /// <reference types="three" />
-import { isNullOrUndefined } from 'util';
+import {isNullOrUndefined} from 'util';
 
 declare let $;  // JQuery
 declare let ElementQueries: any;
@@ -84,7 +84,7 @@ export class Viewer {
 
     // const helper = new THREE.SpotLightHelper(this.light);
     // this.scene.add(helper);
-    
+
     // const d = 10;
     // light.shadow.camera['left'] = -d;
     // light.shadow.camera['right'] = d;

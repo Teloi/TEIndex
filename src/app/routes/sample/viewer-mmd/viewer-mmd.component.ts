@@ -1,6 +1,7 @@
 /// <reference types="three" />
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MMDModel, ViewerMMD } from '../../../shared/viewer/viewer-mmd';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {MMDModel, ViewerMMD} from '../../../shared/viewer/viewer-mmd';
+import {NgProgress} from 'ngx-progressbar';
 
 @Component({
   selector: 'app-viewer-mmd',
@@ -11,7 +12,9 @@ export class ViewerMmdComponent implements OnInit, OnDestroy {
   private viewer: ViewerMMD;
   private isControls: boolean;
 
-  constructor() {
+  public percent: number;
+
+  constructor(public ngProgress: NgProgress) {
     this.isControls = false;
   }
 
@@ -19,7 +22,7 @@ export class ViewerMmdComponent implements OnInit, OnDestroy {
     const geo = new THREE.BoxGeometry(100, 0.1, 100);
     const textureLoader = new THREE.TextureLoader();
     const texture1 = textureLoader.load('../../../assets/img/mmd/glass.jpg');
-    const mes = new THREE.MeshPhongMaterial({ color: 0xffffff, map: texture1 });
+    const mes = new THREE.MeshPhongMaterial({color: 0xffffff, map: texture1});
     texture1.wrapS = texture1.wrapT = THREE.RepeatWrapping;
     texture1.repeat.set(8, 8);
     mes.transparent = true;
@@ -42,6 +45,7 @@ export class ViewerMmdComponent implements OnInit, OnDestroy {
         const cameraVmd = ['../../../assets/objs/mmd/cameras/极乐净土镜头.vmd'];
         const video = '../../../assets/objs/mmd/audios/极乐净土音乐.mp3';
         const name = '初音';
+        this.ngProgress.start();
         this.viewer.loadMMD(pmx, vmd, cameraVmd, video, name, (model: MMDModel) => {
           this.viewer.addLight(model.mesh);
           this.viewer.modelPosition(model, new THREE.Vector3(0, 0, 0));
@@ -49,8 +53,9 @@ export class ViewerMmdComponent implements OnInit, OnDestroy {
           this.viewer.modelIk(model);
           this.viewer.modelPhysics(model);
           this.viewer.finishLoaded = true;
+          this.ngProgress.done();
         }, (percent) => {
-          // progress-bar
+          this.percent = percent;
         });
         this.viewer.addMesh(this.plane());
         this.viewer.animate();

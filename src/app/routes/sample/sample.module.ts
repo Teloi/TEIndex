@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {SharedModule} from '../../shared/shared.module';
 import {RouterModule} from '@angular/router';
 import {routes} from './sample.route';
+import {NgProgressModule} from 'ngx-progressbar';
 
 // Local Components
 import {SampleComponent} from './sample.component';
@@ -18,6 +19,7 @@ import {ViewerMmdComponent} from './viewer-mmd/viewer-mmd.component';
   imports: [
     CommonModule,
     SharedModule,
+    NgProgressModule,
     RouterModule.forChild(routes)
   ],
   declarations: [

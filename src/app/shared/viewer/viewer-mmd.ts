@@ -1,6 +1,6 @@
 /// <reference types="three" />
-import { Viewer } from './viewer';
-import { element } from 'protractor';
+import {Viewer} from './viewer';
+import {element} from 'protractor';
 
 export class MMDModel {
 
@@ -21,11 +21,16 @@ export class ViewerMMD extends Viewer {
   private helper: THREE.MMDHelper;
   public finishLoaded: boolean;
 
-  public loadMMD(modelFile: string, vmdFiles: string[], cameraFiles: string[], audioFile: string,
-    name: string, callback: Function, onProgress?: Function, onError?: Function) {
+  public loadMMD(modelFile: string,
+                 vmdFiles: string[],
+                 cameraFiles: string[],
+                 audioFile: string,
+                 name: string,
+                 callback: Function,
+                 onProgress?: Function,
+                 onError?: Function) {
     const loader = new THREE.MMDLoader();
-    loader.load(modelFile, vmdFiles,
-      (object) => {
+    loader.load(modelFile, vmdFiles, (object) => {
         const model = new MMDModel(name, object);
         this.mmdModels.push(model);
         if (cameraFiles != null) {
@@ -38,7 +43,7 @@ export class ViewerMMD extends Viewer {
             if (audioFile != null) {
               loader.loadAudio(audioFile, (audio, listener) => {
                 listener.position.z = 1;
-                this.helper.setAudio(audio, listener, { delayTime: 0.12 });
+                this.helper.setAudio(audio, listener, {delayTime: 0.12});
                 this.helper.unifyAnimationDuration();
                 this.scene.add(audio);
                 this.scene.add(listener);
@@ -105,7 +110,7 @@ export class ViewerMMD extends Viewer {
 
   public addInitScene() {
     this.helper = new THREE.MMDHelper();
-    this.helper.unifyAnimationDuration({ afterglow: 2.0 });
+    this.helper.unifyAnimationDuration({afterglow: 2.0});
   }
 
   public addAnimate(time) {
