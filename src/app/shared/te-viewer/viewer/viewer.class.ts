@@ -24,7 +24,7 @@ export class TEViewer extends Viewer {
     try {
       this.renderer = this.webGLRenderer();
       this.scene = new THREE.Scene();
-      this.camera = this.perspectiveCamera();
+      // this.camera = this.perspectiveCamera();
       // isControls ? this.controls = this.orbitControls(this.camera) : this.controls = null;
       // this.container.appendChild(this.renderer.domElement);
       // this.addInitScene();

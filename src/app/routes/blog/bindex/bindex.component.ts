@@ -9,7 +9,7 @@ import {AbpResult} from '../../../shared/services/http.service';
 })
 export class BindexComponent implements OnInit {
 
-  public notice = '';
+  public notice: string;
 
   constructor(private bindexService: BindexService) {
   }
@@ -18,6 +18,8 @@ export class BindexComponent implements OnInit {
     this.bindexService.getNotice().subscribe((response: AbpResult) => {
       if (response.success) {
         this.notice = response.result;
+      } else {
+        console.error(response.error.message, response.error.details);
       }
     });
   }
