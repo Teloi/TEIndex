@@ -15,7 +15,7 @@ export class ViewerMmdComponent implements OnInit, OnDestroy {
   public percent: number;
 
   constructor(public ngProgress: NgProgress) {
-    this.isControls = false;
+    this.isControls = true;
   }
 
   plane() {

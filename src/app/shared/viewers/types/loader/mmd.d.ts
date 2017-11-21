@@ -3,9 +3,12 @@
 declare namespace THREE {
   export class MMDLoader {
     load(modelUrl, vmdUrls, callback?, onProgress?, onError?): MMDLoader;
+
     loadVmds(cameraFiles: string[], callback?: Function): any;
-    pourVmdIntoCamera(camera: THREE.Camera, vmd);
+
     loadAudio(audioFile: string, callback?: Function);
+
+    pourVmdIntoCamera(camera: THREE.Camera, vmd);
   }
 
   export class MMDHelper {
@@ -15,7 +18,7 @@ declare namespace THREE {
 
     setPhysics(mesh);
 
-    unifyAnimationDuration(object: any);
+    unifyAnimationDuration(params?: any);
 
     animate(time: number);
 
@@ -23,9 +26,7 @@ declare namespace THREE {
 
     setCameraAnimation(camera: THREE.Camera);
 
-    setAudio( audio, listener, audioParams );
-
-    unifyAnimationDuration();
+    setAudio(audio, listener, audioParams);
   }
 
   export class CCDIKHelper {
