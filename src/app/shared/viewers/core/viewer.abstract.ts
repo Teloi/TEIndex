@@ -1,6 +1,6 @@
 /// <reference types="three" />
 import {isNullOrUndefined} from 'util';
-import {IAnimateExtend, IViewer, IViewerExtend} from './viewer.interface';
+import {IViewer} from './viewer.interface';
 
 declare const $;
 declare let ElementQueries: any;
@@ -107,7 +107,7 @@ export abstract class Viewer implements IViewer {
     return;
   }
 
-  protected initViewer(callback: Function) {
+  public initViewer(callback: Function) {
     this._container.appendChild(this._renderer.domElement);
     this.initResize();
     this.addInitViewer();
@@ -121,7 +121,7 @@ export abstract class Viewer implements IViewer {
     return;
   }
 
-  protected animate() {
+  public animate(callback?: Function) {
     const render = () => {
       const deltaTime = this._clock.getDelta();
       this._renderer.render(this._scene, this._camera);
@@ -131,25 +131,27 @@ export abstract class Viewer implements IViewer {
       if (!isNullOrUndefined(this._stats)) {
         this._stats.update();
       }
-      this.addAnimate(deltaTime);
+      if (callback) {
+        callback(this._clock);
+      }
     };
     requestAnimationFrame(() => {
-      this.animate();
+      this.animate(callback);
     });
     render();
   }
 
   // Mesh
-  protected addMesh(mesh: THREE.Object3D) {
+  public addMesh(mesh: THREE.Object3D) {
     this._scene.add(mesh);
   }
 
-  protected removeMesh(mesh: THREE.Object3D) {
+  public removeMesh(mesh: THREE.Object3D) {
     this._scene.remove(mesh);
   }
 
   // Helper
-  protected addStatsHelper() {
+  public addStatsHelper() {
     this._stats = new Stats();
     this._stats.domElement.style.position = 'absolute';
     this._stats.domElement.style.top = '0px';
@@ -158,7 +160,7 @@ export abstract class Viewer implements IViewer {
     this._container.appendChild(this._stats.domElement);
   }
 
-  protected addSkyBoxHelper(filePath?: string) {
+  public addSkyBoxHelper(filePath?: string) {
     const path = filePath ? filePath : 'Park3Med/';
     const r = '../../../assets/img/skyboxs/' + path;
     const urls = [
@@ -172,12 +174,12 @@ export abstract class Viewer implements IViewer {
     });
   }
 
-  protected addAxisHelper(size: number) {
+  public addAxisHelper(size: number) {
     const helper = new THREE.AxisHelper(size);
     this._scene.add(helper);
   }
 
-  protected addCameraHelper() {
+  public addCameraHelper() {
     const helper = new THREE.CameraHelper(this.camera);
     this._scene.add(helper);
   }
@@ -215,7 +217,7 @@ export abstract class Viewer implements IViewer {
   }
 
   // Dispose
-  protected disposeControls() {
+  public disposeControls() {
     if (!isNullOrUndefined(this._control)) {
       this._control.dispose();
     }

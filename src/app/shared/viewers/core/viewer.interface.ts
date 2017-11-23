@@ -17,7 +17,3 @@ export interface IViewer {
 export interface IViewerExtend {
   addInitViewer(): void;
 }
-
-export interface IAnimateExtend {
-  addAnimate(): void;
-}

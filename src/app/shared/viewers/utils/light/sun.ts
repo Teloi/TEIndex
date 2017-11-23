@@ -1,6 +1,26 @@
 /// <reference types="three" />
 import {isNullOrUndefined} from 'util';
 
+export class TimeInfo {
+
+  public year: number;
+  public month: number;
+  public day: number;
+  public hour: number;
+  public minutes: number;
+  public sec: number;
+
+  constructor() {
+    const date = new Date();
+    this.year = date.getFullYear();
+    this.month = date.getMonth();
+    this.day = date.getDay();
+    this.hour = date.getHours();
+    this.minutes = date.getMinutes();
+    this.sec = date.getSeconds();
+  }
+}
+
 export class Sun {
   /**
    * [全球某一时刻日照]
@@ -13,11 +33,7 @@ export class Sun {
    * @param {[number]} lat     [纬度]
    * @param {[number]} long    [经度]
    */
-  static sunPosition(year: number, month: number, day: number, hour?: number, minutes?: number,
-                     sec?: number, lat?: number, long?: number) {
-    hour = typeof hour !== 'undefined' ? hour : 12;
-    minutes = typeof minutes !== 'undefined' ? minutes : 0;
-    sec = typeof sec !== 'undefined' ? sec : 0;
+  static sunPosition(currentTime: TimeInfo, lat?: number, long?: number) {
     lat = typeof lat !== 'undefined' ? lat : 46.5;
     long = typeof long !== 'undefined' ? long : 6.5;
 
@@ -27,7 +43,8 @@ export class Sun {
     const deg2rad = (PI * 2) / 360;
 
 
-    const today = new Date(year, month, day, hour, minutes, sec, 0);
+    const today = new Date(currentTime.year, currentTime.month, currentTime.day,
+      currentTime.hour - 8, currentTime.minutes, currentTime.sec, 0);
     // The input to the Atronomer's almanach is the difference between
     // the Julian date and JD 2451545.0 (noon, 1 January 2000)
     const jd = Math.floor((today.getTime() / 86400000) - (today.getTimezoneOffset() / 1440) + 2440587.5); // get Julian counterpart
@@ -77,7 +94,7 @@ export class Sun {
 
     // Local coordinates
     // Greenwich mean sidereal time
-    let gmst = 6.697375 + 0.0657098242 * time + hour;
+    let gmst = 6.697375 + 0.0657098242 * time + currentTime.hour - 8;
     gmst = gmst % 24;
     if (gmst < 0) {
       gmst = gmst + 24;
@@ -138,13 +155,13 @@ export class Sun {
     return [el, az];
   }
 
-  static updateLightPosition(elevation: number, azimuth: number, light: THREE.Light) {
+  static updateLightPosition(elevation: number, azimuth: number, distance: number, light: THREE.Light) {
     if (!isNullOrUndefined(light)) {
       const theta = elevation * (Math.PI / 180);
       const phi = azimuth * (Math.PI / 180);
-      light.position.x = 15 * Math.cos(theta) * Math.sin(phi);
-      light.position.y = 15 * Math.sin(theta);
-      light.position.z = 15 * Math.cos(theta) * Math.cos(phi);
+      light.position.x = distance * Math.cos(theta) * Math.sin(phi);
+      light.position.y = distance * Math.sin(theta);
+      light.position.z = distance * Math.cos(theta) * Math.cos(phi);
       light.castShadow = true;
     }
   }

@@ -1,6 +1,5 @@
 /// <reference types="three" />
 import {Viewer} from './core/viewer.abstract';
-
 import {IViewer} from './core/viewer.interface';
 
 export class ViewerBase extends Viewer implements IViewer {
@@ -39,19 +38,19 @@ export class ViewerBase extends Viewer implements IViewer {
 
   initLight(target?: THREE.Object3D) {
     // 线性光
-    // this.light = new THREE.DirectionalLight(0xffffff, 1);
-    // this.light.position.set(-10, 20, 5);
-    // this.light.castShadow = true;
+    const light = new THREE.DirectionalLight(0xffffff, 1);
+    light.position.set(-10, 20, 5);
+    light.castShadow = true;
     // const helper = new THREE.DirectionalLightHelper(this.light, 10);
     // this.scene.add(helper);
 
 
-    const light = new THREE.SpotLight(0xFFFFFF, 1, 0, 0.20, 0, 2);
-    light.position.set(-10, 50, 50);
-    light.castShadow = true;
-    if (target) {
-      light.lookAt(target.position);
-    }
+    // const light = new THREE.SpotLight(0xFFFFFF, 1, 0, 0.20, 0, 2);
+    // light.position.set(-10, 50, 50);
+    // light.castShadow = true;
+    // if (target) {
+    //   light.lookAt(target.position);
+    // }
 
     // const helper = new THREE.SpotLightHelper(this.light);
     // this.scene.add(helper);

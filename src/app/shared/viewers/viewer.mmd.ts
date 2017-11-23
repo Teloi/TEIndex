@@ -1,19 +1,14 @@
 /// <reference types="three" />
 import {Viewer} from './core/viewer.abstract';
-import {IAnimateExtend, IViewer, IViewerExtend} from './core/viewer.interface';
+import {IViewer, IViewerExtend} from './core/viewer.interface';
 
-export class ViewerMmd extends Viewer implements IViewer, IViewerExtend, IAnimateExtend {
+export class ViewerMmd extends Viewer implements IViewer, IViewerExtend {
   constructor(containerId: string) {
     super(containerId);
   }
 
   // Extend Viewer
   addInitViewer() {
-
-  }
-
-  // Extend Animate
-  addAnimate() {
 
   }
 
