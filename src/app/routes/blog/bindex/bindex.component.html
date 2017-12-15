@@ -6,66 +6,20 @@
       <p>{{'blog.index.CONTENT' | translate}}</p>
     </header>
 
+    <div *ngFor="let article of articles" class="col-md-3 col-md-6">
+      <div class="service-box">
+        <div class="service-icon yellow" style="background-size: 100% 100%;"
+             [ngStyle]="{'background-image':'url(' + article.background + ')'}">
+          <div class="front-content">
+            <h3>{{article.title}}</h3>
+          </div>
+        </div>
+        <div class="service-content">
+          <h3>{{article.title}}</h3>
+          <p>{{article.introduction}}</p>
+        </div>
+      </div>
+    </div>
 
-    <div class="col-md-3 col-sm-6">
-      <div class="service-box">
-        <div class="service-icon yellow">
-          <div class="front-content">
-            <i class="fa fa-trophy"></i>
-            <h3>Angular</h3>
-          </div>
-        </div>
-        <div class="service-content">
-          <h3>简介</h3>
-          <p>一套框架，多种平台,同时适用手机与桌面</p>
-          <p>本站使用Angular(RC4)搭建而成</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <div class="service-box">
-        <div class="service-icon orange">
-          <div class="front-content">
-            <i class="fa fa-anchor"></i>
-            <h3>Asp.Net</h3>
-          </div>
-        </div>
-        <div class="service-content">
-          <h3>php developer</h3>
-          <p>No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not
-            know how to pursue pleasure</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <div class="service-box ">
-        <div class="service-icon red">
-          <div class="front-content">
-            <i class="fa fa-trophy"></i>
-            <h3>ThreeJS</h3>
-          </div>
-        </div>
-        <div class="service-content">
-          <h3>Developer</h3>
-          <p>No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not
-            know how to pursue pleasure</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <div class="service-box">
-        <div class="service-icon grey">
-          <div class="front-content">
-            <i class="fa fa-paper-plane-o"></i>
-            <h3>AmmoJS</h3>
-          </div>
-        </div>
-        <div class="service-content">
-          <h3>java script</h3>
-          <p>No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not
-            know how to pursue pleasure</p>
-        </div>
-      </div>
-    </div>
   </div>
 </div>

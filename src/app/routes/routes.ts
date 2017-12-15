@@ -1,5 +1,6 @@
 import {RouterModule} from '@angular/router';
-import {IndexComponent} from './index/index.component';
+import {IndexComponent} from './layouts/index/index.component';
+import {ErrorComponent} from './layouts/error/error.component';
 
 export const routes = [
   {
@@ -17,7 +18,7 @@ export const routes = [
     path: 'sample',
     loadChildren: './sample/sample.module#SampleModule'
   },
-  {path: '**', redirectTo: '404'}
+  {path: '**', component: ErrorComponent}
 ];
 
 export const Routing = RouterModule.forRoot(routes);

@@ -10,35 +10,35 @@ import {ViewerMmdComponent} from './viewer-mmd/viewer-mmd.component';
 export const routes = [
   {
     path: '', component: SampleComponent, children: [
-    {
-      path: '',
-      component: IndexComponent
-    },
-    {
-      path: 'viewer',
-      component: ViewerComponent
-    },
-    {
-      path: 'viewer-ammo',
-      component: ViewerAmmoComponent
-    },
-    {
-      path: 'viewer-cannon',
-      component: ViewerCannonComponent
-    },
-    {
-      path: 'viewer-csg',
-      component: ViewerCsgComponent
-    },
-    {
-      path: 'viewer-octree',
-      component: ViewerOctreeComponent
-    },
-    {
-      path: 'viewer-mmd',
-      component: ViewerMmdComponent
-    },
-    {path: '**', redirectTo: ''}
-  ]
+      {
+        path: '',
+        component: IndexComponent
+      },
+      {
+        path: 'viewer',
+        component: ViewerComponent
+      },
+      {
+        path: 'viewer-ammo',
+        component: ViewerAmmoComponent
+      },
+      {
+        path: 'viewer-cannon',
+        component: ViewerCannonComponent
+      },
+      {
+        path: 'viewer-csg',
+        component: ViewerCsgComponent
+      },
+      {
+        path: 'viewer-octree',
+        component: ViewerOctreeComponent
+      },
+      {
+        path: 'viewer-mmd',
+        component: ViewerMmdComponent
+      },
+      {path: '**', redirectTo: ''}
+    ]
   }
 ];

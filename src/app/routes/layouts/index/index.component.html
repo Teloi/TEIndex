@@ -1,13 +1,13 @@
 <div class="mainIndex">
   <div class="overColor">
     <div class="container-fluid">
-      <p><a routerLink="../blog">
+      <p><a routerLink="../../blog">
         <span class="fa fa-bold fa-one"></span>log Without Content
       </a></p>
         <!--<p><a routerLink="../game">-->
           <!--sillY<span class="fa fa-gamepad"></span>-->
         <!--</a></p>-->
-      <p><a routerLink="../sample">
+      <p><a routerLink="../../sample">
         sillY<span class="fa fa-gamepad"></span>
       </a></p>
     </div>
@@ -16,7 +16,7 @@
     <div class="footer">
       <!--Footer CoverBy Baidu Search -->
       <form method=GET action="https://www.baidu.com/baidu" target="_blank">
-        <input type="text" name="word" size="18" placeholder="&copy;{{'teindex.record.CONTENT' | translate}}">
+        <input type="text" name="word" size="17" placeholder="&copy;{{'teindex.record.CONTENT' | translate}}">
       </form>
       <!--Function Button-->
       <ul>
@@ -29,25 +29,20 @@
         <li><a href="mailto:teloi.zhang@esooft.com" title="{{'teindex.fonts.MAIL' | translate}}"><i
           class="fa fa-envelope"
           aria-hidden="true"></i></a></li>
-        <li><a href="../../../assets/humans.txt" title="{{'teindex.fonts.HUMANS' | translate}}"><i
+        <li><a href="../../../../assets/humans.txt" title="{{'teindex.fonts.HUMANS' | translate}}"><i
           class="fa fa-info-circle"
           aria-hidden="true"></i></a></li>
         <li *ngIf="currentLanguage === 'zh-cn'">
           <a (click)="setLang('en')" title="{{'teindex.fonts.EN' | translate}}">
-            <img src="../../../assets/img/country/China.png" width="14" height="14">
+            <img src="../../../../assets/img/country/China.png" width="14" height="14">
           </a>
         </li>
         <li *ngIf="currentLanguage === 'en'">
           <a (click)="setLang('zh-cn')" title="{{'teindex.fonts.ZH_CN' | translate}}">
-            <img src="../../../assets/img/country/UnitedStates.png" width="14" height="14">
+            <img src="../../../../assets/img/country/UnitedStates.png" width="14" height="14">
           </a>
         </li>
       </ul>
     </div>
   </div>
 </div>
-
-<!--图标的可访问性-->
-<!--现代的辅助技术能够识别并朗读由 CSS 生成的内容和特定的 Unicode 字符。为了避免 屏幕识读设备抓取非故意的和可能产生混淆的输出内容（尤其是当图标纯粹作为装饰用途时），我们为这些图标设置了 aria-hidden="true" 属性。-->
-<!--如果你使用图标是为了表达某些含义（不仅仅是为了装饰用），请确保你所要表达的意思能够通过被辅助设备识别，例如，包含额外的内容并通过 .sr-only 类让其在视觉上表现出隐藏的效果。-->
-<!--如果你所创建的组件不包含任何文本内容（例如， <button> 内只包含了一个图标），你应当提供其他的内容来表示这个控件的意图，这样就能让使用辅助设备的用户知道其作用了。这种情况下，你可以为控件添加 aria-label 属性。-->

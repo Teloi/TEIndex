@@ -70,6 +70,7 @@ export class ViewerBase extends Viewer implements IViewer {
   initControl(camera: THREE.Camera) {
     if (camera === null) {
       console.error('Init OrbitControls Error!');
+      return;
     }
     const control = new THREE.OrbitControls(camera);
     return control;

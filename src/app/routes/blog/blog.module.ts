@@ -6,12 +6,7 @@ import {routes} from './blog.routes';
 
 // Components
 import {BlogComponent} from './blog.component';
-import {BindexComponent} from './bindex/bindex.component';
-import {BaboutComponent} from './babout/babout.component';
-import {BmessageComponent} from './bmessage/bmessage.component';
-import {BarticleComponent} from './barticle/barticle.component';
-import {BclassifyComponent} from './bclassify/bclassify.component';
-import {BphotoComponent} from './bphoto/bphoto.component';
+import {BIndexComponent} from './bindex/bindex.component';
 
 
 @NgModule({
@@ -22,12 +17,7 @@ import {BphotoComponent} from './bphoto/bphoto.component';
   ],
   declarations: [
     BlogComponent,
-    BindexComponent,
-    BaboutComponent,
-    BmessageComponent,
-    BarticleComponent,
-    BclassifyComponent,
-    BphotoComponent
+    BIndexComponent
   ],
   exports: [
     RouterModule

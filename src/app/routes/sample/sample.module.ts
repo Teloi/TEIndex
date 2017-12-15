@@ -14,6 +14,8 @@ import {ViewerCannonComponent} from './viewer-cannon/viewer-cannon.component';
 import {ViewerCsgComponent} from './viewer-csg/viewer-csg.component';
 import {ViewerOctreeComponent} from './viewer-octree/viewer-octree.component';
 import {ViewerMmdComponent} from './viewer-mmd/viewer-mmd.component';
+import {ViewerOsgComponent} from './viewer-osg/viewer-osg.component';
+import {ViewerCesiumComponent} from './viewer-cesium/viewer-cesium.component';
 
 @NgModule({
   imports: [
@@ -30,7 +32,9 @@ import {ViewerMmdComponent} from './viewer-mmd/viewer-mmd.component';
     ViewerCannonComponent,
     ViewerCsgComponent,
     ViewerOctreeComponent,
-    ViewerMmdComponent
+    ViewerMmdComponent,
+    ViewerOsgComponent,
+    ViewerCesiumComponent
   ],
   exports: [RouterModule]
 })

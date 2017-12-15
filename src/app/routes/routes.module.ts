@@ -4,7 +4,8 @@ import {CommonModule} from '@angular/common';
 // Main Route
 import {Routing} from './routes';
 import {SharedModule} from '../shared/shared.module';
-import {IndexComponent} from './index/index.component';
+import {IndexComponent} from './layouts/index/index.component';
+import {ErrorComponent} from './layouts/error/error.component';
 
 @NgModule({
   imports: [
@@ -12,7 +13,7 @@ import {IndexComponent} from './index/index.component';
     Routing,
     SharedModule
   ],
-  declarations: [IndexComponent],
+  declarations: [IndexComponent, ErrorComponent],
   exports: [
     RouterModule
   ]
