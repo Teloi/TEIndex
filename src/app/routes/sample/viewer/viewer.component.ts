@@ -10,8 +10,8 @@ import {Sun, TimeInfo} from '../../../shared/viewers/utils/utils';
 })
 export class ViewerComponent implements OnInit, OnDestroy {
 
+  time: TimeInfo;
   private viewer: ViewerBase;
-  private time: TimeInfo;
 
   constructor() {
     this.time = new TimeInfo();

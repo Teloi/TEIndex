@@ -27,6 +27,7 @@ export class ViewerMmdComponent implements OnInit, OnDestroy {
     texture1.repeat.set(8, 8);
     mes.transparent = true;
     mes.opacity = 0.5;
+    mes.depthWrite = false;
     mes.refractionRatio = 0.98;
     const mesh = new THREE.Mesh(geo, mes);
     mesh.position.setY(0);
@@ -39,17 +40,17 @@ export class ViewerMmdComponent implements OnInit, OnDestroy {
     this.viewer.InitScene(this.isControls,
       () => {
         this.viewer.addStatsHelper();
-        this.viewer.addSkyBoxHelper('dark');
+        this.viewer.addSkyBoxHelper('sea');
         const pmx = '../../../assets/objs/mmd/models/Alice/alice111.pmx';
         const vmd = ['../../../assets/objs/mmd/vmds/极乐净土动作数据.vmd'];
         const cameraVmd = ['../../../assets/objs/mmd/cameras/极乐净土镜头.vmd'];
         const video = '../../../assets/objs/mmd/audios/极乐净土音乐.mp3';
         const name = '初音';
         this.ngProgress.start();
-        this.viewer.loadMMD(pmx, vmd, cameraVmd, video, name, (model: MMDModel) => {
+        this.viewer.loadMMD(pmx, vmd, null, video, name, (model: MMDModel) => {
           this.viewer.addLight(model.mesh);
           this.viewer.modelPosition(model, new THREE.Vector3(0, 0, 0));
-          this.viewer.modelAction(model, false);
+          this.viewer.modelAction(model, true);
           this.viewer.modelIk(model);
           this.viewer.modelPhysics(model);
           this.viewer.finishLoaded = true;
