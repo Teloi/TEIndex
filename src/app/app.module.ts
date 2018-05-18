@@ -1,21 +1,21 @@
-import {NgModule} from '@angular/core';
-import {ServicesModule} from './services/services.module';
-import {BrowserModule} from '@angular/platform-browser';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {FormsModule} from '@angular/forms';
-import {AppComponent} from './app.component';
+import { NgModule } from '@angular/core';
+import { ServicesModule } from './services/services.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
+import { AppComponent } from './app.component';
 // Route Module
-import {RoutesModule} from './routes/routes.module';
+import { RoutesModule } from './routes/routes.module';
 // Share Module
-import {SharedModule} from './shared/shared.module';
+import { SharedModule } from './shared/shared.module';
 
 // Ngx-transloate
-import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
-import {TranslateHttpLoader} from '@ngx-translate/http-loader';
-import {TranslatorService} from './shared/services/translator.service';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslatorService } from './shared/services/translator.service';
 
 // New in Rc4 -------HttpClientModule
-import {HttpClient, HttpClientModule} from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 // https://github.com/ocombe/ng2-translate/issues/218
 export function createTranslateLoader(http: HttpClient) {

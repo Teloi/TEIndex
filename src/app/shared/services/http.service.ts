@@ -1,11 +1,7 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/operator/toPromise';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import {isNullOrUndefined} from 'util';
-import {Environment} from '../../../environments/environment';
-import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { isNullOrUndefined } from 'util';
+import { Environment } from '../../../environments/environment';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 
 export class AbpValidationError {
   private message: string;
@@ -42,20 +38,7 @@ export class TEHttpService {
 
   httpGet(url: string, params?: any, ignoreError?: boolean) {
     const urlEx = TEHttpService.buildUrl(params);
-    return this.http.get(this.urlPrefix + url + urlEx, {headers: this.headers})
-      .map((response: AbpResult) => {
-        // this.refreshToken();
-        return response;
-      })
-      .catch((error) => {
-        if (ignoreError === true) {
-          return Observable.throw(error);
-        } else {
-          // return scope.handleError(error);
-          console.error(error.message);
-          return;
-        }
-      });
+    return this.http.get(this.urlPrefix + url + urlEx, {headers: this.headers});
   }
 
 

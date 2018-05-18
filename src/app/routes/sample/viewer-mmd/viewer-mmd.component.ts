@@ -1,7 +1,7 @@
 /// <reference types="three" />
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {MMDModel, ViewerMMD} from '../../../shared/viewer/viewer-mmd';
-import {NgProgress} from 'ngx-progressbar';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MMDModel, ViewerMMD } from '../../../shared/viewer/viewer-mmd';
+import { NgProgress } from '@ngx-progressbar/core';
 
 @Component({
   selector: 'app-viewer-mmd',
@@ -54,7 +54,7 @@ export class ViewerMmdComponent implements OnInit, OnDestroy {
           this.viewer.modelIk(model);
           this.viewer.modelPhysics(model);
           this.viewer.finishLoaded = true;
-          this.ngProgress.done();
+          this.ngProgress.complete();
         }, (percent) => {
           this.percent = percent;
         });

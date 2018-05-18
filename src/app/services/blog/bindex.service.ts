@@ -1,7 +1,5 @@
-import {Injectable} from '@angular/core';
-import 'rxjs/add/operator/map';
-
-import {TEHttpService} from '../../shared/services/http.service';
+import { Injectable } from '@angular/core';
+import { TEHttpService } from '../../shared/services/http.service';
 
 @Injectable()
 export class BindexService {

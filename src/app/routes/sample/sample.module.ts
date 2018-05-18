@@ -1,19 +1,19 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {SharedModule} from '../../shared/shared.module';
-import {RouterModule} from '@angular/router';
-import {routes} from './sample.route';
-import {NgProgressModule} from 'ngx-progressbar';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { SharedModule } from '../../shared/shared.module';
+import { RouterModule } from '@angular/router';
+import { routes } from './sample.route';
+import { NgProgressModule } from '@ngx-progressbar/core';
 
 // Local Components
-import {SampleComponent} from './sample.component';
-import {IndexComponent} from './index/index.component';
-import {ViewerComponent} from './viewer/viewer.component';
-import {ViewerAmmoComponent} from './viewer-ammo/viewer-ammo.component';
-import {ViewerCannonComponent} from './viewer-cannon/viewer-cannon.component';
-import {ViewerCsgComponent} from './viewer-csg/viewer-csg.component';
-import {ViewerOctreeComponent} from './viewer-octree/viewer-octree.component';
-import {ViewerMmdComponent} from './viewer-mmd/viewer-mmd.component';
+import { SampleComponent } from './sample.component';
+import { IndexComponent } from './index/index.component';
+import { ViewerComponent } from './viewer/viewer.component';
+import { ViewerAmmoComponent } from './viewer-ammo/viewer-ammo.component';
+import { ViewerCannonComponent } from './viewer-cannon/viewer-cannon.component';
+import { ViewerCsgComponent } from './viewer-csg/viewer-csg.component';
+import { ViewerOctreeComponent } from './viewer-octree/viewer-octree.component';
+import { ViewerMmdComponent } from './viewer-mmd/viewer-mmd.component';
 // import {ViewerOsgComponent} from './viewer-osg/viewer-osg.component';
 // import {ViewerCesiumComponent} from './viewer-cesium/viewer-cesium.component';
 
@@ -21,7 +21,7 @@ import {ViewerMmdComponent} from './viewer-mmd/viewer-mmd.component';
   imports: [
     CommonModule,
     SharedModule,
-    NgProgressModule,
+    NgProgressModule.forRoot(),
     RouterModule.forChild(routes)
   ],
   declarations: [

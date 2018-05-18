@@ -4,7 +4,7 @@
 
 - Generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.5.0.
 
-- Angular 5.0.0
+- Angular Version 6
 
 - Some cases of using [Three.js](https://github.com/mrdoob/three.js).
 
