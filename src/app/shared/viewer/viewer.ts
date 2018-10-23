@@ -68,19 +68,20 @@ export class Viewer {
     const ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.1);
     this.scene.add(ambientLight);
     // 线性光
-    // this.light = new THREE.DirectionalLight(0xffffff, 1);
-    // this.light.position.set(-10, 20, 5);
-    // this.light.castShadow = true;
+    this.light = new THREE.DirectionalLight(0xffffff, 1);
+    this.light.position.set(-10, 50, 50);
+    this.light.castShadow = true;
     // const helper = new THREE.DirectionalLightHelper(this.light, 10);
     // this.scene.add(helper);
 
-
-    this.light = new THREE.SpotLight(0xFFFFFF, 1, 0, 0.20, 0, 2);
-    this.light.position.set(-10, 50, 50);
-    this.light.castShadow = true;
-    if (target) {
-      this.light.target = target;
-    }
+    // 舞台光
+    // this.light = new THREE.SpotLight(0xFFFFFF, 1, 0, 0.20, 0, 2);
+    // this.light.position.set(-10, 50, 50);
+    // this.light.castShadow = true;
+    // if (target) {
+    //   this.light.target = target;
+    // }
+    // end
 
     // const helper = new THREE.SpotLightHelper(this.light);
     // this.scene.add(helper);

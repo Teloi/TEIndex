@@ -1,6 +1,6 @@
-import {RouterModule} from '@angular/router';
-import {IndexComponent} from './layouts/index/index.component';
-import {ErrorComponent} from './layouts/error/error.component';
+import { RouterModule } from '@angular/router';
+import { IndexComponent } from './layouts/index/index.component';
+import { ErrorComponent } from './layouts/error/error.component';
 
 export const routes = [
   {

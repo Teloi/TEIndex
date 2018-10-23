@@ -15,7 +15,7 @@ export class ViewerMmdComponent implements OnInit, OnDestroy {
   public percent: number;
 
   constructor(public ngProgress: NgProgress) {
-    this.isControls = true;
+    this.isControls = false;
   }
 
   plane() {
@@ -47,10 +47,10 @@ export class ViewerMmdComponent implements OnInit, OnDestroy {
         const video = '../../../assets/objs/mmd/audios/极乐净土音乐.mp3';
         const name = '初音';
         this.ngProgress.start();
-        this.viewer.loadMMD(pmx, vmd, null, video, name, (model: MMDModel) => {
+        this.viewer.loadMMD(pmx, vmd, cameraVmd, video, name, (model: MMDModel) => {
           this.viewer.addLight(model.mesh);
           this.viewer.modelPosition(model, new THREE.Vector3(0, 0, 0));
-          this.viewer.modelAction(model, true);
+          this.viewer.modelAction(model, false);
           this.viewer.modelIk(model);
           this.viewer.modelPhysics(model);
           this.viewer.finishLoaded = true;

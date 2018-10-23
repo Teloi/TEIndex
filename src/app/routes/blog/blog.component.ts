@@ -1,6 +1,6 @@
 declare let $;
-import {Component, OnInit} from '@angular/core';
-import {TranslatorService} from '../../shared/services/translator.service';
+import { Component, OnInit } from '@angular/core';
+import { TranslatorService } from '../../shared/services/translator.service';
 
 @Component({
   selector: 'app-blog',
