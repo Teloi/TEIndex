@@ -1,10 +1,10 @@
 /// <reference types="three" />
 declare let Ammo;
 
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 @Injectable()
-export class MeshbuilderService {
+export class MeshBuilderService {
 
   private margin; // 刚体外边缘
 

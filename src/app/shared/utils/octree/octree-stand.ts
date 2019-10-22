@@ -57,7 +57,7 @@ export class ESOctree {
 
     // 视觉感受
     this.BoxGeo = new THREE.CubeGeometry(this.halfX * 2, this.halfY * 2, this.halfZ * 2);
-    this.BoxMesh = new THREE.Mesh(this.BoxGeo, new THREE.MeshBasicMaterial({color: 0x0, opacity: 1, wireframe: true}));
+    this.BoxMesh = new THREE.Mesh(this.BoxGeo, new THREE.MeshBasicMaterial({ color: 0x0, opacity: 1, wireframe: true }));
     this.BoxMesh.position.set(this.oringePosition.clone().x, this.oringePosition.clone().y, this.oringePosition.clone().z);
 
     if (parent !== null) {
@@ -76,17 +76,17 @@ export class ESOctree {
   // 判断交叉
   intersects(entity) {
     return this.contains(entity.position);
-  };
+  }
 
   // 是否包含
   contains(point) {
-    let diff = new THREE.Vector3();
+    const diff = new THREE.Vector3();
     // subVectors方法用来将三维向量的(x,y,z)坐标值分别于参数(a,b)的(x,y,z)相减.并返回新的坐标值的三维向量.
     diff.subVectors(point, this.oringePosition);
     return Math.abs(diff.x) <= this.halfX
       && Math.abs(diff.y) <= this.halfY
       && Math.abs(diff.z) <= this.halfZ;
-  };
+  }
 
   // 子节点更新
   needLeavesUpdate() {
@@ -95,7 +95,7 @@ export class ESOctree {
       iter._need_leaves_update = true;
       iter = iter.parent_node;
     }
-  };
+  }
 
   // 将实体从当前节点中删除，并将当前this指向根节点
   remove(entity) {
@@ -111,7 +111,7 @@ export class ESOctree {
       iter._need_all_entities_update = true;
       iter = iter.parent_node;
     }
-  };
+  }
 
   // 细分
   subdivide() {
@@ -132,9 +132,9 @@ export class ESOctree {
 
     this.needLeavesUpdate();
 
-    let qwidth = this.halfX / 2;
-    let qheight = this.halfY / 2;
-    let qdepth = this.halfZ / 2;
+    const qwidth = this.halfX / 2;
+    const qheight = this.halfY / 2;
+    const qdepth = this.halfZ / 2;
 
     this.children_nodes[0] = new ESOctree(this, new THREE.Vector3(this.oringePosition.x - qwidth,
       this.oringePosition.y + qheight,
@@ -175,11 +175,11 @@ export class ESOctree {
       this.oringePosition.y - qheight,
       this.oringePosition.z - qdepth),
       qwidth, qheight, qdepth);
-  };
+  }
 
   add(entity) {
 
-    let _this = this;
+    const _this = this;
 
     function addToThis() {
       let iter = _this;
@@ -199,22 +199,20 @@ export class ESOctree {
 
     if (this.depth >= this.max_depth) {
       addToThis();
-    }
-    else if (this.children_nodes.length === 0) {
+    } else if (this.children_nodes.length === 0) {
       // ↑小于最大深度&没有子节点并且它里面没有实体的时候
       // ↓每个节点中的数量小于规定要求
       if (this.entities.length < this.entities_per_node) {
         addToThis();
-      }
-      else {
+      } else {
         // 如果它里面有实体，则拆分
         this.subdivide();
         // 拆分过后，如果内部有实体，则从这个节点中删除，并重新对所有实体做add动作（通过this值的变化）
         if (this.entities.length !== 0) {
-          let entities_tmp = this.entities.slice();
+          const entities_tmp = this.entities.slice();
           this.entities.length = 0;
           while (entities_tmp.length > 0) {
-            let ent = entities_tmp.pop();
+            const ent = entities_tmp.pop();
             this.remove(ent);
             this.add(ent);
           }
@@ -222,8 +220,7 @@ export class ESOctree {
         // 然后再将这个节点添加到指定位置
         this.add(entity);
       }
-    }
-    else {
+    } else {
       // ↑如果它当前有节点，已经分成八份
       // check if the obb intersects multiple children
       let child_id = -1;
@@ -240,8 +237,7 @@ export class ESOctree {
       // 把当前结点放入制定的位置中
       if (multiple_intersect) {
         addToThis();
-      }
-      else {
+      } else {
         // 放入0节点中
         this.children_nodes[child_id].add(entity);
       }
@@ -259,10 +255,10 @@ export class ESOctree {
       }
     }
     return true;
-  };
+  }
 
   countChildrenIntersections(max, entity) {
-    let children_idx = new Array();
+    const children_idx = new Array();
     for (let j = 0; j < this.children_nodes.length; j++) {
       if (this.children_nodes[j].intersects(entity)) {
         children_idx.push(j);
@@ -308,11 +304,11 @@ export class ESOctree {
   }
 
   update() {
-    let _this = this;
+    const _this = this;
     _this.updateChildrenEntities();
-    let entities_tmp = this._all_entities.slice();
+    const entities_tmp = this._all_entities.slice();
     entities_tmp.forEach(function (element) {
-      let entity = element[0];
+      const entity = element[0];
 
       for (let i = 0; i < _this._to_update.length; i++) {
         if (entity === _this._to_update[i]) {
@@ -334,13 +330,11 @@ export class ESOctree {
               element[1].remove(entity);
               octree.children_nodes[intersections[0]].add(entity);
               break;
-            }
-            else if (octree.parent_node === null && intersections.length > 0) {
+            } else if (octree.parent_node === null && intersections.length > 0) {
               element[1].remove(entity);
               octree.add(entity);
               break;
-            }
-            else {
+            } else {
               octree = octree.parent_node;
             }
           }
@@ -359,10 +353,10 @@ export class ESOctree {
     function pruneUp(node) {
       if (node._all_entities.length <= 1) {
         // remove the children from the leaves array and detach their mesh from parents
-        let removeChildrenNodes = function (nodes) {
+        const removeChildrenNodes = function (nodes) {
           for (let i = 0; i < nodes.children_nodes.length; i++) {
             removeChildrenNodes(nodes.children_nodes[i]);
-            let idx = _this._leaves.indexOf(nodes.children_nodes[i]);
+            const idx = _this._leaves.indexOf(nodes.children_nodes[i]);
             if (idx !== -1) {
               _this._leaves.splice(idx, 1);
             }
@@ -389,6 +383,6 @@ export class ESOctree {
     this._leaves.forEach(function (node) {
       pruneUp(node);
     });
-  };
+  }
 
 }

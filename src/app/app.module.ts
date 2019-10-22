@@ -9,7 +9,7 @@ import { RoutesModule } from './routes/routes.module';
 // Share Module
 import { SharedModule } from './shared/shared.module';
 
-// Ngx-transloate
+// Ngx-translate
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslatorService } from './shared/services/translator.service';

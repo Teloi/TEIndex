@@ -2,7 +2,7 @@ import {ModuleWithProviders, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 // Mesh
-import {MeshbuilderService} from './services/mesh-builder.service';
+import {MeshBuilderService} from './services/mesh-builder.service';
 // Translator
 import {TranslatorService} from './services/translator.service';
 import {TranslateModule} from '@ngx-translate/core';
@@ -14,7 +14,7 @@ import {TEHttpService} from './services/http.service';
   ],
   declarations: [],
   providers: [
-    MeshbuilderService,
+    MeshBuilderService,
     TranslatorService,
     TEHttpService
   ],

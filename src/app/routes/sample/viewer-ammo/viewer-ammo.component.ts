@@ -1,7 +1,7 @@
 /// <reference types="three" />
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AMMOViewer} from '../../../shared/viewer/ammoviewer';
-import {MeshbuilderService} from '../../../shared/services/mesh-builder.service';
+import {MeshBuilderService} from '../../../shared/services/mesh-builder.service';
 
 @Component({
   selector: 'app-viewer-ammo',
@@ -14,7 +14,7 @@ export class ViewerAmmoComponent implements OnInit, OnDestroy {
   private isControls: boolean;
   private isPhysics: boolean;
 
-  constructor(private meshbuilder: MeshbuilderService) {
+  constructor(private meshbuilder: MeshBuilderService) {
     this.isControls = false;
     this.isPhysics = true;
   }

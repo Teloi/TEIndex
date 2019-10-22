@@ -64,19 +64,19 @@ export namespace TE {
       this.INDEX_OUTSIDE_NEG_Z = Util.isNumber(parameters.INDEX_OUTSIDE_NEG_Z) ? parameters.INDEX_OUTSIDE_NEG_Z : 5;
 
       this.INDEX_OUTSIDE_MAP = [];
-      this.INDEX_OUTSIDE_MAP[this.INDEX_OUTSIDE_POS_X] = {index: this.INDEX_OUTSIDE_POS_X, count: 0, x: 1, y: 0, z: 0};
-      this.INDEX_OUTSIDE_MAP[this.INDEX_OUTSIDE_NEG_X] = {index: this.INDEX_OUTSIDE_NEG_X, count: 0, x: -1, y: 0, z: 0};
-      this.INDEX_OUTSIDE_MAP[this.INDEX_OUTSIDE_POS_Y] = {index: this.INDEX_OUTSIDE_POS_Y, count: 0, x: 0, y: 1, z: 0};
-      this.INDEX_OUTSIDE_MAP[this.INDEX_OUTSIDE_NEG_Y] = {index: this.INDEX_OUTSIDE_NEG_Y, count: 0, x: 0, y: -1, z: 0};
-      this.INDEX_OUTSIDE_MAP[this.INDEX_OUTSIDE_POS_Z] = {index: this.INDEX_OUTSIDE_POS_Z, count: 0, x: 0, y: 0, z: 1};
-      this.INDEX_OUTSIDE_MAP[this.INDEX_OUTSIDE_NEG_Z] = {index: this.INDEX_OUTSIDE_NEG_Z, count: 0, x: 0, y: 0, z: -1};
+      this.INDEX_OUTSIDE_MAP[this.INDEX_OUTSIDE_POS_X] = { index: this.INDEX_OUTSIDE_POS_X, count: 0, x: 1, y: 0, z: 0 };
+      this.INDEX_OUTSIDE_MAP[this.INDEX_OUTSIDE_NEG_X] = { index: this.INDEX_OUTSIDE_NEG_X, count: 0, x: -1, y: 0, z: 0 };
+      this.INDEX_OUTSIDE_MAP[this.INDEX_OUTSIDE_POS_Y] = { index: this.INDEX_OUTSIDE_POS_Y, count: 0, x: 0, y: 1, z: 0 };
+      this.INDEX_OUTSIDE_MAP[this.INDEX_OUTSIDE_NEG_Y] = { index: this.INDEX_OUTSIDE_NEG_Y, count: 0, x: 0, y: -1, z: 0 };
+      this.INDEX_OUTSIDE_MAP[this.INDEX_OUTSIDE_POS_Z] = { index: this.INDEX_OUTSIDE_POS_Z, count: 0, x: 0, y: 0, z: 1 };
+      this.INDEX_OUTSIDE_MAP[this.INDEX_OUTSIDE_NEG_Z] = { index: this.INDEX_OUTSIDE_NEG_Z, count: 0, x: 0, y: 0, z: -1 };
 
-      this.FLAG_POS_X = 1 << ( this.INDEX_OUTSIDE_POS_X + 1 );
-      this.FLAG_NEG_X = 1 << ( this.INDEX_OUTSIDE_NEG_X + 1 );
-      this.FLAG_POS_Y = 1 << ( this.INDEX_OUTSIDE_POS_Y + 1 );
-      this.FLAG_NEG_Y = 1 << ( this.INDEX_OUTSIDE_NEG_Y + 1 );
-      this.FLAG_POS_Z = 1 << ( this.INDEX_OUTSIDE_POS_Z + 1 );
-      this.FLAG_NEG_Z = 1 << ( this.INDEX_OUTSIDE_NEG_Z + 1 );
+      this.FLAG_POS_X = 1 << (this.INDEX_OUTSIDE_POS_X + 1);
+      this.FLAG_NEG_X = 1 << (this.INDEX_OUTSIDE_NEG_X + 1);
+      this.FLAG_POS_Y = 1 << (this.INDEX_OUTSIDE_POS_Y + 1);
+      this.FLAG_NEG_Y = 1 << (this.INDEX_OUTSIDE_NEG_Y + 1);
+      this.FLAG_POS_Z = 1 << (this.INDEX_OUTSIDE_POS_Z + 1);
+      this.FLAG_NEG_Z = 1 << (this.INDEX_OUTSIDE_NEG_Z + 1);
 
       this.utilVec31Search = new THREE.Vector3();
       this.utilVec32Search = new THREE.Vector3();
@@ -86,7 +86,7 @@ export namespace TE {
       if (this.scene) {
         // Red wireframe
         this.visualGeometry = new THREE.CubeGeometry(1, 1, 1);
-        this.visualMaterial = new THREE.MeshBasicMaterial({color: 0xFF0066, wireframe: true, wireframeLinewidth: 1});
+        this.visualMaterial = new THREE.MeshBasicMaterial({ color: 0xFF0066, wireframe: true, wireframeLinewidth: 1 });
       }
 
       this.objects = [];
@@ -113,7 +113,7 @@ export namespace TE {
       // 添加任何延迟对象，等待渲染循环
       if (this.objectsDeferred.length > 0) {
         for (let i = 0, il = this.objectsDeferred.length; i < il; i++) {
-          let deferred = this.objectsDeferred[i];
+          const deferred = this.objectsDeferred[i];
           this.addDeferred(deferred.object, deferred.options);
         }
         this.objectsDeferred.length = 0;
@@ -148,8 +148,7 @@ export namespace TE {
       // Some ERROR
       if (object instanceof OctreeObjectData) {
 
-      }
-      else {
+      } else {
         object = object.object;
       }
 
@@ -196,7 +195,7 @@ export namespace TE {
         this.addDeferred(object, options);
       } else {
         // 添加元素直到下次octree Update
-        this.objectsDeferred.push({object: object, options: options});
+        this.objectsDeferred.push({ object: object, options: options });
       }
     }
 
@@ -248,7 +247,7 @@ export namespace TE {
     }
 
     private addObjectData(object, part?) {
-      let objectData = new OctreeObjectData(object, part);
+      const objectData = new OctreeObjectData(object, part);
       // add to tree objects data list
       // 添加到树中的对象的数据列表
       this.objectsData.push(objectData);
@@ -267,7 +266,7 @@ export namespace TE {
         objectsData = octree.objectsData;
         for (i = 0, l = objectsData.length; i < l; i++) {
           objectData = objectsData[i];
-          this.add(objectData, {useFaces: objectData.faces, useVertices: objectData.vertices});
+          this.add(objectData, { useFaces: objectData.faces, useVertices: objectData.vertices });
         }
       }
     }
@@ -281,9 +280,9 @@ export namespace TE {
         node,
         objectData,
         indexOctant,
-        indexOctantLast,
-        objectsUpdate = [];
+        indexOctantLast = [];
 
+      const objectsUpdate = [];
       // check all object data for changes in position
       // assumes all object matrices are up to date
       for (i = 0, l = this.objectsData.length; i < l; i++) {
@@ -352,7 +351,7 @@ export namespace TE {
       objects = [].concat(this.root.objects);
       // 半径大于0
       // ensure radius (i.e. distance of ray) is a number
-      if (!( radius > 0 )) {
+      if (!(radius > 0)) {
         radius = Number.MAX_VALUE;
       }
       // if direction passed, normalize and find pct
@@ -908,7 +907,7 @@ export namespace TE {
         node = this.nodesByIndex[indexOctant];
       } else {
         // properties
-        radius = ( this.radiusOverlap ) * 0.5;
+        radius = (this.radiusOverlap) * 0.5;
         overlap = radius * this.tree.overlapPct;
         radiusOffset = radius - overlap;
         offset = this.utilVec31Branch.set(indexOctant & 1 ? radiusOffset : -radiusOffset,
@@ -1026,7 +1025,7 @@ export namespace TE {
           infoPotential1 = indexOutsideCounts[1];
           infoPotential2 = indexOutsideCounts[2];
 
-          infoIndexOutside2 = ( infoPotential1.index | 1 ) !== indexOutsideBitwise1 ? infoPotential1 : infoPotential2;
+          infoIndexOutside2 = (infoPotential1.index | 1) !== indexOutsideBitwise1 ? infoPotential1 : infoPotential2;
           indexOutsideBitwise2 = infoIndexOutside2.index | 1;
 
           // third is ( one of next three bitwise OR 1 ) that is not opposite of ( first or second bitwise OR 1 )
@@ -1039,9 +1038,9 @@ export namespace TE {
           indexPotentialBitwise2 = infoPotential2.index | 1;
 
           infoIndexOutside3 = indexPotentialBitwise1 !== indexOutsideBitwise1 &&
-          indexPotentialBitwise1 !== indexOutsideBitwise2 ? infoPotential1 :
+            indexPotentialBitwise1 !== indexOutsideBitwise2 ? infoPotential1 :
             indexPotentialBitwise2 !== indexOutsideBitwise1 &&
-            indexPotentialBitwise2 !== indexOutsideBitwise2 ? infoPotential2 : infoPotential3;
+              indexPotentialBitwise2 !== indexOutsideBitwise2 ? infoPotential2 : infoPotential3;
 
           // get this octant normal based on outside octant indices
 
@@ -1062,12 +1061,12 @@ export namespace TE {
           // radius of parent comes from reversing overlap of this, unless overlap percent is 0
 
           radiusParent = this.tree.overlapPct > 0 ?
-            overlap / ( ( 0.5 * this.tree.overlapPct ) * ( 1 + this.tree.overlapPct ) ) : radius * 2;
+            overlap / ((0.5 * this.tree.overlapPct) * (1 + this.tree.overlapPct)) : radius * 2;
           overlapParent = radiusParent * this.tree.overlapPct;
 
           // parent offset is difference between radius + overlap of parent and child
 
-          radiusOffset = ( radiusParent + overlapParent ) - ( radius + overlap );
+          radiusOffset = (radiusParent + overlapParent) - (radius + overlap);
           offset.set(indexOctant & 1 ? radiusOffset : -radiusOffset, indexOctant & 2 ? radiusOffset : -radiusOffset,
             indexOctant & 4 ? radiusOffset : -radiusOffset);
           position = new THREE.Vector3().addVectors(this.position, offset);
@@ -1115,7 +1114,7 @@ export namespace TE {
       let nodeMerge;
       // traverse up tree as long as node + entire subtree's object count is under minimum
       while (nodeParent.parent instanceof OctreeNode &&
-      nodeParent instanceof OctreeNode && nodeParent.getObjectCountEnd() < this.tree.objectsThreshold) {
+        nodeParent instanceof OctreeNode && nodeParent.getObjectCountEnd() < this.tree.objectsThreshold) {
         nodeMerge = nodeParent;
         nodeParent = nodeParent.parent;
       }
@@ -1260,7 +1259,7 @@ export namespace TE {
 
         if (distX + radiusObj > radiusOverlap) {
 
-          indexOctant = indexOctant ^ ( deltaX > 0 ? this.tree.FLAG_POS_X : this.tree.FLAG_NEG_X );
+          indexOctant = indexOctant ^ (deltaX > 0 ? this.tree.FLAG_POS_X : this.tree.FLAG_NEG_X);
 
         }
 
@@ -1268,7 +1267,7 @@ export namespace TE {
 
         if (distY + radiusObj > radiusOverlap) {
 
-          indexOctant = indexOctant ^ ( deltaY > 0 ? this.tree.FLAG_POS_Y : this.tree.FLAG_NEG_Y );
+          indexOctant = indexOctant ^ (deltaY > 0 ? this.tree.FLAG_POS_Y : this.tree.FLAG_NEG_Y);
 
         }
 
@@ -1276,7 +1275,7 @@ export namespace TE {
 
         if (distZ + radiusObj > radiusOverlap) {
 
-          indexOctant = indexOctant ^ ( deltaZ > 0 ? this.tree.FLAG_POS_Z : this.tree.FLAG_NEG_Z );
+          indexOctant = indexOctant ^ (deltaZ > 0 ? this.tree.FLAG_POS_Z : this.tree.FLAG_NEG_Z);
 
         }
 
@@ -1294,7 +1293,7 @@ export namespace TE {
 
         indexOctant = indexOctant | 1;
 
-      } else if (!( deltaX + radiusObj < overlap )) {
+      } else if (!(deltaX + radiusObj < overlap)) {
 
         // x left
 
@@ -1309,7 +1308,7 @@ export namespace TE {
 
         indexOctant = indexOctant | 2;
 
-      } else if (!( deltaY + radiusObj < overlap )) {
+      } else if (!(deltaY + radiusObj < overlap)) {
 
         // y left
 
@@ -1325,7 +1324,7 @@ export namespace TE {
 
         indexOctant = indexOctant | 4;
 
-      } else if (!( deltaZ + radiusObj < overlap )) {
+      } else if (!(deltaZ + radiusObj < overlap)) {
 
         // z left
 
@@ -1425,12 +1424,12 @@ export namespace TE {
       if (typeof directionPct === 'undefined') {
         directionPct = this.utilVec31Ray.set(1, 1, 1).divide(direction);
       }
-      let t1 = ( this.left - origin.x ) * directionPct.x,
-        t2 = ( this.right - origin.x ) * directionPct.x,
-        t3 = ( this.bottom - origin.y ) * directionPct.y,
-        t4 = ( this.top - origin.y ) * directionPct.y,
-        t5 = ( this.back - origin.z ) * directionPct.z,
-        t6 = ( this.front - origin.z ) * directionPct.z,
+      let t1 = (this.left - origin.x) * directionPct.x,
+        t2 = (this.right - origin.x) * directionPct.x,
+        t3 = (this.bottom - origin.y) * directionPct.y,
+        t4 = (this.top - origin.y) * directionPct.y,
+        t5 = (this.back - origin.z) * directionPct.z,
+        t6 = (this.front - origin.z) * directionPct.z,
         tmax = Math.min(Math.min(Math.max(t1, t2), Math.max(t3, t4)), Math.max(t5, t6)),
         tmin;
       // ray would intersect in reverse direction, i.e. this is behind ray
@@ -1472,7 +1471,7 @@ export namespace TE {
 
     getObjectsEnd(objects) {
       let i, l, node;
-      objects = ( objects || [] ).concat(this.objects);
+      objects = (objects || []).concat(this.objects);
       for (i = 0, l = this.nodesIndices.length; i < l; i++) {
         node = this.nodesByIndex[this.nodesIndices[i]];
         objects = node.getObjectsEnd(objects);
@@ -1565,7 +1564,7 @@ export namespace TE {
     }
 
     static toArray(target) {
-      return target ? ( this.isArray(target) !== true ? [target] : target ) : [];
+      return target ? (this.isArray(target) !== true ? [target] : target) : [];
     }
 
     static indexOfValue(array, value) {
